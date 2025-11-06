@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BetPool - Turn ₦100 into ₦100,000! Nigeria's #1 Prediction Exchange</title>
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Google Fonts (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- Favicon (Emoji for placeholder) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤑</text></svg>">
+    
+    <!-- Additional Fonts for Variety -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@900&display=swap" rel="stylesheet">
     
     <script>
         // Custom Tailwind configuration
@@ -20,6 +26,8 @@
                 extend: {
                     fontFamily: {
                         'sans': ['Inter', 'sans-serif'],
+                        'display': ['Poppins', 'sans-serif'],
+                        'bold': ['Roboto', 'sans-serif'],
                     },
                     colors: {
                         'brand-green': '#008753', // Nigerian Green
@@ -27,11 +35,16 @@
                         'brand-dark': '#111827', // Deep dark blue/black
                         'brand-light': '#F9FAFB',
                         'brand-urgent': '#E11D48', // For FOMO
+                        'brand-excite': '#FF9500', // Orange for excitement
+                        'brand-trust': '#3B82F6', // Blue for trust
                     },
                     animation: {
                         'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'shimmer': 'shimmer 2s infinite',
                         'slide-in': 'slide-in 0.5s ease-out forwards',
+                        'bounce-in': 'bounce-in 1s ease-in-out',
+                        'fade-in': 'fade-in 2s ease-in',
+                        'spin-slow': 'spin 3s linear infinite',
                     },
                     keyframes: {
                         shimmer: {
@@ -41,7 +54,16 @@
                         'slide-in': {
                             '0%': { transform: 'translateY(20px)', opacity: '0' },
                             '100%': { transform: 'translateY(0)', opacity: '1' },
-                        }
+                        },
+                        'bounce-in': {
+                            '0%': { transform: 'scale(0.5)', opacity: '0' },
+                            '50%': { transform: 'scale(1.1)', opacity: '1' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        'fade-in': {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
                     }
                 }
             }
@@ -52,17 +74,30 @@
         /* Base styles */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: tailwind.config.theme.extend.colors['brand-dark'];
-            color: tailwind.config.theme.extend.colors['brand-light'];
+            background-color: #111827; /* brand-dark */
+            color: #F9FAFB; /* brand-light */
         }
         
         /* Text gradient for big headlines */
         .text-gradient-money {
-            @apply bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-yellow-300 to-green-400;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #22C55E, #EAB308, #22C55E); /* green to gold to green */
         }
         
         .text-gradient-gold {
-             @apply bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-brand-gold to-yellow-500;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #EAB308, #FACC15, #FDE047); /* shades of gold */
+        }
+
+        .text-gradient-excite {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #FF9500, #FF5E00, #FF9500); /* orange excitement */
         }
 
         /* Shimmer effect for buttons */
@@ -79,63 +114,118 @@
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        /* Modal styles */
-        .modal {
-            @apply hidden fixed inset-0 z-50 overflow-auto bg-brand-dark/90 backdrop-blur-sm;
+
+        /* Additional styles for urgency */
+        .urgency-border {
+            border: 2px solid #E11D48; /* brand-urgent */
+            animation: pulse-fast 1s infinite;
         }
-        .modal-content {
-            @apply glass-panel rounded-2xl shadow-2xl m-auto mt-20 max-w-lg p-6;
+
+        /* Live chat bubble */
+        .chat-bubble {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #008753;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            animation: bounce-in 0.5s;
         }
-        
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
+
+        .chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background-color: #1F2937;
+            border-radius: 8px;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
-        ::-webkit-scrollbar-track {
-            background: #2D3748;
+
+        .chat-header {
+            background-color: #008753;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #008753;
-            border-radius: 4px;
+
+        .chat-body {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #F59E0B;
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            background-color: #374151;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .chat-input button {
+            padding: 8px 12px;
+            background-color: #F59E0B;
+            color: #111827;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        /* Timer styles */
+        .timer {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 900;
+            color: #E11D48;
         }
     </style>
 </head>
-<body class="antialiased" style="scroll-behavior: smooth;">
+<body class="antialiased">
 
+    <!-- Header -->
     <header class="bg-brand-dark/80 backdrop-blur-md shadow-lg sticky top-0 z-50">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <a href="#" class="text-3xl font-extrabold text-gradient-money">
+            <a href="#" class="text-3xl font-extrabold text-gradient-money font-display">
                 BetPool
             </a>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#matches" class="text-gray-300 hover:text-white font-medium transition-colors flex items-center">
-                    <span class="relative flex h-3 w-3 mr-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-urgent opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-urgent"></span>
-                    </span>
-                    Live Pools
-                </a>
+                <a href="#matches" class="text-gray-300 hover:text-white font-medium transition-colors">Matches</a>
                 <a href="#how" class="text-gray-300 hover:text-white font-medium transition-colors">How It Works</a>
                 <a href="#winners" class="text-gray-300 hover:text-white font-medium transition-colors">Live Wins</a>
+                <a href="#promotions" class="text-gray-300 hover:text-white font-medium transition-colors">Promotions</a>
+                <a href="#faq" class="text-gray-300 hover:text-white font-medium transition-colors">FAQ</a>
             </div>
             <div class="space-x-2">
-                <button onclick="showModal('loginModal')" class="text-gray-300 hover:text-white font-medium px-4 py-2 rounded-md transition-colors">
+                <a href="#login" class="text-gray-300 hover:text-white font-medium px-4 py-2 rounded-md transition-colors">
                     Login
-                </button>
-                <button onclick="showModal('signupModal')" class="bg-brand-gold text-brand-dark font-bold px-5 py-2 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300">
+                </a>
+                <a href="#signup" class="bg-brand-gold text-brand-dark font-bold px-5 py-2 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300">
                     Sign Up
-                </button>
+                </a>
             </div>
         </nav>
     </header>
 
+    <!-- Live Stats Ticker -->
     <div class="bg-black text-gray-300 py-3 overflow-hidden">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row justify-between text-center text-sm">
+            <div class="flex flex-col sm:flex-row justify-between text-center text-sm animate-slide-in">
                 <div class="py-1">
                     <span class="font-bold text-green-400">PLAYERS ONLINE:</span>
                     <span id="stat-players" class="font-extrabold text-white ml-1">12,458</span>
@@ -148,63 +238,123 @@
                     <span class="font-bold text-green-400">AVG. POOL SIZE:</span>
                     <span id="stat-pool" class="font-extrabold text-white ml-1">₦3,500,000</span>
                 </div>
+                <div class="py-1 hidden lg:block">
+                    <span class="font-bold text-green-400">BIGGEST WIN TODAY:</span>
+                    <span id="stat-bigwin" class="font-extrabold text-white ml-1">₦5,200,000</span>
+                </div>
+                <div class="py-1">
+                    <span class="font-bold text-green-400">ACTIVE POOLS:</span>
+                    <span id="stat-active" class="font-extrabold text-white ml-1">45</span>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Main Content -->
     <main>
 
-        <section class_name="relative overflow-hidden py-24 sm:py-32" style="background: radial-gradient(circle, rgba(0,135,83,0.15) 0%, rgba(17,24,39,0) 60%), url('https://placehold.co/1920x1080/111827/111827?text=+') no-repeat center center / cover;">
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden py-24 sm:py-32" style="background: radial-gradient(circle, rgba(0,135,83,0.15) 0%, rgba(17,24,39,0) 60%), url('https://placehold.co/1920x1080/111827/111827?text=Stadium+Lights') no-repeat center center / cover;">
             <div class="absolute inset-0 bg-brand-dark/70"></div>
             
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
                 
-                <div id="live-win-popup" class="glass-panel hidden fixed bottom-4 left-4 md:bottom-6 md:left-6 z-[60] p-4 rounded-xl shadow-2xl border-green-400 border-2 max-w-xs">
+                <!-- Live Win Popup -->
+                <div id="live-win-popup" class="glass-panel hidden fixed bottom-4 left-4 md:bottom-6 md:left-6 z-50 p-4 rounded-xl shadow-2xl border-green-400 border-2 max-w-xs animate-bounce-in">
                     <p class="text-sm text-gray-200">Just Now...</p>
                     <p id="live-win-text" class="font-bold text-white text-lg"></p>
                 </div>
                 
-                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
-                    Why Bet Against The House...
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-tight font-display">
+                    Turn Your Predictions
                     <br>
-                    <span class="text-gradient-money">When You Can CRUSH Other Fans?</span>
+                    <span class="text-gradient-money">Into Instant Cash.</span>
                 </h1>
                 <p class="mt-6 text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto">
-                    Turn <span class="font-bold text-white">₦500</span> into <span class="font-bold text-brand-gold">₦500,000</span>. We've paid out <span class="font-bold text-green-400">₦650,000,000+</span> this year. Get your share.
+                    Join thousands of Nigerian fans winning <span class="font-bold text-brand-gold">₦10,000,000+</span> in shared pools every week.
+                    No house, no fixed odds—just bigger wins, fair play, and pure excitement!
                 </p>
                 
-                <div class="mt-12 glass-panel p-6 sm:p-8 rounded-2xl max-w-xl mx-auto shadow-2xl">
+                <!-- Simple Signup Form -->
+                <div id="signup" class="mt-12 glass-panel p-6 sm:p-8 rounded-2xl max-w-xl mx-auto shadow-2xl">
                     <h3 class="text-2xl font-bold text-white mb-5">Start Winning in 60 Seconds</h3>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="flex-shrink-0 bg-gray-800 rounded-lg p-3 flex items-center w-full">
+                    <form id="signup-form" class="flex flex-col sm:flex-row gap-4">
+                        <div class="flex-shrink-0 bg-gray-800 rounded-lg p-3 flex items-center">
                             <span class="text-gray-400 mr-2">🇳🇬 +234</span>
-                            <input id="hero-phone-input" type="tel" placeholder="Enter your phone number" class="bg-transparent text-white font-medium text-lg w-full outline-none" style="flex: 1; min-width: 150px;">
+                            <input type="tel" id="phone-input" placeholder="Enter your phone number" class="bg-transparent text-white font-medium text-lg w-full outline-none" style="flex: 1; min-width: 150px;" required>
                         </div>
-                        <button onclick="startSignupFlow()" class="flex-grow w-full sm:w-auto btn-shimmer text-white font-bold text-lg px-8 py-3 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
+                        <button type="submit" class="flex-grow w-full sm:w-auto btn-shimmer text-white font-bold text-lg px-8 py-3 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
                             Get Started
                         </button>
-                    </div>
+                    </form>
                     <p class="text-xs text-gray-400 mt-4">We'll send a one-time password. No long forms, just instant play.</p>
-                    <p class="text-sm text-white font-semibold mt-4">🔥 <span id="stat-signups">25,412</span> Nigerians joined this week!</p>
+                    <div id="otp-section" class="hidden mt-4">
+                        <input type="text" id="otp-input" placeholder="Enter OTP" class="bg-gray-800 text-white p-3 rounded-lg w-full">
+                        <button id="verify-otp" class="mt-2 bg-brand-gold text-brand-dark font-bold px-8 py-3 rounded-lg w-full">Verify</button>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Promotions Section (New: Urgency, Excitement, Bonuses) -->
+        <section id="promotions" class="py-16 sm:py-24 bg-gray-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-white mb-16 font-display">
+                    Exclusive Promotions – Limited Time Only!
+                </h2>
+                <p class="text-center text-lg text-brand-gold font-medium mb-12 animate-pulse-fast">Claim Now Before They're Gone!</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Promo 1: Sign Up Bonus -->
+                    <div class="glass-panel p-8 rounded-xl shadow-2xl border-t-8 border-brand-gold text-center transform hover:-translate-y-2 transition-transform duration-300 urgency-border">
+                        <div class="text-7xl mb-4 text-gradient-gold animate-spin-slow">🎁</div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Sign Up Bonus</h3>
+                        <p class="text-gray-400 mb-4">Get ₦5,000 Free Bet on Your First Deposit!</p>
+                        <p class="text-4xl font-extrabold text-gradient-money mb-4">₦5,000 FREE</p>
+                        <a href="#signup" class="block bg-brand-excite text-white font-bold text-xl p-4 rounded-lg hover:bg-orange-600 transition-colors">Claim Now</a>
+                        <p class="text-xs text-gray-400 mt-2">Limited to first 500 sign-ups today!</p>
+                    </div>
+                    
+                    <!-- Promo 2: Referral Program -->
+                    <div class="glass-panel p-8 rounded-xl shadow-2xl border-t-8 border-brand-trust text-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="text-7xl mb-4 text-gradient-excite">👥</div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Refer a Friend</h3>
+                        <p class="text-gray-400 mb-4">Earn ₦2,000 for Each Friend Who Joins!</p>
+                        <p class="text-4xl font-extrabold text-gradient-money mb-4">Unlimited Referrals</p>
+                        <a href="#referral" class="block bg-brand-trust text-white font-bold text-xl p-4 rounded-lg hover:bg-blue-700 transition-colors">Get Your Link</a>
+                        <p class="text-xs text-gray-400 mt-2">Share and win together!</p>
+                    </div>
+                    
+                    <!-- Promo 3: Weekend Boost -->
+                    <div class="glass-panel p-8 rounded-xl shadow-2xl border-t-8 border-brand-urgent text-center transform hover:-translate-y-2 transition-transform duration-300 urgency-border">
+                        <div class="text-7xl mb-4 text-gradient-money animate-pulse-fast">🚀</div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Weekend Pool Boost</h3>
+                        <p class="text-gray-400 mb-4">Double Your Stake on Selected Matches!</p>
+                        <p class="text-4xl font-extrabold text-gradient-gold mb-4">2X Boost</p>
+                        <a href="#matches" class="block bg-brand-urgent text-white font-bold text-xl p-4 rounded-lg hover:bg-red-700 transition-colors">Join Weekend Pools</a>
+                        <p class="text-xs text-gray-400 mt-2">Ends Sunday Midnight!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOMO: Hot Matches Section -->
         <section id="matches" class="py-16 sm:py-24 bg-brand-dark">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-white mb-5">
-                    Pools Closing Soon!
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-white mb-5 font-display">
+                    Pools Closing Soon – Don't Miss Out!
                 </h2>
-                <p class="text-center text-lg text-brand-gold font-medium mb-12 animate-pulse-fast">Join before it's too late!</p>
+                <p class="text-center text-lg text-brand-gold font-medium mb-12 animate-pulse-fast">Join before it's too late! Thousands are betting right now.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                     
-                    <div class="glass-panel rounded-2xl overflow-hidden shadow-2xl border-brand-green border-2 transform hover:scale-105 transition-transform duration-300">
+                    <!-- Match Card 1 -->
+                    <div class="glass-panel rounded-2xl overflow-hidden shadow-2xl urgency-border transform hover:scale-105 transition-transform duration-300">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-4">
                                 <span class="text-sm font-semibold text-green-400">Premier League</span>
-                                <span class="bg-brand-urgent text-white text-xs font-bold px-3 py-1 rounded-full countdown-timer" data-end-time="3600">LIVE IN: 01:00:00</span>
+                                <span id="timer1" class="bg-brand-urgent text-white text-xs font-bold px-3 py-1 rounded-full timer">LIVE IN: 2h 45m</span>
                             </div>
+                            <!-- Teams -->
                             <div class="flex items-center justify-around mb-4">
                                 <div class="text-center">
                                     <img src="https://placehold.co/80x80/ffffff/000000?text=MAN+U" alt="Man Utd" class="rounded-full w-16 h-16 mx-auto mb-2 border-2 border-gray-500">
@@ -216,26 +366,26 @@
                                     <span class="font-bold text-lg">Liverpool</span>
                                 </div>
                             </div>
+                            <!-- Pool Info -->
                             <div class="text-center mb-5">
                                 <p class="text-gray-300 text-sm">CURRENT PRIZE POOL</p>
                                 <p class="text-4xl font-extrabold text-gradient-money animate-pulse-fast">₦8,450,200</p>
-                                <div class="w-full bg-gray-700 rounded-full h-2.5 mt-3">
-                                    <div class="bg-brand-urgent h-2.5 rounded-full" style="width: 85%"></div>
-                                </div>
-                                <p class="text-xs text-brand-urgent font-semibold mt-1">Pool 85% Full!</p>
+                                <p class="text-sm text-gray-400 mt-2">1,234 Players Joined</p>
                             </div>
                         </div>
-                        <button onclick="showBetModal('Man United vs Liverpool', 8450200)" class="w-full block bg-brand-green text-white text-center font-bold text-xl p-5 hover:bg-green-700 transition-colors duration-300">
-                            Predict & WIN ₦8M+
-                        </button>
+                        <a href="#predict1" class="block bg-brand-green text-white text-center font-bold text-xl p-5 hover:bg-green-700 transition-colors duration-300">
+                            Place Your Prediction Now!
+                        </a>
                     </div>
 
+                    <!-- Match Card 2 -->
                     <div class="glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border transform hover:scale-105 transition-transform duration-300">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-4">
                                 <span class="text-sm font-semibold text-green-400">La Liga</span>
-                                <span class="bg-brand-urgent text-white text-xs font-bold px-3 py-1 rounded-full countdown-timer" data-end-time="90000">Tomorrow</span>
+                                <span id="timer2" class="bg-gray-700 text-white text-xs font-bold px-3 py-1 rounded-full timer">Tomorrow 3:00 PM</span>
                             </div>
+                            <!-- Teams -->
                             <div class="flex items-center justify-around mb-4">
                                 <div class="text-center">
                                     <img src="https://placehold.co/80x80/ffffff/000000?text=RMA" alt="Real Madrid" class="rounded-full w-16 h-16 mx-auto mb-2 border-2 border-gray-500">
@@ -247,26 +397,26 @@
                                     <span class="font-bold text-lg">Barcelona</span>
                                 </div>
                             </div>
+                            <!-- Pool Info -->
                             <div class="text-center mb-5">
                                 <p class="text-gray-300 text-sm">CURRENT PRIZE POOL</p>
                                 <p class="text-4xl font-extrabold text-gradient-money">₦5,120,600</p>
-                                <div class="w-full bg-gray-700 rounded-full h-2.5 mt-3">
-                                    <div class="bg-brand-gold h-2.5 rounded-full" style="width: 60%"></div>
-                                </div>
-                                <p class="text-xs text-brand-gold font-semibold mt-1">Popular Pool!</p>
+                                <p class="text-sm text-gray-400 mt-2">789 Players Joined</p>
                             </div>
                         </div>
-                        <button onclick="showBetModal('Real Madrid vs Barcelona', 5120600)" class="w-full block bg-brand-gold text-brand-dark text-center font-bold text-xl p-5 hover:bg-yellow-500 transition-colors duration-300">
+                        <a href="#predict2" class="block bg-brand-gold text-brand-dark text-center font-bold text-xl p-5 hover:bg-yellow-500 transition-colors duration-300">
                             Predict El Clásico!
-                        </button>
+                        </a>
                     </div>
                     
+                    <!-- Match Card 3 -->
                     <div class="glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border transform hover:scale-105 transition-transform duration-300">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-4">
                                 <span class="text-sm font-semibold text-green-400">NPFL</span>
-                                 <span class="bg-brand-urgent text-white text-xs font-bold px-3 py-1 rounded-full countdown-timer" data-end-time="180000">Sunday</span>
+                                <span id="timer3" class="bg-gray-700 text-white text-xs font-bold px-3 py-1 rounded-full timer">Sunday 4:00 PM</span>
                             </div>
+                            <!-- Teams -->
                             <div class="flex items-center justify-around mb-4">
                                 <div class="text-center">
                                     <img src="https://placehold.co/80x80/ffffff/000000?text=ENY" alt="Enyimba" class="rounded-full w-16 h-16 mx-auto mb-2 border-2 border-gray-500">
@@ -278,97 +428,206 @@
                                     <span class="font-bold text-lg">Kano Pillars</span>
                                 </div>
                             </div>
+                            <!-- Pool Info -->
                             <div class="text-center mb-5">
                                 <p class="text-gray-300 text-sm">CURRENT PRIZE POOL</p>
                                 <p class="text-4xl font-extrabold text-gradient-money">₦2,950,000</p>
-                                <div class="w-full bg-gray-700 rounded-full h-2.5 mt-3">
-                                    <div class="bg-brand-green h-2.5 rounded-full" style="width: 45%"></div>
-                                </div>
-                                <p class="text-xs text-brand-green font-semibold mt-1">Growing Fast...</p>
+                                <p class="text-sm text-gray-400 mt-2">456 Players Joined</p>
                             </div>
                         </div>
-                        <button onclick="showBetModal('Enyimba vs Kano Pillars', 2950000)" class="w-full block bg-gray-600 text-white text-center font-bold text-xl p-5 hover:bg-gray-700 transition-colors duration-300">
+                        <a href="#predict3" class="block bg-gray-600 text-white text-center font-bold text-xl p-5 hover:bg-gray-700 transition-colors duration-300">
                             Predict Now
-                        </button>
+                        </a>
+                    </div>
+
+                    <!-- Additional Match Card 4 -->
+                    <div class="glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border transform hover:scale-105 transition-transform duration-300">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-sm font-semibold text-green-400">Serie A</span>
+                                <span id="timer4" class="bg-brand-urgent text-white text-xs font-bold px-3 py-1 rounded-full timer">LIVE IN: 1h 30m</span>
+                            </div>
+                            <!-- Teams -->
+                            <div class="flex items-center justify-around mb-4">
+                                <div class="text-center">
+                                    <img src="https://placehold.co/80x80/ffffff/000000?text=JUV" alt="Juventus" class="rounded-full w-16 h-16 mx-auto mb-2 border-2 border-gray-500">
+                                    <span class="font-bold text-lg">Juventus</span>
+                                </div>
+                                <span class="text-2xl font-bold text-gray-400">vs</span>
+                                <div class="text-center">
+                                    <img src="https://placehold.co/80x80/ffffff/000000?text=INT" alt="Inter Milan" class="rounded-full w-16 h-16 mx-auto mb-2 border-2 border-gray-500">
+                                    <span class="font-bold text-lg">Inter Milan</span>
+                                </div>
+                            </div>
+                            <!-- Pool Info -->
+                            <div class="text-center mb-5">
+                                <p class="text-gray-300 text-sm">CURRENT PRIZE POOL</p>
+                                <p class="text-4xl font-extrabold text-gradient-money">₦4,200,000</p>
+                                <p class="text-sm text-gray-400 mt-2">567 Players Joined</p>
+                            </div>
+                        </div>
+                        <a href="#predict4" class="block bg-brand-green text-white text-center font-bold text-xl p-5 hover:bg-green-700 transition-colors duration-300">
+                            Bet on Serie A!
+                        </a>
+                    </div>
+
+                    <!-- Additional Match Card 5 -->
+                    <div class="glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border transform hover:scale-105 transition-transform duration-300">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-sm font-semibold text-green-400">Bundesliga</span>
+                                <span id="timer5" class="bg-gray-700 text-white text-xs font-bold px-3 py-1 rounded-full timer">Saturday 2:30 PM</span>
+                            </div>
+                            <!-- Teams -->
+                            <div class="flex items-center justify-around mb-4">
+                                <div class="text-center">
+                                    <img src="https://placehold.co/80x80/ffffff/000000?text=BAY" alt="Bayern Munich" class="rounded-full w-16 h-16 mx-auto mb-2 border-2 border-gray-500">
+                                    <span class="font-bold text-lg">Bayern Munich</span>
+                                </div>
+                                <span class="text-2xl font-bold text-gray-400">vs</span>
+                                <div class="text-center">
+                                    <img src="https://placehold.co/80x80/ffffff/000000?text=DOR" alt="Dortmund" class="rounded-full w-16 h-16 mx-auto mb-2 border-2 border-gray-500">
+                                    <span class="font-bold text-lg">Dortmund</span>
+                                </div>
+                            </div>
+                            <!-- Pool Info -->
+                            <div class="text-center mb-5">
+                                <p class="text-gray-300 text-sm">CURRENT PRIZE POOL</p>
+                                <p class="text-4xl font-extrabold text-gradient-money">₦3,800,000</p>
+                                <p class="text-sm text-gray-400 mt-2">890 Players Joined</p>
+                            </div>
+                        </div>
+                        <a href="#predict5" class="block bg-brand-gold text-brand-dark text-center font-bold text-xl p-5 hover:bg-yellow-500 transition-colors duration-300">
+                            Predict Der Klassiker!
+                        </a>
+                    </div>
+
+                    <!-- Additional Match Card 6 -->
+                    <div class="glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border transform hover:scale-105 transition-transform duration-300">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-sm font-semibold text-green-400">Champions League</span>
+                                <span id="timer6" class="bg-brand-urgent text-white text-xs font-bold px-3 py-1 rounded-full timer">LIVE IN: 45m</span>
+                            </div>
+                            <!-- Teams -->
+                            <div class="flex items-center justify-around mb-4">
+                                <div class="text-center">
+                                    <img src="https://placehold.co/80x80/ffffff/000000?text=PSG" alt="PSG" class="rounded-full w-16 h-16 mx-auto mb-2 border-2 border-gray-500">
+                                    <span class="font-bold text-lg">PSG</span>
+                                </div>
+                                <span class="text-2xl font-bold text-gray-400">vs</span>
+                                <div class="text-center">
+                                    <img src="https://placehold.co/80x80/ffffff/000000?text=MCI" alt="Man City" class="rounded-full w-16 h-16 mx-auto mb-2 border-2 border-gray-500">
+                                    <span class="font-bold text-lg">Man City</span>
+                                </div>
+                            </div>
+                            <!-- Pool Info -->
+                            <div class="text-center mb-5">
+                                <p class="text-gray-300 text-sm">CURRENT PRIZE POOL</p>
+                                <p class="text-4xl font-extrabold text-gradient-money">₦6,500,000</p>
+                                <p class="text-sm text-gray-400 mt-2">1,012 Players Joined</p>
+                            </div>
+                        </div>
+                        <a href="#predict6" class="block bg-brand-green text-white text-center font-bold text-xl p-5 hover:bg-green-700 transition-colors duration-300">
+                            Join UCL Pool!
+                        </a>
                     </div>
 
                 </div>
             </div>
         </section>
 
+        <!-- How It Works (Simple & Fast) -->
         <section id="how" class="py-16 sm:py-24 bg-gray-900">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-white mb-16">
-                    Your 3-Step Plan to <span class="text-gradient-gold">Easy Money</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-white mb-16 font-display">
+                    Your Simple Path to Winning Big
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="text-center p-6">
-                        <div class="text-brand-green mb-4">
-                             <svg class="w-20 h-20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- Step 1 -->
+                    <div class="text-center p-6 glass-panel rounded-lg">
+                        <div class="text-brand-green mb-4 animate-fade-in">
+                            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">1. PREDICT</h3>
-                        <p class="text-gray-400">You know football. Pick a score. Stake from ₦100.</p>
+                        <h3 class="text-2xl font-bold text-white mb-2">1. Sign Up (10s)</h3>
+                        <p class="text-gray-400">Enter your Phone Number. That's it. No long forms, instant access to wins.</p>
                     </div>
-                    <div class="text-center p-6">
-                        <div class="text-brand-green mb-4">
-                            <svg class="w-20 h-20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a3.001 3.001 0 015.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <!-- Step 2 -->
+                    <div class="text-center p-6 glass-panel rounded-lg">
+                        <div class="text-brand-green mb-4 animate-fade-in" style="animation-delay: 0.2s;">
+                            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">2. POOL</h3>
-                        <p class="text-gray-400">All stakes are pooled. No house, no bookies. Just fans vs. fans.</p>
+                        <h3 class="text-2xl font-bold text-white mb-2">2. Fund Wallet</h3>
+                        <p class="text-gray-400">Simple, instant bank transfer to your personal BetPool account. Secure and fast.</p>
                     </div>
-                    <div class="text-center p-6">
-                        <div class="text-brand-green mb-4">
-                            <svg class="w-20 h-20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <!-- Step 3 -->
+                    <div class="text-center p-6 glass-panel rounded-lg">
+                        <div class="text-brand-green mb-4 animate-fade-in" style="animation-delay: 0.4s;">
+                            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">3. PROFIT</h3>
-                        <p class="text-gray-400">Closest predictions split the ENTIRE pot. Instantly. No stories.</p>
+                        <h3 class="text-2xl font-bold text-white mb-2">3. Predict & Win</h3>
+                        <p class="text-gray-400">Join any match pool. Predict the score. Closest predictions share the massive pot!</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="text-center p-6 glass-panel rounded-lg">
+                        <div class="text-brand-green mb-4 animate-fade-in" style="animation-delay: 0.6s;">
+                            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">4. Instant Cashout</h3>
+                        <p class="text-gray-400">Winners share the pot instantly. Withdraw to your bank in seconds. No waiting!</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Payout Tiers (The "Money" Part) -->
         <section id="payouts" class="py-16 sm:py-24 bg-brand-dark">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-white mb-4">
-                    What Your ₦5,000 Stake Becomes...
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-white mb-16 font-display">
+                    See The Possibilities – Your Win Awaits!
                 </h2>
-                <p class="text-center text-gray-300 text-lg mb-16">Your odds are always better here. It's not a 1-in-a-million shot, it's just you vs. other fans.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Tier 1: Exact Score -->
                     <div class="glass-panel p-8 rounded-xl shadow-2xl border-t-8 border-brand-gold text-center transform hover:-translate-y-2 transition-transform duration-300">
-                        <div class="text-7xl mb-4">🥇</div>
+                        <div class="text-7xl mb-4 animate-bounce-in">🥇</div>
                         <h3 class="text-2xl font-bold text-white mb-3">Exact Score</h3>
                         <p class="text-gray-400 mb-4">Stake ₦5,000</p>
                         <p class="text-gray-300 text-lg mb-1">Win Up To</p>
-                        <p class="text-6xl font-extrabold text-gradient-gold mb-4">₦250,000</p>
+                        <p class="text-6xl font-extrabold text-gradient-gold mb-4 animate-pulse-fast">₦125,000</p>
                     </div>
                     
+                    <!-- Tier 2: Close Score -->
                     <div class="glass-panel p-8 rounded-xl shadow-2xl border-t-8 border-gray-400 text-center transform hover:-translate-y-2 transition-transform duration-300">
-                        <div class="text-7xl mb-4">🥈</div>
+                        <div class="text-7xl mb-4 animate-bounce-in" style="animation-delay: 0.2s;">🥈</div>
                         <h3 class="text-2xl font-bold text-white mb-3">Close Score (±1)</h3>
                         <p class="text-gray-400 mb-4">Stake ₦5,000</p>
                         <p class="text-gray-300 text-lg mb-1">Win Up To</p>
-                        <p class="text-6xl font-extrabold text-gradient-gold mb-4">₦80,000</p>
+                        <p class="text-6xl font-extrabold text-gradient-gold mb-4 animate-pulse-fast">₦40,000</p>
                     </div>
                     
+                    <!-- Tier 3: Correct Outcome -->
                     <div class="glass-panel p-8 rounded-xl shadow-2xl border-t-8 border-yellow-700 text-center transform hover:-translate-y-2 transition-transform duration-300">
-                        <div class="text-7xl mb-4">🥉</div>
+                        <div class="text-7xl mb-4 animate-bounce-in" style="animation-delay: 0.4s;">🥉</div>
                         <h3 class="text-2xl font-bold text-white mb-3">Correct Outcome</h3>
                         <p class="text-gray-400 mb-4">Stake ₦5,000</p>
                         <p class="text-gray-300 text-lg mb-1">Win Up To</p>
-                        <p class="text-6xl font-extrabold text-gradient-gold mb-4">₦15,000</p>
+                        <p class="text-6xl font-extrabold text-gradient-gold mb-4 animate-pulse-fast">₦15,000</p>
                     </div>
                 </div>
+                <p class="text-center text-gray-400 mt-8">These are examples based on average pools. Actual wins can be even bigger!</p>
             </div>
         </section>
 
+        <!-- Social Proof (Testimonials) -->
         <section id="winners" class="py-16 sm:py-24 bg-gray-900">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-white mb-16">
-                    Don't Just Take Our Word...
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-white mb-16 font-display">
+                    Real Winners, Real Stories – You Could Be Next!
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="glass-panel p-6 rounded-lg shadow-lg">
+                    <!-- Testimonial 1 -->
+                    <div class="glass-panel p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                         <div class="flex items-center mb-4">
                             <img src="https://placehold.co/50x50/ffffff/000000?text=E" alt="Emeka" class="w-12 h-12 rounded-full mr-4 border-2 border-green-400">
                             <div>
@@ -377,10 +636,10 @@
                             </div>
                         </div>
                         <div class="text-yellow-400 mb-3">★★★★★</div>
-                        <p class="text-gray-300 italic">"I paid my rent for 3 months with one game! I won <span class="font-bold text-brand-gold">₦210,000</span> on the Chelsea match. BetPool is legit. Withdrew the money to my Access bank instantly!"</p>
-                        <img src="https://placehold.co/300x100/1A2B3C/FFFFFF?text=BANK+ALERT+SCREENSHOT" alt="Bank alert" class="mt-4 rounded-lg border-2 border-gray-700">
+                        <p class="text-gray-300 italic">"I won <span class="font-bold text-brand-gold">₦80,000</span> on the Chelsea match! BetPool is legit. Withdrew the money to my Access bank instantly. No stories!"</p>
                     </div>
-                    <div class="glass-panel p-6 rounded-lg shadow-lg">
+                    <!-- Testimonial 2 -->
+                    <div class="glass-panel p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                         <div class="flex items-center mb-4">
                             <img src="https://placehold.co/50x50/ffffff/000000?text=A" alt="Aisha" class="w-12 h-12 rounded-full mr-4 border-2 border-green-400">
                             <div>
@@ -389,9 +648,10 @@
                             </div>
                         </div>
                         <div class="text-yellow-400 mb-3">★★★★★</div>
-                        <p class="text-gray-300 italic">"My bank alert from BetPool was bigger than my salary! My N1,000 prediction won me <span class="font-bold text-brand-gold">₦92,500</span>. I'm never using a normal bookie again."</p>
+                        <p class="text-gray-300 italic">"I like that we're betting against other fans, not a company. The prize pools get huge! My N1,000 prediction won me <span class="font-bold text-brand-gold">₦22,500</span>."</p>
                     </div>
-                    <div class="glass-panel p-6 rounded-lg shadow-lg">
+                    <!-- Testimonial 3 -->
+                    <div class="glass-panel p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                         <div class="flex items-center mb-4">
                             <img src="https://placehold.co/50x50/ffffff/000000?text=T" alt="Tunde" class="w-12 h-12 rounded-full mr-4 border-2 border-green-400">
                             <div>
@@ -400,115 +660,185 @@
                             </div>
                         </div>
                         <div class="text-yellow-400 mb-3">★★★★★</div>
-                        <p class="text-gray-300 italic">"Finally, a fair platform. No weird odds changes. You see the pot, you see the predictions. You win, you cash out. Simple. And the instant withdrawal is 100%."</p>
-                        <img src="https://placehold.co/300x100/1A2B3C/FFFFFF?text=WITHDRAWAL+SUCCESS" alt="Withdrawal success" class="mt-4 rounded-lg border-2 border-gray-700">
+                        <p class="text-gray-300 italic">"Finally, a fair platform. No weird odds changes. You see the pot, you see the predictions. You win, you cash out. Simple."</p>
                     </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="py-16 sm:py-24 bg-brand-dark">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-white mb-16">
-                    Stop Giving Your Money to Bookies.
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="bg-gray-800 p-8 rounded-xl border-2 border-brand-urgent">
-                        <h3 class="text-3xl font-bold text-brand-urgent mb-4 text-center">❌ Other Sportsbooks</h3>
-                        <ul class="space-y-3 text-lg text-gray-300">
-                            <li class="flex items-center"><span class="text-brand-urgent mr-3">●</span>Set odds AGAINST you.</li>
-                            <li class="flex items-center"><span class="text-brand-urgent mr-3">●</span>WANT you to lose your bet.</li>
-                            <li class="flex items-center"><span class="text-brand-urgent mr-3">●</span>Manipulate odds in their favor.</li>
-                            <li class="flex items-center"><span class="text-brand-urgent mr-3">●</span>Keep 100% of losing stakes.</li>
-                            <li class="flex items-center"><span class="text-brand-urgent mr-3">●</span>Small wins, big house edge.</li>
-                        </ul>
+                    <!-- Additional Testimonial 4 -->
+                    <div class="glass-panel p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/50x50/ffffff/000000?text=F" alt="Femi" class="w-12 h-12 rounded-full mr-4 border-2 border-green-400">
+                            <div>
+                                <p class="font-bold text-lg text-white">Femi L.</p>
+                                <p class="text-sm text-gray-400">Port Harcourt</p>
+                            </div>
+                        </div>
+                        <div class="text-yellow-400 mb-3">★★★★★</div>
+                        <p class="text-gray-300 italic">"Turned ₦500 into ₦15,000 on a local match. BetPool is changing the game in Nigeria!"</p>
                     </div>
-                    <div class="bg-gray-800 p-8 rounded-xl border-2 border-brand-green">
-                        <h3 class="text-3xl font-bold text-brand-green mb-4 text-center">✅ BetPool</h3>
-                        <ul class="space-y-3 text-lg text-white">
-                            <li class="flex items-center"><span class="text-brand-green mr-3">●</span>Odds are set by the FANS.</li>
-                            <li class="flex items-center"><span class="text-brand-green mr-3">●</span>We NEVER bet against you.</li>
-                            <li class="flex items-center"><span class="text-brand-green mr-3">●</span>Transparent pool. No manipulation.</li>
-                            <li class="flex items-center"><span class="text-brand-green mr-3">●</span>100% of the pot is paid to winners.</li>
-                            <li class="flex items-center"><span class="text-brand-green mr-3">●</span>Massive wins, no house edge.</li>
-                        </ul>
+                    <!-- Additional Testimonial 5 -->
+                    <div class="glass-panel p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/50x50/ffffff/000000?text=C" alt="Chioma" class="w-12 h-12 rounded-full mr-4 border-2 border-green-400">
+                            <div>
+                                <p class="font-bold text-lg text-white">Chioma E.</p>
+                                <p class="text-sm text-gray-400">Enugu</p>
+                            </div>
+                        </div>
+                        <div class="text-yellow-400 mb-3">★★★★★</div>
+                        <p class="text-gray-300 italic">"The promotions are amazing! Got a free bet and won big. Highly recommend!"</p>
+                    </div>
+                    <!-- Additional Testimonial 6 -->
+                    <div class="glass-panel p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/50x50/ffffff/000000?text=O" alt="Ola" class="w-12 h-12 rounded-full mr-4 border-2 border-green-400">
+                            <div>
+                                <p class="font-bold text-lg text-white">Ola M.</p>
+                                <p class="text-sm text-gray-400">Kano</p>
+                            </div>
+                        </div>
+                        <div class="text-yellow-400 mb-3">★★★★★</div>
+                        <p class="text-gray-300 italic">"Instant withdrawals and huge pools. Best betting experience ever!"</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- FAQ Section (New: Build Trust, Address Concerns) -->
+        <section id="faq" class="py-16 sm:py-24 bg-brand-dark">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-white mb-16 font-display">
+                    Frequently Asked Questions
+                </h2>
+                <div class="space-y-6 max-w-3xl mx-auto">
+                    <div class="glass-panel p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-2">Is BetPool legal in Nigeria?</h3>
+                        <p class="text-gray-400">Yes! We are licensed by the National Lottery Regulatory Commission (NLRC). Play with confidence.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-2">How do I withdraw my winnings?</h3>
+                        <p class="text-gray-400">Instantly to your bank account via secure transfer. No fees, no delays.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-2">What if I predict wrong?</h3>
+                        <p class="text-gray-400">Only your stake goes to the pool. But with our tiers, even close predictions win!</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-2">How are winners determined?</h3>
+                        <p class="text-gray-400">Transparent algorithm based on score accuracy. See rules in app.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-2">Can I play on mobile?</h3>
+                        <p class="text-gray-400">Absolutely! Our site is fully mobile-optimized. Download the app soon.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-white mb-2">What banks do you support?</h3>
+                        <p class="text-gray-400">All major Nigerian banks: GTB, Access, UBA, FirstBank, and more.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
         <section class="bg-gradient-to-r from-brand-green to-green-700 text-white py-20 sm:py-24">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-4xl sm:text-5xl font-extrabold">
+                <h2 class="text-4xl sm:text-5xl font-extrabold font-display">
                     Your Next Big Win is One Prediction Away
                 </h2>
                 <p class="mt-4 text-lg sm:text-xl text-green-100 max-w-2xl mx-auto">
-                    Join <span id="stat-signups-cta">25,412</span>+ other Nigerians winning their share. Get a <span class="font-bold text-brand-gold">FREE ₦1,000 Bonus</span> on your first deposit!
+                    Stop betting against the house. Join the pool and get your fair share of the winnings. Thousands are winning – why not you?
                 </p>
-                <button onclick="showModal('signupModal')" class="mt-10 inline-block bg-brand-gold text-brand-dark font-bold text-xl px-12 py-5 rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300">
-                    Sign Up & Claim Your ₦1,000!
-                </button>
+                <a href="#signup" class="mt-10 inline-block bg-brand-gold text-brand-dark font-bold text-xl px-12 py-5 rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300 btn-shimmer">
+                    Sign Up & Win Your First Pot!
+                </a>
             </div>
         </section>
 
     </main>
 
+    <!-- Robust Footer -->
     <footer class="bg-black text-gray-400 pt-16 pb-8">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-6 gap-8">
+                <!-- Column 1: BetPool -->
                 <div class="col-span-2 md:col-span-2">
-                    <h3 class="text-2xl font-extrabold text-gradient-money mb-4">BetPool</h3>
-                    <p class="text-sm max-w-xs">Nigeria's first and largest peer-to-peer sports prediction exchange. Bet with fans, not the house.</p>
+                    <h3 class="text-2xl font-extrabold text-gradient-money mb-4 font-display">BetPool</h3>
+                    <p class="text-sm max-w-xs">Nigeria's first and largest peer-to-peer sports prediction exchange. Bet with fans, not the house. Fair, fun, and rewarding.</p>
                     <div class="mt-4">
-                        <p class="font-semibold text-gray-200 mb-2">Instant Payments. 24/7.</p>
-                        <div class="flex flex-wrap gap-2 items-center">
+                        <p class="font-semibold text-gray-200 mb-2">We Accept Instant Transfers From</p>
+                        <div class="flex flex-wrap space-x-2 items-center">
                             <span class="bg-white text-blue-900 text-xs font-bold px-2 py-1 rounded">GTB</span>
                             <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">Access</span>
                             <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">UBA</span>
                             <span class="bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded">FirstBank</span>
-                            <span class="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded">Kuda</span>
-                            <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">Opay</span>
+                            <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">Zenith</span>
+                            <span class="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded">Fidelity</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <p class="font-semibold text-gray-200 mb-2">Trust Badges</p>
+                        <div class="flex space-x-4">
+                            <img src="https://placehold.co/100x40/ffffff/000000?text=NLRC+Licensed" alt="NLRC Licensed">
+                            <img src="https://placehold.co/100x40/ffffff/000000?text=Secure+SSL" alt="Secure SSL">
                         </div>
                     </div>
                 </div>
 
+                <!-- Column 2: Quick Links -->
                 <div>
                     <h4 class="font-bold text-white mb-4">Quick Links</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="#matches" class="hover:text-white">Upcoming Matches</a></li>
                         <li><a href="#how" class="hover:text-white">How It Works</a></li>
-                        <li><a href="#winners" class="hover:text-white">Testimonials</a></li>
-                        <li><a href="#" onclick="showModal('signupModal')" class="hover:text-white">Sign Up</a></li>
+                        <li><a href="#promotions" class="hover:text-white">Promotions</a></li>
+                        <li><a href="#winners" class="hover:text-white">Winners</a></li>
+                        <li><a href="#faq" class="hover:text-white">FAQ</a></li>
+                        <li><a href="#blog" class="hover:text-white">Blog</a></li>
                     </ul>
                 </div>
 
+                <!-- Column 3: Top Leagues -->
                 <div>
                     <h4 class="font-bold text-white mb-4">Top Leagues</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#matches" class="hover:text-white">English Premier League</a></li>
-                        <li><a href="#matches" class="hover:text-white">UEFA Champions League</a></li>
-                        <li><a href="#matches" class="hover:text-white">La Liga</a></li>
-                        <li><a href="#matches" class="hover:text-white">NPFL</a></li>
-                        <li><a href="#matches" class="hover:text-white">Serie A</a></li>
+                        <li><a href="#epl" class="hover:text-white">English Premier League</a></li>
+                        <li><a href="#ucl" class="hover:text-white">UEFA Champions League</a></li>
+                        <li><a href="#laliga" class="hover:text-white">La Liga</a></li>
+                        <li><a href="#npfl" class="hover:text-white">NPFL</a></li>
+                        <li><a href="#seriea" class="hover:text-white">Serie A</a></li>
+                        <li><a href="#bundesliga" class="hover:text-white">Bundesliga</a></li>
                     </ul>
                 </div>
 
+                <!-- Column 4: Support -->
                 <div>
                     <h4 class="font-bold text-white mb-4">Support</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white">Help Center & FAQ</a></li>
-                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
-                        <li><a href="#" class="hover:text-white">Dispute Resolution</a></li>
+                        <li><a href="#help" class="hover:text-white">Help Center & FAQ</a></li>
+                        <li><a href="#contact" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#dispute" class="hover:text-white">Dispute Resolution</a></li>
+                        <li><a href="#chat" class="hover:text-white">Live Chat</a></li>
                     </ul>
                 </div>
                 
+                <!-- Column 5: Legal -->
                 <div>
                     <h4 class="font-bold text-white mb-4">Legal</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white">Responsible Gaming</a></li>
-                        <li><a href="#" class="hover:text-white">AML Policy</a></li>
+                        <li><a href="#terms" class="hover:text-white">Terms of Service</a></li>
+                        <li><a href="#privacy" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#responsible" class="hover:text-white">Responsible Gaming</a></li>
+                        <li><a href="#aml" class="hover:text-white">AML Policy</a></li>
+                        <li><a href="#license" class="hover:text-white">License Info</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 6: Connect -->
+                <div>
+                    <h4 class="font-bold text-white mb-4">Connect With Us</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#twitter" class="hover:text-white">Twitter</a></li>
+                        <li><a href="#facebook" class="hover:text-white">Facebook</a></li>
+                        <li><a href="#instagram" class="hover:text-white">Instagram</a></li>
+                        <li><a href="#whatsapp" class="hover:text-white">WhatsApp</a></li>
                     </ul>
                 </div>
             </div>
@@ -522,200 +852,76 @@
                     <p>Licensed by the National Lottery Regulatory Commission of Nigeria.</p>
                 </div>
                 <div class="flex space-x-4 mt-6 md:mt-0">
-                    <a href="#" class="text-gray-500 hover:text-white" aria-label="Twitter">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.63 11.63 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg>
+                    <a href="#" class="text-gray-500 hover:text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05-.78-.82-1.89-1.33-3.11-1.33-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11 1-3.55-.18-6.7-1.88-8.8-4.47-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03 0c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.52 8.52 0 0 1-5.33 1.84c-.36 0-.72-.02-1.07-.06 1.95 1.25 4.26 1.98 6.75 1.98 8.08 0 12.5-6.7 12.5-12.5 0-.19 0-.38-.01-.56.86-.62 1.59-1.4 2.17-2.29z"/></svg>
                     </a>
-                    <a href="#" class="text-gray-500 hover:text-white" aria-label="Instagram">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C8.74 2 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384C1.333 2.72.92 3.39.612 4.14.309 4.905.108 5.775.048 7.053.014 8.333 0 8.74 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.667 1.336 1.079 2.126 1.384.765.296 1.636.497 2.913.558C8.333 23.986 8.74 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.717 2.126-1.384.667-.667 1.079-1.335 1.384-2.126.296-.765.497-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.148-.558-2.913-.306-.789-.717-1.459-1.384-2.126C21.28 1.334 20.61.92 19.86.612c-.765-.296-1.636-.497-2.913-.558C15.667.014 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.07 1.17.05 1.816.248 2.222.415.56.223.96.477 1.382.896.419.42.67.819.896 1.381.168.407.365 1.052.415 2.222.054 1.265.07 1.646.07 4.85s-.016 3.585-.07 4.85c-.05 1.17-.248 1.816-.415 2.222a3.426 3.426 0 01-.896 1.382 3.426 3.426 0 01-1.381.896c-.407.168-1.052.365-2.222.415-1.265.054-1.646.07-4.85.07s-3.585-.016-4.85-.07c-1.17-.05-1.816-.248-2.222-.415a3.426 3.426 0 01-1.382-.896 3.426 3.426 0 01-.896-1.381c-.168-.407-.365-1.052-.415-2.222-.054-1.265-.07-1.646-.07-4.85s.016-3.585.07-4.85c.05-1.17.248-1.816.415-2.222.223-.56.477-.96.896-1.382.42-.419.819-.67 1.381-.896.407-.168 1.052-.365 2.222-.415C8.415 2.176 8.797 2.16 12 2.16zm0 2.717a7.123 7.123 0 100 14.246 7.123 7.123 0 000-14.246zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.85a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z" clip-rule="evenodd"></path></svg>
+                    <a href="#" class="text-gray-500 hover:text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195V8.72h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.332.014 7.052.072 2.95.272.16 3.057 0 7.159.014 8.44.072 8.848.072 12.11.072 15.37.014 15.779 0 17.06c-.16 4.101 2.625 6.891 6.727 7.051 1.28.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.102-.16 6.888-2.95 7.051-7.052.058-1.28.072-1.689.072-4.948 0-3.259-.014-3.668-.072-4.948-1.16-4.102-3.95-6.888-7.052-7.051-1.28-.058-1.689-.072-4.948-.072zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405a1.441 1.441 0 01-2.88 0 1.44 1.44 0 012.88 0z"/></svg>
                     </a>
                 </div>
             </div>
         </div>
     </footer>
-    
-    <div id="loginModal" class="modal" onclick="closeModal('loginModal')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h2 class="text-3xl font-extrabold text-white text-center mb-6">Welcome Back!</h2>
-            <form>
-                <div class="mb-4">
-                    <label for="login-phone" class="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
-                    <div class="flex-shrink-0 bg-gray-800 rounded-lg p-3 flex items-center w-full">
-                        <span class="text-gray-400 mr-2">🇳🇬 +234</span>
-                        <input id="login-phone" type="tel" placeholder="Your phone number" class="bg-transparent text-white font-medium text-lg w-full outline-none">
-                    </div>
-                </div>
-                <div class="mb-6">
-                    <label for="login-pass" class="block text-sm font-medium text-gray-300 mb-2">Password / OTP</label>
-                    <input id="login-pass" type="password" placeholder="Enter your password or OTP" class="bg-gray-800 text-white w-full rounded-lg p-3 text-lg outline-none focus:ring-2 focus:ring-brand-green">
-                </div>
-                <button type="submit" class="w-full btn-shimmer text-white font-bold text-lg px-8 py-3 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
-                    Login
-                </button>
-            </form>
-            <p class="text-sm text-gray-400 mt-4 text-center">Don't have an account? <a href="#" onclick="showModal('signupModal'); closeModal('loginModal');" class="font-semibold text-brand-gold hover:underline">Sign up now!</a></p>
-        </div>
-    </div>
-    
-    <div id="signupModal" class="modal" onclick="closeModal('signupModal')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div id="signup-step-1">
-                <h2 class="text-3xl font-extrabold text-white text-center mb-6">Start Winning Now</h2>
-                <p class="text-center text-brand-gold font-semibold mb-4">🎁 Get a ₦1,000 Bonus on your first deposit!</p>
-                <div class="mb-4">
-                    <label for="signup-phone" class="block text-sm font-medium text-gray-300 mb-2">Your Phone Number</label>
-                    <div class="flex-shrink-0 bg-gray-800 rounded-lg p-3 flex items-center w-full">
-                        <span class="text-gray-400 mr-2">🇳🇬 +234</span>
-                        <input id="signup-phone" type="tel" placeholder="Enter your phone number" class="bg-transparent text-white font-medium text-lg w-full outline-none">
-                    </div>
-                </div>
-                <button onclick="signupStep(2)" class="w-full btn-shimmer text-white font-bold text-lg px-8 py-3 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
-                    Send OTP
-                </button>
-                <p class="text-xs text-gray-400 mt-4 text-center">By signing up, you agree to our <a href="#" class="underline">Terms</a> & <a href="#" class="underline">Privacy Policy</a>.</p>
-            </div>
-            
-            <div id="signup-step-2" class="hidden">
-                <h2 class="text-3xl font-extrabold text-white text-center mb-6">Verify Your Number</h2>
-                <p class="text-center text-gray-300 mb-4">We sent a 6-digit code to <span id="otp-phone-number" class="font-bold text-white"></span>.</p>
-                <div class="mb-4">
-                    <label for="signup-otp" class="block text-sm font-medium text-gray-300 mb-2">Enter OTP</label>
-                    <input id="signup-otp" type="text" placeholder="_ _ _ _ _ _" class="bg-gray-800 text-white w-full text-center tracking-[1em] text-2xl font-bold rounded-lg p-3 outline-none focus:ring-2 focus:ring-brand-green">
-                </div>
-                <button onclick="signupStep(3)" class="w-full btn-shimmer text-white font-bold text-lg px-8 py-3 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
-                    Verify & Create Account
-                </button>
-                <p class="text-sm text-gray-400 mt-4 text-center"><a href="#" class="font-semibold text-brand-gold hover:underline">Resend code</a></p>
-            </div>
-            
-            <div id="signup-step-3" class="hidden">
-                <h2 class="text-3xl font-extrabold text-white text-center mb-6">Success! Account Created!</h2>
-                <p class="text-center text-gray-300 mb-4">Last step: Fund your wallet to start winning.</p>
-                <div class="bg-gray-800 p-4 rounded-lg text-center">
-                    <p class="text-sm text-gray-400">Transfer any amount to your personal account:</p>
-                    <p class="text-2xl font-bold text-white my-2">9123456789</p>
-                    <p class="text-lg font-semibold text-brand-gold">Wema Bank</p>
-                    <p class="text-sm text-gray-300 mt-1">(Account Name: BetPool / YourName)</p>
-                    <button class="bg-brand-gold text-brand-dark font-semibold px-4 py-1 mt-3 rounded-md text-sm">Click to Copy</button>
-                    <p class="text-xs text-green-400 mt-3 font-semibold">Your wallet will be credited instantly upon transfer.</p>
-                </div>
-                <button onclick="signupStep(4)" class="w-full bg-brand-gold text-brand-dark font-bold text-lg px-8 py-3 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300 mt-6">
-                    I've Made The Transfer
-                </button>
-            </div>
-            
-            <div id="signup-step-4" class="hidden">
-                <h2 class="text-3xl font-extrabold text-white text-center mb-6">🎉 Welcome to BetPool!</h2>
-                <p class="text-center text-gray-300 text-lg mb-4">Your wallet is funded and your <span class="font-bold text-brand-gold">₦1,000 Bonus</span> has been added!</p>
-                <p class="text-center text-6xl mb-6">💰</p>
-                <button onclick="closeModal('signupModal'); window.location.href='#matches';" class="w-full btn-shimmer text-white font-bold text-lg px-8 py-3 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
-                    Find a Match & Win!
-                </button>
-            </div>
-        </div>
-    </div>
-    
-    <div id="betModal" class="modal" onclick="closeModal('betModal')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h2 id="bet-modal-title" class="text-3xl font-extrabold text-white text-center mb-2">Man United vs Liverpool</h2>
-            <p class="text-center text-gray-300 mb-6">Current Pool: <span id="bet-modal-pool" class="font-bold text-brand-gold">₦8,450,200</span></p>
-            
-            <div id="bet-step-1">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-300 mb-2 text-center">Set Your Prediction</label>
-                    <div class="flex items-center justify-center space-x-4">
-                        <input id="bet-home-score" type="number" min="0" value="0" class="bg-gray-800 text-white w-20 h-20 text-4xl font-bold text-center rounded-lg outline-none focus:ring-2 focus:ring-brand-green">
-                        <span class="text-4xl font-bold text-gray-400">-</span>
-                        <input id="bet-away-score" type="number" min="0" value="0" class="bg-gray-800 text-white w-20 h-20 text-4xl font-bold text-center rounded-lg outline-none focus:ring-2 focus:ring-brand-green">
-                    </div>
-                </div>
-                
-                <div class="mb-6">
-                    <label for="bet-stake-input" class="block text-sm font-medium text-gray-300 mb-2">Set Your Stake (Your Wallet: ₦10,000)</label>
-                    <input id="bet-stake-input" oninput="updatePotentialWin()" type="number" placeholder="Enter stake (e.g., 5000)" class="bg-gray-800 text-white w-full rounded-lg p-3 text-lg outline-none focus:ring-2 focus:ring-brand-green">
-                    <div class="flex space-x-2 mt-2">
-                        <button onclick="setStake(500)" class="flex-1 bg-gray-700 text-white text-sm font-semibold py-1 rounded-md">₦500</button>
-                        <button onclick="setStake(1000)" class="flex-1 bg-gray-700 text-white text-sm font-semibold py-1 rounded-md">₦1000</button>
-                        <button onclick="setStake(5000)" class="flex-1 bg-gray-700 text-white text-sm font-semibold py-1 rounded-md">₦5000</button>
-                        <button onclick="setStake(10000)" class="flex-1 bg-gray-700 text-white text-sm font-semibold py-1 rounded-md">₦10k</button>
-                    </div>
-                </div>
-                
-                <div class="glass-panel p-4 rounded-lg mb-6 text-center">
-                    <p class="text-gray-300 text-sm">Potential Win (Exact Score)</p>
-                    <p id="bet-potential-win" class="text-4xl font-extrabold text-gradient-gold">~ ₦0</p>
-                </div>
-                
-                <button onclick="placeBet()" class="w-full btn-shimmer text-white font-bold text-lg px-8 py-3 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
-                    Place Your Bet
-                </button>
-            </div>
-            
-            <div id="bet-step-2" class="hidden text-center">
-                <h2 class="text-3xl font-extrabold text-white text-center mb-6">Prediction Locked In!</h2>
-                <p class="text-center text-7xl mb-6">✅</p>
-                <p id="bet-success-message" class="text-center text-gray-300 text-lg mb-4">Your <span class="font-bold text-white">2-1</span> prediction for <span class="font-bold text-brand-gold">₦5,000</span> is confirmed!</p>
-                <p class="text-center text-gray-400 mb-6">Good luck! You can see your active predictions in your dashboard.</p>
-                <button onclick="closeModal('betModal')" class="w-full bg-brand-gold text-brand-dark font-bold text-lg px-8 py-3 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300">
-                    Find Another Match
-                </button>
-            </div>
-        </div>
+
+    <!-- Live Chat Bubble -->
+    <div class="chat-bubble" onclick="toggleChat()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
     </div>
 
+    <!-- Live Chat Window -->
+    <div class="chat-window" id="chat-window">
+        <div class="chat-header">Live Support – We're Here to Help!</div>
+        <div class="chat-body" id="chat-body">
+            <!-- Fake messages -->
+            <p class="text-gray-300 mb-2">Support: Hello! How can I assist you today?</p>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
             // --- Animated Stats ---
-            function animateStat(id, endValue, duration = 2000, isCurrency = false) {
+            function animateStat(id, endValue, duration = 2000, prefix = '', suffix = '') {
                 const element = document.getElementById(id);
                 if (!element) return;
                 
                 let startValue = 0;
                 let startTime = null;
+                
                 const finalValue = parseInt(String(endValue).replace(/,/g, ''));
-
+                
                 function animation(currentTime) {
                     if (startTime === null) startTime = currentTime;
                     const timeElapsed = currentTime - startTime;
                     const progress = Math.min(timeElapsed / duration, 1);
                     
                     let currentValue = Math.floor(progress * finalValue);
-                    let text = currentValue.toLocaleString('en-US');
-                    if (isCurrency) text = '₦' + text;
                     
-                    element.textContent = text;
+                    element.textContent = prefix + currentValue.toLocaleString('en-US') + suffix;
                     
                     if (progress < 1) {
                         requestAnimationFrame(animation);
                     } else {
-                        text = finalValue.toLocaleString('en-US');
-                        if (isCurrency) text = '₦' + text;
-                        element.textContent = text;
-                        
-                        // Start incrementing after full animation
-                        if (id === 'stat-players' || id === 'stat-payout' || id === 'stat-signups' || id === 'stat-signups-cta') {
-                            setInterval(() => {
-                                let currentVal = parseInt(element.textContent.replace(/,|₦/g, ''));
-                                currentVal += Math.floor(Math.random() * 3) + 1;
-                                let newText = currentVal.toLocaleString('en-US');
-                                if (isCurrency) newText = '₦' + newText;
-                                
-                                // Sync signup counters
-                                if (id === 'stat-signups') {
-                                    document.getElementById('stat-signups-cta').textContent = newText;
-                                }
-                                if (id === 'stat-signups-cta') {
-                                    document.getElementById('stat-signups').textContent = newText;
-                                }
-                                
-                                element.textContent = newText;
-                            }, Math.random() * 3000 + 2000);
-                        }
+                        element.textContent = prefix + finalValue.toLocaleString('en-US') + suffix;
                     }
                 }
+                
                 requestAnimationFrame(animation);
             }
+
+            // Animate stats
+            animateStat('stat-players', '12,458');
+            animateStat('stat-payout', '42,109,500', 3000, '₦');
+            animateStat('stat-pool', '3,500,000', 2500, '₦');
+            animateStat('stat-bigwin', '5,200,000', 2500, '₦');
+            animateStat('stat-active', '45');
 
             // --- Live Win Popup ---
             const liveWinPopup = document.getElementById('live-win-popup');
@@ -726,7 +932,12 @@
                 "Aisha B. just won ₦110,000 from a ₦2,000 stake!",
                 "Tunde S. just won ₦22,500 on the NPFL pool!",
                 "Femi L. just won ₦85,000 on El Clásico!",
-                "Chioma E. just won ₦50,000 on a 'Close Score' bet!"
+                "Chioma E. just won ₦50,000 on a 'Close Score' bet!",
+                "Ola M. just won ₦75,000 on Bundesliga!",
+                "Ngozi A. just won ₦30,000 from referral bonus!",
+                "Ibrahim Y. just won ₦150,000 on UCL match!",
+                "Grace O. just won ₦40,000 on Serie A!",
+                "Victor E. just won ₦60,000 with exact score!"
             ];
             
             function showLiveWin() {
@@ -743,136 +954,119 @@
                     liveWinPopup.classList.remove('slide-in');
                 }, 5000);
                 
-                setTimeout(showLiveWin, Math.random() * 10000 + 8000); // Between 8-18 seconds
+                setTimeout(showLiveWin, Math.random() * 10000 + 5000); // More frequent for FOMO
             }
 
-            // --- Countdown Timers ---
-            function startCountdowns() {
-                const timers = document.querySelectorAll('.countdown-timer');
-                timers.forEach(timer => {
-                    let seconds = parseInt(timer.getAttribute('data-end-time'));
-                    
-                    const interval = setInterval(() => {
-                        seconds--;
-                        if (seconds <= 0) {
-                            timer.textContent = "POOL CLOSED";
-                            clearInterval(interval);
-                            return;
-                        }
-                        
-                        const d = Math.floor(seconds / (3600*24));
-                        const h = Math.floor(seconds % (3600*24) / 3600);
-                        const m = Math.floor(seconds % 3600 / 60);
-                        const s = Math.floor(seconds % 60);
-                        
-                        let display = '';
-                        if (d > 0) display = `${d}d ${h}h ${m}m`;
-                        else if (h > 0) display = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-                        else display = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-                        
-                        timer.textContent = (h > 0 || d > 0) ? `Closes in: ${display}` : `CLOSING: ${display}`;
-                        
-                        if (h < 1 && d < 1) {
-                            timer.classList.add('animate-pulse-fast');
-                        }
-                    }, 1000);
+            setTimeout(showLiveWin, 3000);
+
+            // --- Signup Form Simulation ---
+            const signupForm = document.getElementById('signup-form');
+            const otpSection = document.getElementById('otp-section');
+            const verifyOtp = document.getElementById('verify-otp');
+
+            if (signupForm) {
+                signupForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert('OTP sent to your phone! (Simulation)');
+                    otpSection.classList.remove('hidden');
                 });
             }
 
-            // --- Initialize Animations ---
-            animateStat('stat-players', '12,458', 2000);
-            animateStat('stat-payout', '42,109,500', 3000, true);
-            animateStat('stat-pool', '3,500,000', 2500, true);
-            animateStat('stat-signups', '25,412', 2800);
-            animateStat('stat-signups-cta', '25,412', 2800);
-            
-            setTimeout(showLiveWin, 4000);
-            startCountdowns();
+            if (verifyOtp) {
+                verifyOtp.addEventListener('click', () => {
+                    alert('OTP Verified! Welcome to BetPool. (Simulation)');
+                    // Simulate redirect or show dashboard
+                });
+            }
+
+            // --- Timers for Urgency ---
+            function startTimer(id, duration) {
+                const timerElement = document.getElementById(id);
+                if (!timerElement) return;
+
+                let timeLeft = duration; // in seconds
+
+                function updateTimer() {
+                    const hours = Math.floor(timeLeft / 3600);
+                    const minutes = Math.floor((timeLeft % 3600) / 60);
+                    const seconds = timeLeft % 60;
+
+                    timerElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
+
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        setTimeout(updateTimer, 1000);
+                    } else {
+                        timerElement.textContent = 'CLOSED!';
+                        timerElement.classList.add('bg-red-900');
+                    }
+                }
+
+                updateTimer();
+            }
+
+            // Start timers for matches
+            startTimer('timer1', 2*3600 + 45*60); // 2h 45m
+            startTimer('timer2', 24*3600); // Tomorrow approximate
+            startTimer('timer3', 48*3600); // Sunday approximate
+            startTimer('timer4', 1*3600 + 30*60); // 1h 30m
+            startTimer('timer5', 36*3600); // Saturday approximate
+            startTimer('timer6', 45*60); // 45m
+
+            // --- Live Chat Simulation ---
+            function toggleChat() {
+                const chatWindow = document.getElementById('chat-window');
+                chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
+            }
+
+            function sendMessage() {
+                const input = document.getElementById('chat-input');
+                const body = document.getElementById('chat-body');
+                if (input.value.trim() === '') return;
+
+                const userMsg = document.createElement('p');
+                userMsg.classList.add('text-right', 'text-white', 'mb-2');
+                userMsg.textContent = `You: ${input.value}`;
+                body.appendChild(userMsg);
+
+                // Simulate response
+                setTimeout(() => {
+                    const responses = [
+                        "Support: Thanks for your question! We're here 24/7.",
+                        "Support: How can I help with your prediction?",
+                        "Support: Check out our promotions for extra wins!",
+                        "Support: Withdrawal is instant - try it now!"
+                    ];
+                    const respMsg = document.createElement('p');
+                    respMsg.classList.add('text-gray-300', 'mb-2');
+                    respMsg.textContent = responses[Math.floor(Math.random() * responses.length)];
+                    body.appendChild(respMsg);
+                    body.scrollTop = body.scrollHeight;
+                }, 1000);
+
+                input.value = '';
+                body.scrollTop = body.scrollHeight;
+            }
+
+            // Make predict links "functional" - show alert
+            document.querySelectorAll('[href^="#predict"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alert('Prediction placed! Good luck! (Simulation)');
+                });
+            });
+
+            // Additional interactivity for links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
         });
-
-        // --- Modal Functionality ---
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal if background is clicked
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        }
-        
-        // --- Signup Flow ---
-        function startSignupFlow() {
-            const phone = document.getElementById('hero-phone-input').value;
-            showModal('signupModal');
-            document.getElementById('signup-phone').value = phone;
-        }
-
-        function signupStep(step) {
-            for (let i = 1; i <= 4; i++) {
-                document.getElementById(`signup-step-${i}`).classList.add('hidden');
-            }
-            if (step === 2) {
-                const phone = document.getElementById('signup-phone').value;
-                document.getElementById('otp-phone-number').textContent = "+234 " + phone;
-            }
-            document.getElementById(`signup-step-${step}`).classList.remove('hidden');
-        }
-        
-        // --- Bet Modal Flow ---
-        function showBetModal(matchTitle, poolAmount) {
-            document.getElementById('bet-modal-title').textContent = matchTitle;
-            document.getElementById('bet-modal-pool').textContent = '₦' + parseInt(poolAmount).toLocaleString('en-US');
-            
-            // Reset to step 1
-            document.getElementById('bet-step-1').classList.remove('hidden');
-            document.getElementById('bet-step-2').classList.add('hidden');
-            
-            // Reset form
-            document.getElementById('bet-home-score').value = 0;
-            document.getElementById('bet-away-score').value = 0;
-            document.getElementById('bet-stake-input').value = '';
-            document.getElementById('bet-potential-win').textContent = '~ ₦0';
-            
-            showModal('betModal');
-        }
-        
-        function setStake(amount) {
-            document.getElementById('bet-stake-input').value = amount;
-            updatePotentialWin();
-        }
-        
-        function updatePotentialWin() {
-            const stake = parseInt(document.getElementById('bet-stake-input').value) || 0;
-            // Diabolical math: always promise a high (but plausible) return
-            const potentialWin = Math.floor(stake * (Math.random() * 15 + 10)); // ~10x to 25x
-            document.getElementById('bet-potential-win').textContent = '~ ₦' + potentialWin.toLocaleString('en-US');
-        }
-        
-        function placeBet() {
-            const home = document.getElementById('bet-home-score').value;
-            const away = document.getElementById('bet-away-score').value;
-            const stake = document.getElementById('bet-stake-input').value;
-            
-            if (!stake || parseInt(stake) < 100) {
-                alert('Please enter a stake of at least ₦100.');
-                return;
-            }
-            
-            document.getElementById('bet-success-message').innerHTML = `Your <span class="font-bold text-white">${home}-${away}</span> prediction for <span class="font-bold text-brand-gold">₦${parseInt(stake).toLocaleString('en-US')}</span> is confirmed!`;
-            
-            document.getElementById('bet-step-1').classList.add('hidden');
-            document.getElementById('bet-step-2').classList.remove('hidden');
-        }
-
     </script>
 
 </body>

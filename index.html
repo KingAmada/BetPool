@@ -357,6 +357,17 @@
         .page-section.active {
             display: block;
         }
+        
+        /* NEW: Match Page Tab Styles */
+        .match-tab {
+            border-bottom: 2px solid transparent;
+            color: #9CA3AF; /* gray-400 */
+        }
+        
+        .match-tab.active-tab {
+            color: #F59E0B; /* brand-gold */
+            border-bottom-color: #F59E0B;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -454,7 +465,7 @@
                 <h2 class="text-2xl font-extrabold text-center text-white mb-4 font-display">
                     🔥 Hot Pool - Closing Soon!
                 </h2>
-                <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl urgency-border" data-league="Premier League" data-time="2" data-pool="8450200">
+                <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl urgency-border" data-league="Premier League" data-time="2" data-pool="8450200" data-status="current">
                     <div class="p-4">
                         <div class="flex justify-between items-center mb-2">
                             <span class="text-xs font-semibold text-green-400">Premier League</span>
@@ -611,14 +622,25 @@
                 
                 <div class="container mx-auto px-4 relative z-10">
                     <h2 class="text-2xl font-extrabold text-center text-white mb-4 font-display">
-                        Join an Active Pool
+                        Find a Pool
                     </h2>
-                    <p class="text-center text-md text-brand-gold font-medium mb-4 animate-pulse-fast">Pools closing soon! Join before it's too late.</p>
                     
+                    <div class="flex justify-around mb-4 border-b border-gray-700">
+                        <button id="tab-current" class="match-tab active-tab flex-1 py-3 font-bold" onclick="filterMatchesByStatus('current')">
+                            Current
+                        </button>
+                        <button id="tab-future" class="match-tab flex-1 py-3 font-bold" onclick="filterMatchesByStatus('future')">
+                            Future
+                        </button>
+                        <button id="tab-past" class="match-tab flex-1 py-3 font-bold" onclick="filterMatchesByStatus('past')">
+                            Past
+                        </button>
+                    </div>
+
                     <div class="mb-6">
-                        <input type="text" id="match-search" placeholder="Search matches..." class="w-full bg-gray-800 text-white p-2 rounded-lg mb-2" oninput="filterMatches()">
+                        <input type="text" id="match-search" placeholder="Search matches..." class="w-full bg-gray-800 text-white p-2 rounded-lg mb-2" oninput="filterAndShowMatches()">
                         <div class="flex justify-between mb-2">
-                            <select id="league-filter" class="bg-gray-800 text-white p-2 rounded-lg" onchange="filterMatches()">
+                            <select id="league-filter" class="bg-gray-800 text-white p-2 rounded-lg" onchange="filterAndShowMatches()">
                                 <option value="">All Leagues</option>
                                 <option value="Premier League">Premier League</option>
                                 <option value="La Liga">La Liga</option>
@@ -636,7 +658,7 @@
                     </div>
                     
                     <div id="matches-list" class="space-y-6">
-                        <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl urgency-border" data-league="Premier League" data-time="2" data-pool="8450200">
+                        <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl urgency-border" data-league="Premier League" data-time="2" data-pool="8450200" data-status="current">
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="text-xs font-semibold text-green-400">Premier League</span>
@@ -664,7 +686,7 @@
                             </button>
                         </div>
 
-                        <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border" data-league="La Liga" data-time="24" data-pool="5120600">
+                        <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border" data-league="La Liga" data-time="24" data-pool="5120600" data-status="future">
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="text-xs font-semibold text-green-400">La Liga</span>
@@ -692,7 +714,7 @@
                             </button>
                         </div>
 
-                        <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border" data-league="NPFL" data-time="48" data-pool="2950000">
+                        <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border" data-league="NPFL" data-time="48" data-pool="2950000" data-status="future">
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="text-xs font-semibold text-green-400">NPFL</span>
@@ -717,6 +739,34 @@
                             </div>
                             <button onclick="showMatchDetail({ title: 'Enyimba vs Kano Pillars', teamA: 'Enyimba', teamB: 'Kano Pillars', logoA: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Enyimba_International_F.C._logo.png/120px-Enyimba_International_F.C._logo.png', logoB: 'https://upload.wikimedia.org/wikipedia/commons/3/3f/Kano_Pillars_F.C.svg', pool: 2950000, timer: 'Sunday 4:00 PM', league: 'NPFL' })" class="block w-full bg-gray-600 text-white text-center font-bold text-md p-3 hover:bg-gray-700 transition-colors duration-300">
                                 Predict Now
+                            </button>
+                        </div>
+                        
+                        <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border" data-league="Premier League" data-time="100" data-pool="7200500" data-status="past">
+                            <div class="p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-semibold text-green-400">Premier League</span>
+                                    <span class="bg-gray-700 text-white text-xs font-bold px-2 py-1 rounded-full">YESTERDAY</span>
+                                </div>
+                                <div class="flex items-center justify-around mb-2">
+                                    <div class="text-center">
+                                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png" alt="Chelsea" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image">
+                                        <span class="font-bold text-sm">Chelsea</span>
+                                    </div>
+                                    <span class="text-2xl font-bold text-white">2 - 1</span>
+                                    <div class="text-center">
+                                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png" alt="Arsenal" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image">
+                                        <span class="font-bold text-sm">Arsenal</span>
+                                    </div>
+                                </div>
+                                <div class="text-center mb-2">
+                                    <p class="text-gray-300 text-xs">FINAL JACKPOT POOL</p>
+                                    <p class="text-2xl font-extrabold text-gradient-money">₦7,200,500</p>
+                                    <p class="text-xs text-gray-400 mt-1">32 Winners Shared Pot</p>
+                                </div>
+                            </div>
+                            <button onclick="alert('Results: Chelsea 2 - 1 Arsenal.\nFinal Pool: ₦7,200,500.\n1X2 Winners (Home): 328 players shared ₦2,100,000.\nCorrect Score Winners: 32 players shared ₦7,200,500.\nAll winners have been paid.')" class="block w-full bg-brand-trust text-white text-center font-bold text-md p-3 hover:bg-blue-700 transition-colors duration-300">
+                                View Results
                             </button>
                         </div>
 
@@ -804,28 +854,6 @@
                             </div>
                             <div class="text-yellow-400 mb-2 text-sm">★★★★★</div>
                             <p class="text-gray-300 italic text-sm">"Finally, a fair platform. No weird odds changes. You see the pot, you see the predictions. You win, you cash out. Simple."</p>
-                        </div>
-                        <div class="glass-panel p-4 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
-                            <div class="flex items-center mb-2">
-                                <img src="https://placehold.co/40x40/ffffff/000000?text=F" alt="Femi" class="w-10 h-10 rounded-full mr-3 border border-green-400 curvy-image">
-                                <div>
-                                    <p class="font-bold text-md text-white">Femi L.</p>
-                                    <p class="text-xs text-gray-400">Port Harcourt</p>
-                                </div>
-                            </div>
-                            <div class="text-yellow-400 mb-2 text-sm">★★★★★</div>
-                            <p class="text-gray-300 italic text-sm">"Turned ₦500 into ₦15,000 on a local match. BetPool is changing the game in Nigeria!"</p>
-                        </div>
-                        <div class="glass-panel p-4 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
-                            <div class="flex items-center mb-2">
-                                <img src="https://placehold.co/40x40/ffffff/000000?text=C" alt="Chioma" class="w-10 h-10 rounded-full mr-3 border border-green-400 curvy-image">
-                                <div>
-                                    <p class="font-bold text-md text-white">Chioma E.</p>
-                                    <p class="text-xs text-gray-400">Enugu</p>
-                                </div>
-                            </div>
-                            <div class="text-yellow-400 mb-2 text-sm">★★★★★</div>
-                            <p class="text-gray-300 italic text-sm">"The promotions are amazing! Got a free bet and won big. Highly recommend!"</p>
                         </div>
                     </div>
                 </div>
@@ -1082,6 +1110,9 @@
     <script>
         // Store match data globally when modal is opened
         let currentMatchData = {};
+        
+        // --- NEW: Global var for match status filter ---
+        let currentMatchStatus = 'current';
 
         // User authentication simulation using localStorage
         function signup(event) {
@@ -1164,6 +1195,11 @@
             document.querySelectorAll('.page-section').forEach(section => section.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             window.scrollTo(0, 0); // Scroll to top on page change
+            
+            // NEW: When showing matches page, apply default filters
+            if (pageId === 'matches-page') {
+                filterMatchesByStatus(currentMatchStatus); // Re-apply active filters
+            }
         }
 
         // Mobile Menu
@@ -1185,23 +1221,43 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // Matches filter and sort
-        function filterMatches() {
+        // --- NEW/REFACTORED Match Filter Logic ---
+
+        // This is the new primary filter function
+        function filterAndShowMatches() {
             const search = document.getElementById('match-search').value.toLowerCase();
             const league = document.getElementById('league-filter').value;
+            const status = currentMatchStatus; // Get from global var
 
-            document.querySelectorAll('.match-card').forEach(card => {
-                const matchLeague = card.dataset.league;
-                const matchText = card.textContent.toLowerCase();
+            document.querySelectorAll('#matches-list .match-card').forEach(card => {
+                const isStatusMatch = card.dataset.status === status;
+                const isSearchMatch = card.textContent.toLowerCase().includes(search);
+                const isLeagueMatch = (league === '' || card.dataset.league === league);
 
-                if ((league === '' || matchLeague === league) && matchText.includes(search)) {
+                if (isStatusMatch && isSearchMatch && isLeagueMatch) {
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
                 }
             });
         }
+        
+        // This function is called by the new TABS
+        function filterMatchesByStatus(status) {
+            // Set global status
+            currentMatchStatus = status;
+            
+            // Update tab UI
+            document.querySelectorAll('.match-tab').forEach(tab => {
+                tab.classList.remove('active-tab');
+            });
+            document.getElementById(`tab-${status}`).classList.add('active-tab');
+            
+            // Run the main filter function
+            filterAndShowMatches();
+        }
 
+        // This function is now just for sorting
         function sortMatches() {
             const sortBy = document.getElementById('sort-select').value;
             const matchesList = document.getElementById('matches-list');
@@ -1213,15 +1269,21 @@
                 } else if (sortBy === 'pool') {
                     return parseInt(b.dataset.pool) - parseInt(a.dataset.pool);
                 }
-                return 0;
+                return 0; // Default (no sort)
             });
 
+            // Re-append all cards in sorted order
             matchesList.innerHTML = '';
             cards.forEach(card => matchesList.appendChild(card));
+            
+            // IMPORTANT: Re-apply filters after sorting
+            filterAndShowMatches();
         }
 
-        // --- NEW MATCH DETAIL JAVASCRIPT ---
+        // --- END of Match Filter Logic ---
 
+
+        // --- Match Detail Modal Logic ---
         function showPoolTab(tabName) {
             document.querySelectorAll('.pool-content').forEach(el => el.classList.add('hidden'));
             document.getElementById(`pool-content-${tabName}`).classList.remove('hidden');
@@ -1253,9 +1315,6 @@
                 gate.classList.add('hidden');
                 const userData = JSON.parse(localStorage.getItem(loggedInUser));
                 
-                // Check if user has already predicted this match
-                // This simulation will assume one prediction *per match*, not *per pool* for simplicity
-                // A real app would track `predictions['match-title-cs']` and `predictions['match-title-1x2']`
                 if (userData.predictions[currentMatchData.title]) {
                     const prediction = userData.predictions[currentMatchData.title];
                     document.getElementById('user-prediction').textContent = prediction.prediction;
@@ -1269,7 +1328,13 @@
                     joinedMsg.classList.add('hidden');
                     formCS.classList.remove('hidden'); // We still need both "active" in the DOM
                     form1x2.classList.remove('hidden'); // The tab function will hide the correct one
-                    showPoolTab(document.querySelector('.border-brand-gold').id.split('-')[1]); // Re-apply tab selection
+                    
+                    // Re-apply which tab is active
+                    if (document.getElementById('tab-correct-score').classList.contains('active-tab')) {
+                        document.getElementById('pool-content-1x2').classList.add('hidden');
+                    } else {
+                        document.getElementById('pool-content-correct-score').classList.add('hidden');
+                    }
                 }
             } else {
                 // Show login gate
@@ -1293,11 +1358,9 @@
             document.getElementById('match-team-b').textContent = matchData.teamB;
 
             // --- CORRECT SCORE POOL ---
-            // We'll use the main pool for this
             document.getElementById('match-pool-correct-score').textContent = `₦${matchData.pool.toLocaleString()}`;
             document.getElementById('home-score-label').textContent = matchData.teamA;
             document.getElementById('away-score-label').textContent = matchData.teamB;
-            // Clear old form
             document.getElementById('stake-amount-cs').value = '';
             document.getElementById('home-score').value = '';
             document.getElementById('away-score').value = '';
@@ -1305,21 +1368,17 @@
 
 
             // --- 1X2 POOL (Your Idea) ---
-            // We'll simulate a second, smaller pool for 1x2
             const pool1x2 = Math.floor(matchData.pool * 0.4); // e.g., 40% of the main pool
             const stakeHome = Math.floor(pool1x2 * 0.45); // Simulate 45% on home
             const stakeDraw = Math.floor(pool1x2 * 0.25); // Simulate 25% on draw
             const stakeAway = Math.floor(pool1x2 * 0.30); // Simulate 30% on away
             
-            // Calculate odds (Pool / Stake)
             const oddsHome = (pool1x2 / stakeHome).toFixed(2);
             const oddsDraw = (pool1x2 / stakeDraw).toFixed(2);
             const oddsAway = (pool1x2 / stakeAway).toFixed(2);
 
-            // Populate 1X2 Pool Info
             document.getElementById('match-pool-1x2').textContent = `₦${pool1x2.toLocaleString()}`;
             
-            // Populate Odds Table
             document.getElementById('odds-team-a-name').textContent = matchData.teamA;
             document.getElementById('odds-team-a-calc').textContent = `₦${(pool1x2/1000000).toFixed(1)}M ÷ ₦${(stakeHome/1000000).toFixed(1)}M`;
             document.getElementById('odds-team-a-value').textContent = `${oddsHome}×`;
@@ -1331,10 +1390,8 @@
             document.getElementById('odds-team-b-calc').textContent = `₦${(pool1x2/1000000).toFixed(1)}M ÷ ₦${(stakeAway/1000000).toFixed(1)}M`;
             document.getElementById('odds-team-b-value').textContent = `${oddsAway}×`;
 
-            // Populate 1X2 Form Labels
             document.getElementById('pred-1-label').textContent = `1 (${matchData.teamA})`;
             document.getElementById('pred-2-label').textContent = `2 (${matchData.teamB})`;
-            // Clear old form
             document.getElementById('stake-amount-1x2').value = '';
             const radios = document.getElementsByName('1x2-prediction');
             for (let i=0; i<radios.length; i++) radios[i].checked = false;
@@ -1386,15 +1443,12 @@
             
             const userData = JSON.parse(localStorage.getItem(loggedInUser));
             
-            // Add prediction to user's data
-            // We'll just overwrite any existing prediction for this match for this demo
             userData.predictions[matchTitle] = {
                 stake: stake,
                 prediction: prediction,
                 type: poolType
             };
 
-            // Save back to localStorage
             localStorage.setItem(loggedInUser, JSON.stringify(userData));
 
             alert(`Prediction Submitted!\nMatch: ${matchTitle}\nPool: ${poolType}\nStake: ₦${stake}\n${predictionText}\nGood luck!`);
@@ -1416,7 +1470,7 @@
             document.getElementById('potential-win-display').textContent = `₦${Math.round(estimatedWin).toLocaleString()}`;
         }
         
-        // --- END OF NEW MATCH DETAIL JAVASCRIPT ---
+        // --- End of Match Detail Logic ---
 
         // Live Chat
         function toggleChat() {
@@ -1486,6 +1540,8 @@
         // Countdown Timer for Hot Pool
         function startHotPoolTimer() {
             const timerElement = document.getElementById('hot-pool-timer');
+            if (!timerElement) return; // In case we're not on home page
+            
             let timeInSeconds = 2 * 3600 + 44 * 60 + 59; // 2h 44m 59s
 
             setInterval(() => {
@@ -1517,6 +1573,9 @@
 
             // Start hot pool timer
             startHotPoolTimer();
+            
+            // NEW: Apply default match filters on load
+            filterMatchesByStatus('current');
         };
 
     </script>
@@ -1547,7 +1606,7 @@
 
     <script id="sw">
         // Basic service worker for caching
-        const CACHE_NAME = 'betpool-v3'; // Incremented cache version
+        const CACHE_NAME = 'betpool-v4'; // Incremented cache version
         const urlsToCache = [
             '/',
             // We can't cache the single file itself by name,
@@ -1582,7 +1641,7 @@
             // We only want to cache-first for our own assets
             if (e.request.url.startsWith(self.location.origin)) {
                 e.respondWith(
-                    caches.match(e.request).then((response) => {
+                    caches.match(e.post).then((response) => {
                         // Cache hit - return response
                         if (response) {
                             return response;

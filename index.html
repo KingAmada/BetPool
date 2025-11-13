@@ -5,28 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BetPool - Win Bigger Together</title>
     
+    <!-- SEO Meta Tags -->
     <meta name="description" content="Join BetPool, Nigeria's #1 pool betting platform. Bet against fans, not the house, and win your share of massive cash pools. Instant payouts guaranteed.">
     <meta name="keywords" content="betting, pool betting, Nigeria, football, predictions, cash win, instant payout, NPFL, Premier League">
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Google Fonts (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- Additional Fonts for Variety -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@900&display=swap" rel="stylesheet">
     
+    <!-- Favicon (Emoji for placeholder) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤑</text></svg>">
     
+    <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
     
+    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="https://placehold.co/180x180/008753/FFFFFF?text=BP">
     
     <script>
         // Register service worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                // Using an inline SW from a script tag below
                 const swCode = document.getElementById('sw').text;
                 const blob = new Blob([swCode], {type: 'application/javascript'});
                 const url = URL.createObjectURL(blob);
@@ -79,16 +85,6 @@
                         'fade-in': {
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' },
-                        },
-                        wave: {
-                            '0%': { transform: 'rotate(0deg)' },
-                            '10%': { transform: 'rotate(14deg)' },
-                            '20%': { transform: 'rotate(-8deg)' },
-                            '30%': { transform: 'rotate(14deg)' },
-                            '40%': { transform: 'rotate(-4deg)' },
-                            '50%': { transform: 'rotate(10deg)' },
-                            '60%': { transform: 'rotate(0deg)' },
-                            '100%': { transform: 'rotate(0deg)' },
                         },
                         glow: {
                             'from': { textShadow: '0 0 5px #fff, 0 0 10px #fff, 0 0 15px #e60073, 0 0 20px #e60073' },
@@ -305,13 +301,16 @@
             text-align: center;
             font-size: 12px;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .bottom-nav svg {
             width: 24px;
             height: 24px;
             display: block;
-            margin: 0 auto 4px;
+            margin-bottom: 4px;
         }
 
         /* Hamburger Menu */
@@ -358,10 +357,11 @@
             display: block;
         }
         
-        /* NEW: Match Page Tab Styles */
+        /* Match Page Tab Styles */
         .match-tab {
             border-bottom: 2px solid transparent;
             color: #9CA3AF; /* gray-400 */
+            transition: all 0.3s;
         }
         
         .match-tab.active-tab {
@@ -372,21 +372,25 @@
 </head>
 <body class="antialiased">
 
+    <!-- Header -->
     <header class="bg-brand-dark/80 backdrop-blur-md shadow-lg fixed top-0 left-0 w-full z-50 py-4 px-4 flex justify-between items-center">
         <a href="#" class="text-2xl font-extrabold text-gradient-money font-display" onclick="showPage('home-page')">
             BetPool
         </a>
         <div class="flex items-center space-x-4">
+            <!-- Auth buttons for desktop -->
             <div id="auth-buttons" class="hidden md:flex items-center space-x-4">
                 <a href="#" onclick="openModal('login-modal')" class="text-gray-300 hover:text-white font-medium text-sm">Login</a>
                 <a href="#" onclick="openModal('signup-modal')" class="bg-brand-gold text-brand-dark font-bold text-sm px-3 py-1 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300">
                     Sign Up
                 </a>
             </div>
+            <!-- User info for desktop -->
             <div id="user-info" class="hidden md:flex items-center space-x-4">
                 <span id="user-name" class="text-white font-medium"></span>
                 <button onclick="logout()" class="text-gray-300 hover:text-white font-medium text-sm">Logout</button>
             </div>
+            <!-- Hamburger for mobile -->
             <div class="hamburger" onclick="toggleMobileMenu()">
                 <div></div>
                 <div></div>
@@ -395,6 +399,7 @@
         </div>
     </header>
 
+    <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobile-menu">
         <div id="mobile-auth-buttons" class="block">
              <a href="#" onclick="openModal('login-modal'); toggleMobileMenu();" class="text-gray-300 hover:text-white font-medium text-sm mb-2">Login</a>
@@ -410,10 +415,13 @@
         <a href="#" onclick="showPage('matches-page'); toggleMobileMenu();">Matches</a>
         <a href="#" onclick="showPage('how-page'); toggleMobileMenu();">How It Works</a>
         <a href="#" onclick="showPage('winners-page'); toggleMobileMenu();">Live Wins</a>
+        <a href="#" onclick="showPage('profile-page'); toggleMobileMenu();">Profile & Referrals</a>
         <a href="#" onclick="showPage('faq-page'); toggleMobileMenu();">FAQ</a>
     </div>
 
-    <div class="bg-black text-gray-300 py-3 overflow-hidden mt-16"> <div class="container mx-auto px-4">
+    <!-- Live Stats Ticker -->
+    <div class="bg-black text-gray-300 py-3 overflow-hidden mt-16"> <!-- Adjusted for header height -->
+        <div class="container mx-auto px-4">
             <div class="flex flex-wrap justify-center text-center text-xs gap-4">
                 <div>
                     <span class="font-bold text-green-400">PLAYERS ONLINE:</span>
@@ -431,7 +439,12 @@
         </div>
     </div>
 
-    <main class="pt-4 pb-20"> <section id="home-page" class="page-section active">
+    <!-- Main Content Pages -->
+    <main class="pt-4 pb-20"> <!-- Padding bottom for bottom nav -->
+
+        <!-- Home Page -->
+        <section id="home-page" class="page-section active">
+            <!-- Hero Section -->
             <div class="relative overflow-hidden py-12" style="background: radial-gradient(circle, rgba(0,135,83,0.15) 0%, rgba(17,24,39,0) 60%), url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') no-repeat center center / cover;">
                 <div class="absolute inset-0 bg-brand-dark/70"></div>
                 
@@ -457,10 +470,13 @@
                 </div>
             </div>
 
-            <div id="live-win-popup" class="glass-panel hidden fixed bottom-24 left-4 z-50 p-4 rounded-xl shadow-2xl border-green-400 border-2 max-w-xs animate-bounce-in"> <p class="text-sm text-gray-200">Just Now...</p>
+            <!-- Live Win Popup -->
+            <div id="live-win-popup" class="glass-panel hidden fixed bottom-24 left-4 z-50 p-4 rounded-xl shadow-2xl border-green-400 border-2 max-w-xs animate-bounce-in"> <!-- Adjusted for bottom nav -->
+                <p class="text-sm text-gray-200">Just Now...</p>
                 <p id="live-win-text" class="font-bold text-white text-lg"></p>
             </div>
             
+            <!-- HOT POOL (FOMO/Urgency) -->
             <div class="container mx-auto px-4 py-8">
                 <h2 class="text-2xl font-extrabold text-center text-white mb-4 font-display">
                     🔥 Hot Pool - Closing Soon!
@@ -494,6 +510,7 @@
                 </div>
             </div>
 
+            <!-- Why BetPool (Marketing/SEO) -->
             <div class="py-12 bg-gray-900">
                 <div class="container mx-auto px-4">
                     <h2 class="text-2xl font-extrabold text-center text-white mb-8 font-display">
@@ -527,79 +544,7 @@
                 </div>
             </div>
 
-            <div class="py-12 bg-brand-dark">
-                <div class="container mx-auto px-4">
-                    <h2 class="text-2xl font-extrabold text-center text-white mb-8 font-display">
-                        Get Started in 60 Seconds
-                    </h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div class="text-center p-4 glass-panel rounded-lg">
-                            <div class="text-brand-gold text-4xl font-bold mb-2">1</div>
-                            <h3 class="text-xl font-bold text-white mb-1">Sign Up</h3>
-                            <p class="text-gray-400 text-sm">Create your free account instantly.</p>
-                        </div>
-                        <div class="text-center p-4 glass-panel rounded-lg">
-                            <div class="text-brand-gold text-4xl font-bold mb-2">2</div>
-                            <h3 class="text-xl font-bold text-white mb-1">Fund Wallet</h3>
-                            <p class="text-gray-400 text-sm">Make a secure, instant deposit.</p>
-                        </div>
-                        <div class="text-center p-4 glass-panel rounded-lg">
-                            <div class="text-brand-gold text-4xl font-bold mb-2">3</div>
-                            <h3 class="text-xl font-bold text-white mb-1">Predict Score</h3>
-                            <p class="text-gray-400 text-sm">Join any match pool and make your call.</p>
-                        </div>
-                        <div class="text-center p-4 glass-panel rounded-lg">
-                            <div class="text-brand-gold text-4xl font-bold mb-2">4</div>
-                            <h3 class="text-xl font-bold text-white mb-1">Win & Cashout</h3>
-                            <p class="text-gray-400 text-sm">Winners share the pot. Withdraw instantly!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="py-12 bg-gray-900">
-                <div class="container mx-auto px-4">
-                    <h2 class="text-2xl font-extrabold text-center text-white mb-8 font-display">
-                        Real Winners, Real Money
-                    </h2>
-                    <div class="space-y-6">
-                        <div class="glass-panel p-4 rounded-lg shadow-lg">
-                            <div class="flex items-center mb-2">
-                                <img src="https://placehold.co/40x40/ffffff/000000?text=E" alt="Emeka" class="w-10 h-10 rounded-full mr-3 border border-green-400 curvy-image">
-                                <div>
-                                    <p class="font-bold text-md text-white">Emeka O. <span class="text-xs text-gray-400 ml-1">Lagos</span></p>
-                                    <div class="text-yellow-400 text-sm">★★★★★</div>
-                                </div>
-                            </div>
-                            <p class="text-gray-300 italic text-sm">"I won <span class="font-bold text-brand-gold">₦80,000</span> on the Chelsea match! BetPool is legit. Withdrew the money to my Access bank instantly. No stories!"</p>
-                        </div>
-                        <div class="glass-panel p-4 rounded-lg shadow-lg">
-                            <div class="flex items-center mb-2">
-                                <img src="https://placehold.co/40x40/ffffff/000000?text=A" alt="Aisha" class="w-10 h-10 rounded-full mr-3 border border-green-400 curvy-image">
-                                <div>
-                                    <p class="font-bold text-md text-white">Aisha B. <span class="text-xs text-gray-400 ml-1">Abuja</span></p>
-                                    <div class="text-yellow-400 text-sm">★★★★★</div>
-                                </div>
-                            </div>
-                            <p class="text-gray-300 italic text-sm">"I like that we're betting against other fans, not a company. The prize pools get huge! My N1,000 prediction won me <span class="font-bold text-brand-gold">₦22,500</span>."</p>
-                        </div>
-                        <div class="glass-panel p-4 rounded-lg shadow-lg">
-                            <div class="flex items-center mb-2">
-                                <img src="https://placehold.co/40x40/ffffff/000000?text=T" alt="Tunde" class="w-10 h-10 rounded-full mr-3 border border-green-400 curvy-image">
-                                <div>
-                                    <p class="font-bold text-md text-white">Tunde K. <span class="text-xs text-gray-400 ml-1">Ibadan</span></p>
-                                    <div class="text-yellow-400 text-sm">★★★★★</div>
-                                </div>
-                            </div>
-                            <p class="text-gray-300 italic text-sm">"Finally, a fair platform. No weird odds. You see the pot, you see the predictions. You win, you cash out. Simple."</p>
-                        </div>
-                    </div>
-                    <div class="text-center mt-6">
-                        <a href="#" onclick="showPage('winners-page')" class="text-brand-gold font-semibold">See More Winner Stories &rarr;</a>
-                    </div>
-                </div>
-            </div>
-
+            <!-- Final CTA Section -->
             <section class="bg-gradient-to-r from-brand-green to-green-700 text-white py-12 relative" id="cta-section">
                 <img src="https://www.vecteezy.com/free-vector/abstract-curves" alt="Curvy abstract" class="absolute inset-0 w-full h-full object-cover opacity-20">
                 <div class="container mx-auto px-4 text-center relative z-10">
@@ -616,6 +561,7 @@
             </section>
         </section>
 
+        <!-- Matches Page -->
         <section id="matches-page" class="page-section">
             <div class="py-12 bg-brand-dark relative">
                 <img src="https://media.istockphoto.com/id/1344354060/vector/luxury-gold-and-nature-green-background-vector-leaf-pattern-golden-split-leaf-lotus-leaf-plant.jpg?s=612x612&w=0&k=20&c=7j5n9I0b5Z6Xh8gE5k8rKX3M6r2aZ3Z3Z3Z3Z3Z3Z3w=" alt="Green gold money pattern" class="absolute inset-0 w-full h-full object-cover opacity-10">
@@ -625,6 +571,7 @@
                         Find a Pool
                     </h2>
                     
+                    <!-- Match Status Tabs -->
                     <div class="flex justify-around mb-4 border-b border-gray-700">
                         <button id="tab-current" class="match-tab active-tab flex-1 py-3 font-bold" onclick="filterMatchesByStatus('current')">
                             Current
@@ -637,6 +584,7 @@
                         </button>
                     </div>
 
+                    <!-- Search, Filter, Sort -->
                     <div class="mb-6">
                         <input type="text" id="match-search" placeholder="Search matches..." class="w-full bg-gray-800 text-white p-2 rounded-lg mb-2" oninput="filterAndShowMatches()">
                         <div class="flex justify-between mb-2">
@@ -658,6 +606,7 @@
                     </div>
                     
                     <div id="matches-list" class="space-y-6">
+                        <!-- Match Card 1 (Current) -->
                         <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl urgency-border" data-league="Premier League" data-time="2" data-pool="8450200" data-status="current">
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
@@ -686,6 +635,7 @@
                             </button>
                         </div>
 
+                        <!-- Match Card 2 (Future) -->
                         <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border" data-league="La Liga" data-time="24" data-pool="5120600" data-status="future">
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
@@ -714,6 +664,7 @@
                             </button>
                         </div>
 
+                        <!-- Match Card 3 (Future) -->
                         <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border" data-league="NPFL" data-time="48" data-pool="2950000" data-status="future">
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
@@ -742,6 +693,7 @@
                             </button>
                         </div>
                         
+                        <!-- Match Card 4 (Past) -->
                         <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border" data-league="Premier League" data-time="100" data-pool="7200500" data-status="past">
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
@@ -775,6 +727,7 @@
             </div>
         </section>
 
+        <!-- How It Works Page -->
         <section id="how-page" class="page-section">
             <div class="py-12 bg-gray-900">
                 <div class="container mx-auto px-4">
@@ -782,6 +735,7 @@
                         Your Simple Path to Winning Big
                     </h2>
                     <div class="space-y-6">
+                        <!-- Step 1 -->
                         <div class="text-center p-4 glass-panel rounded-lg">
                             <div class="text-brand-green mb-2 animate-fade-in">
                                 <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
@@ -789,6 +743,7 @@
                             <h3 class="text-xl font-bold text-white mb-1">1. Sign Up (10s)</h3>
                             <p class="text-gray-400 text-sm">Enter your details. That's it. No long forms, instant access to wins.</p>
                         </div>
+                        <!-- Step 2 -->
                         <div class="text-center p-4 glass-panel rounded-lg">
                             <div class="text-brand-green mb-2 animate-fade-in" style="animation-delay: 0.2s;">
                                 <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -796,13 +751,15 @@
                             <h3 class="text-xl font-bold text-white mb-1">2. Fund Wallet</h3>
                             <p class="text-gray-400 text-sm">Simple, instant bank transfer to your personal BetPool account. Secure and fast.</p>
                         </div>
+                        <!-- Step 3 -->
                         <div class="text-center p-4 glass-panel rounded-lg">
                             <div class="text-brand-green mb-2 animate-fade-in" style="animation-delay: 0.4s;">
                                 <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                             </div>
                             <h3 class="text-xl font-bold text-white mb-1">3. Predict & Win</h3>
-                            <p class="text-gray-400 text-sm">Join any match pool. Predict the score. Closest predictions share the massive pot!</p>
+                            <p class="text-gray-400 text-sm">Join any match pool and make your call. Closest predictions share the massive pot!</p>
                         </div>
+                        <!-- Step 4 -->
                         <div class="text-center p-4 glass-panel rounded-lg">
                             <div class="text-brand-green mb-2 animate-fade-in" style="animation-delay: 0.6s;">
                                 <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -815,6 +772,7 @@
             </div>
         </section>
 
+        <!-- Winners Page -->
         <section id="winners-page" class="page-section">
             <div class="py-12 bg-gray-900">
                 <div class="container mx-auto px-4">
@@ -844,22 +802,131 @@
                             <div class="text-yellow-400 mb-2 text-sm">★★★★★</div>
                             <p class="text-gray-300 italic text-sm">"I like that we're betting against other fans, not a company. The prize pools get huge! My N1,000 prediction won me <span class="font-bold text-brand-gold">₦22,500</span>."</p>
                         </div>
-                        <div class="glass-panel p-4 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
-                            <div class="flex items-center mb-2">
-                                <img src="https://placehold.co/40x40/ffffff/000000?text=T" alt="Tunde" class="w-10 h-10 rounded-full mr-3 border border-green-400 curvy-image">
-                                <div>
-                                    <p class="font-bold text-md text-white">Tunde K.</p>
-                                    <p class="text-xs text-gray-400">Ibadan</p>
-                                </div>
-                            </div>
-                            <div class="text-yellow-400 mb-2 text-sm">★★★★★</div>
-                            <p class="text-gray-300 italic text-sm">"Finally, a fair platform. No weird odds changes. You see the pot, you see the predictions. You win, you cash out. Simple."</p>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- NEW: Profile Page -->
+        <section id="profile-page" class="page-section">
+            <div class="py-12 bg-gray-900">
+                <div class="container mx-auto px-4">
+                    
+                    <!-- Profile Header -->
+                    <div id="profile-header-guest" class="text-center glass-panel p-6 rounded-lg">
+                        <p class="text-lg text-white mb-4">See your wallet, referrals, and more.</p>
+                        <button onclick="openModal('login-modal')" class="bg-brand-gold text-brand-dark font-bold text-lg p-3 rounded-lg w-full">
+                            Login or Sign Up
+                        </button>
+                    </div>
+
+                    <div id="profile-header-user" class="hidden text-center glass-panel p-6 rounded-lg">
+                        <h2 id="profile-name" class="text-2xl font-bold text-white"></h2>
+                        <p id="profile-phone" class="text-md text-gray-400"></p>
+                    </div>
+                    
+                    <!-- Wallet Balance -->
+                    <div id="profile-wallet" class="hidden mt-6 text-center glass-panel p-6 rounded-lg">
+                        <p class="text-gray-300 text-sm">MAIN WALLET BALANCE</p>
+                        <p id="profile-balance" class="text-4xl font-extrabold text-gradient-money animate-pulse-fast">₦0</p>
+                        <div class="flex gap-4 mt-4">
+                            <button class="flex-1 bg-brand-green text-white font-bold p-3 rounded-lg">Deposit</button>
+                            <button class="flex-1 bg-gray-700 text-white font-bold p-3 rounded-lg">Withdraw</button>
+                        </div>
+                    </div>
+
+                    <!-- Ambassador Program Section (FINALIZED MODEL) -->
+                    <div id="ambassador-section" class="hidden mt-6 bg-brand-dark p-6 rounded-lg border-2 border-brand-gold">
+                        <h3 class="text-2xl font-bold text-gradient-gold text-center mb-4">Ambassador Dashboard</h3>
+                        
+                        <!-- Active Status -->
+                        <div id="ambassador-status-active" class="hidden text-center bg-green-500/10 border border-green-400 p-3 rounded-lg mb-4">
+                            <p class="text-lg font-bold text-green-400">STATUS: ACTIVE</p>
+                            <p class="text-sm text-gray-300">All new earnings are being unlocked!</p>
+                        </div>
+                        <div id="ambassador-status-inactive" class="hidden text-center bg-brand-urgent/10 border border-brand-urgent p-3 rounded-lg mb-4">
+                            <p class="text-lg font-bold text-brand-urgent">STATUS: INACTIVE</p>
+                            <p class="text-sm text-gray-300">Your new earnings are LOCKED. Meet a quota below to unlock them.</p>
+                        </div>
+
+                        <!-- Balances -->
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <!-- Withdrawable -->
+                            <div class="glass-panel p-4 rounded-lg">
+                                <p class="text-gray-300 text-sm">Withdrawable</p>
+                                <p id="ambassador-withdrawable" class="text-3xl font-extrabold text-white">₦0</p>
+                                <button class="mt-2 w-full bg-brand-trust text-white font-bold p-2 rounded-lg text-sm">Withdraw</button>
+                            </div>
+                            <!-- Locked -->
+                            <div class="glass-panel p-4 rounded-lg">
+                                <p class="text-gray-300 text-sm">Locked Earnings</p>
+                                <p id="ambassador-locked" class="text-3xl font-extrabold text-gray-500 animate-pulse-fast">₦0</p>
+                                <p class="text-xs text-gray-500">Become "Active" to unlock</p>
+                            </div>
+                        </div>
+
+                        <!-- Quota Tracking -->
+                        <div class="mt-6">
+                            <h4 class="text-md font-bold text-white mb-2">My Monthly Quota (Meet 1 to be Active)</h4>
+                            <div class="space-y-3">
+                                <!-- Quota 1: Bets -->
+                                <div class="glass-panel p-3 rounded-lg">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <p class="text-sm font-medium text-gray-300">Place 4 Bets This Month</p>
+                                        <p id="quota-bets-status" class="text-sm font-bold text-green-400">0 / 4</p>
+                                    </div>
+                                    <div class="w-full bg-gray-700 rounded-full h-2">
+                                        <div id="quota-bets-bar" class="bg-brand-gold h-2 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <!-- Quota 2: Referrals -->
+                                <div class="glass-panel p-3 rounded-lg">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <p class="text-sm font-medium text-gray-300">Refer 1 Player (Last 2 Months)</p>
+                                        <p id="quota-referrals-status" class="text-sm font-bold text-brand-urgent">0 / 1</p>
+                                    </div>
+                                    <div class="w-full bg-gray-700 rounded-full h-2">
+                                        <div id="quota-referrals-bar" class="bg-brand-gold h-2 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats & Link -->
+                        <div class="grid grid-cols-2 gap-4 text-center mt-6">
+                            <div class="glass-panel p-3 rounded-lg">
+                                <p class="text-gray-300 text-sm">Tier 1 Network</p>
+                                <p id="ambassador-tier1" class="text-2xl font-bold text-white">0</p>
+                            </div>
+                            <div class="glass-panel p-3 rounded-lg">
+                                <p class="text-gray-300 text-sm">Tier 2 Network</p>
+                                <p id="ambassador-tier2" class="text-2xl font-bold text-white">0</p>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p class="text-sm text-gray-300">Share your link to grow your network!</p>
+                            <div class="flex mt-2">
+                                <input type="text" id="referral-link" value="https://betpool.ng/ref/..." class="flex-1 bg-gray-800 text-gray-400 p-2 rounded-l-lg" readonly>
+                                <button onclick="copyReferralLink()" class="bg-brand-gold text-brand-dark font-bold p-2 rounded-r-lg">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other Links -->
+                    <div class="mt-6 space-y-2">
+                        <a href="#" class="block bg-gray-800 p-3 rounded-lg text-white font-medium">My Bet History</a>
+                        <a href="#" class="block bg-gray-800 p-3 rounded-lg text-white font-medium" onclick="showPage('faq-page')">Help & FAQ</a>
+                        <button id="logout-button" onclick="logout()" class="hidden w-full bg-brand-urgent/20 text-brand-urgent font-bold p-3 rounded-lg">
+                            Logout
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Page -->
         <section id="faq-page" class="page-section">
             <div class="py-12 bg-brand-dark">
                 <div class="container mx-auto px-4">
@@ -890,6 +957,7 @@
 
     </main>
 
+    <!-- Footer (SEO & Trust) -->
     <footer class="bg-black py-8">
         <div class="container mx-auto px-4 text-center text-gray-400">
             <p class="text-lg font-bold text-gradient-money font-display mb-2">BetPool</p>
@@ -905,6 +973,7 @@
     </footer>
 
 
+    <!-- Bottom Navigation -->
     <div class="bottom-nav">
         <a onclick="showPage('home-page')">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
@@ -922,12 +991,13 @@
              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0c-1.657 0-3-.895-3-2s1.343-2 3-2 3-.895 3-2-1.343-2-3-2m0 8c1.11 0 2.08-.402 2.599-1M12 16v1m0-1v-8M5 12a7 7 0 1 1 14 0 7 7 0 0 1-14 0z"></path></svg>
             Wins
         </a>
-        <a onclick="showPage('faq-page')">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            FAQ
+        <a onclick="showPage('profile-page')">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            Profile
         </a>
     </div>
 
+    <!-- Login Modal -->
     <div id="login-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('login-modal')">&times;</span>
@@ -943,6 +1013,7 @@
         </div>
     </div>
 
+    <!-- Signup Modal -->
     <div id="signup-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('signup-modal')">&times;</span>
@@ -961,16 +1032,19 @@
         </div>
     </div>
 
+    <!-- Match Detail Modal -->
     <div id="match-detail-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('match-detail-modal')">&times;</span>
             
+            <!-- Match Header -->
             <div class="text-center mb-4">
                 <p id="match-league" class="text-xs font-semibold text-green-400"></p>
                 <h2 id="match-title" class="text-2xl font-bold text-white"></h2>
                 <p id="match-timer" class="text-brand-urgent font-bold"></p>
             </div>
 
+            <!-- Teams -->
             <div class="flex items-center justify-around mb-4">
                 <div class="text-center w-1/3">
                     <img id="match-logo-a" src="" alt="Team A" class="rounded-full w-16 h-16 mx-auto mb-1 border border-gray-500 curvy-image">
@@ -983,6 +1057,7 @@
                 </div>
             </div>
 
+            <!-- Pool Tabs -->
             <div class="flex mb-4 border-b border-gray-700">
                 <button id="tab-correct-score" class="flex-1 py-2 text-center font-bold text-white border-b-2 border-brand-gold" onclick="showPoolTab('correct-score')">
                     Correct Score
@@ -992,6 +1067,7 @@
                 </button>
             </div>
 
+            <!-- Login Gate -->
             <div id="match-login-gate" class="hidden text-center">
                 <p class="text-lg text-white mb-4">You must be logged in to predict.</p>
                 <button onclick="closeModal('match-detail-modal'); openModal('login-modal');" class="bg-brand-gold text-brand-dark font-bold text-lg p-3 rounded-lg w-full">
@@ -999,6 +1075,7 @@
                 </button>
             </div>
             
+            <!-- Already Joined Message -->
             <div id="match-joined-message" class="hidden text-center glass-panel p-4 rounded-lg">
                 <p class="text-lg text-white mb-2">✅ You've Joined This Pool!</p>
                 <p class="text-gray-300">Your Prediction: <span id="user-prediction" class="font-bold"></span></p>
@@ -1006,6 +1083,7 @@
                 <p class="text-gray-300 mt-2">Good luck!</p>
             </div>
 
+            <!-- POOL 1: Correct Score Content -->
             <div id="pool-content-correct-score" class="pool-content">
                 <div class="text-center mb-4 glass-panel p-3 rounded-lg">
                     <p class="text-gray-300 text-sm">CURRENT JACKPOT POOL</p>
@@ -1036,14 +1114,17 @@
                 </form>
             </div>
 
+            <!-- POOL 2: 1X2 Content -->
             <div id="pool-content-1x2" class="pool-content hidden">
                 <div class="text-center mb-4 glass-panel p-3 rounded-lg">
                     <p class="text-gray-300 text-sm">CURRENT 1X2 POOL</p>
                     <p id="match-pool-1x2" class="text-3xl font-extrabold text-gradient-money animate-pulse-fast"></p>
                 </div>
 
+                <!-- Live Odds Table -->
                 <div class="space-y-2 mb-4">
                     <h3 class="text-lg font-bold text-white text-center">Live Odds (Based on Pool)</h3>
+                    <!-- Home Win -->
                     <div class="glass-panel p-3 rounded-lg flex justify-between items-center">
                         <div>
                             <p class="text-lg font-bold text-white" id="odds-team-a-name"></p>
@@ -1051,6 +1132,7 @@
                         </div>
                         <div class="text-3xl font-bold text-brand-gold" id="odds-team-a-value"></div>
                     </div>
+                    <!-- Draw -->
                     <div class="glass-panel p-3 rounded-lg flex justify-between items-center">
                         <div>
                             <p class="text-lg font-bold text-white">Draw</p>
@@ -1058,6 +1140,7 @@
                         </div>
                         <div class="text-3xl font-bold text-brand-gold" id="odds-draw-value"></div>
                     </div>
+                    <!-- Away Win -->
                     <div class="glass-panel p-3 rounded-lg flex justify-between items-center">
                         <div>
                             <p class="text-lg font-bold text-white" id="odds-team-b-name"></p>
@@ -1074,6 +1157,7 @@
                         <label for="stake-amount-1x2" class="text-xs text-gray-400">Stake Amount (₦)</label>
                         <input type="number" id="stake-amount-1x2" placeholder="Min ₦100" class="bg-gray-800 text-white p-3 rounded-lg w-full" min="100" required>
                     </div>
+                    <!-- 1X2 Selection -->
                     <div class="grid grid-cols-3 gap-2">
                         <input type="radio" name="1x2-prediction" id="pred-1" value="1" class="hidden peer/1">
                         <label for="pred-1" class="block p-3 text-center bg-gray-800 rounded-lg cursor-pointer peer-checked/1:bg-brand-gold peer-checked/1:text-brand-dark font-bold" id="pred-1-label">1 (Home)</label>
@@ -1092,10 +1176,12 @@
     </div>
 
 
+    <!-- Live Chat Bubble -->
     <div class="chat-bubble" onclick="toggleChat()">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
     </div>
 
+    <!-- Live Chat Window -->
     <div class="chat-window" id="chat-window">
         <div class="chat-header">Live Support – We're Here to Help!</div>
         <div class="chat-body" id="chat-body">
@@ -1111,7 +1197,7 @@
         // Store match data globally when modal is opened
         let currentMatchData = {};
         
-        // --- NEW: Global var for match status filter ---
+        // Global var for match status filter
         let currentMatchStatus = 'current';
 
         // User authentication simulation using localStorage
@@ -1129,7 +1215,21 @@
             }
 
             // Storing predictions as an object { matchTitle: {stake, prediction} }
-            localStorage.setItem(phone, JSON.stringify({name, password, account, bank, predictions: {}}));
+            // Also storing ambassador data
+            localStorage.setItem(phone, JSON.stringify({
+                name, 
+                password, 
+                account, 
+                bank, 
+                predictions: {},
+                // Default Ambassador Data
+                betsThisMonth: 0,
+                referralsLast2Months: 0,
+                tier1: 0,
+                tier2: 0,
+                withdrawable: 0,
+                locked: 0
+            }));
             alert('Signup successful! Please login.');
             closeModal('signup-modal');
             openModal('login-modal'); // Auto-open login after signup
@@ -1162,6 +1262,7 @@
             localStorage.removeItem('loggedInUser');
             alert('Logged out!');
             updateAuthUI();
+            showPage('home-page');
         }
 
         function updateAuthUI() {
@@ -1196,9 +1297,120 @@
             document.getElementById(pageId).classList.add('active');
             window.scrollTo(0, 0); // Scroll to top on page change
             
-            // NEW: When showing matches page, apply default filters
+            // When showing matches page, apply default filters
             if (pageId === 'matches-page') {
                 filterMatchesByStatus(currentMatchStatus); // Re-apply active filters
+            }
+            
+            // When showing profile page, run its setup function
+            if (pageId === 'profile-page') {
+                showProfilePage();
+            }
+        }
+        
+        // --- PROFILE & AMBASSADOR LOGIC ---
+        function showProfilePage() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            
+            const guestHeader = document.getElementById('profile-header-guest');
+            const userHeader = document.getElementById('profile-header-user');
+            const wallet = document.getElementById('profile-wallet');
+            const ambassador = document.getElementById('ambassador-section');
+            const logoutBtn = document.getElementById('logout-button');
+
+            if (loggedInUser) {
+                const userData = JSON.parse(localStorage.getItem(loggedInUser));
+
+                // Show user-specific sections
+                guestHeader.classList.add('hidden');
+                userHeader.classList.remove('hidden');
+                wallet.classList.remove('hidden');
+                ambassador.classList.remove('hidden');
+                logoutBtn.classList.remove('hidden');
+
+                // --- Populate User Info ---
+                document.getElementById('profile-name').textContent = userData.name;
+                document.getElementById('profile-phone').textContent = `+234 ${loggedInUser}`;
+
+                // --- Populate Wallet (Simulated) ---
+                const balance = userData.balance || 5000; 
+                document.getElementById('profile-balance').textContent = `₦${balance.toLocaleString()}`;
+                userData.balance = balance; 
+
+                // --- Populate Ambassador Hub (Simulated Data for Demo) ---
+                
+                // In a real app, this comes from the database.
+                // Here we check if we have stored data, if not we simulate some activity for the demo
+                let betsThisMonth = userData.betsThisMonth !== undefined ? userData.betsThisMonth : 2; 
+                let referralsLast2Months = userData.referralsLast2Months !== undefined ? userData.referralsLast2Months : 0; 
+                let tier1 = userData.tier1 || 5; 
+                let tier2 = userData.tier2 || 12; 
+                let withdrawable = userData.withdrawable || 12500; 
+                let locked = userData.locked || 3000; 
+                
+                // Check Active Status logic
+                let isActive = (betsThisMonth >= 4) || (referralsLast2Months >= 1);
+
+                if (isActive) {
+                    document.getElementById('ambassador-status-active').classList.remove('hidden');
+                    document.getElementById('ambassador-status-inactive').classList.add('hidden');
+                } else {
+                    document.getElementById('ambassador-status-active').classList.add('hidden');
+                    document.getElementById('ambassador-status-inactive').classList.remove('hidden');
+                }
+
+                // Populate Balances
+                document.getElementById('ambassador-withdrawable').textContent = `₦${withdrawable.toLocaleString()}`;
+                document.getElementById('ambassador-locked').textContent = `₦${locked.toLocaleString()}`;
+                
+                // Populate Quotas Visuals
+                let betPercent = (betsThisMonth / 4) * 100;
+                document.getElementById('quota-bets-status').textContent = `${betsThisMonth} / 4`;
+                document.getElementById('quota-bets-bar').style.width = `${betPercent > 100 ? 100 : betPercent}%`;
+                
+                let refPercent = (referralsLast2Months / 1) * 100;
+                document.getElementById('quota-referrals-status').textContent = `${referralsLast2Months} / 1`;
+                document.getElementById('quota-referrals-bar').style.width = `${refPercent > 100 ? 100 : refPercent}%`;
+
+                // Update quota text colors dynamically
+                document.getElementById('quota-bets-status').className = `text-sm font-bold ${betsThisMonth >= 4 ? 'text-green-400' : 'text-brand-gold'}`;
+                document.getElementById('quota-referrals-status').className = `text-sm font-bold ${referralsLast2Months >= 1 ? 'text-green-400' : 'text-brand-urgent'}`;
+
+                // Populate Network Stats
+                document.getElementById('referral-link').value = `https://betpool.ng/ref/${loggedInUser}`;
+                document.getElementById('ambassador-tier1').textContent = tier1;
+                document.getElementById('ambassador-tier2').textContent = tier2;
+
+                // Save data back to localStorage
+                userData.betsThisMonth = betsThisMonth;
+                userData.referralsLast2Months = referralsLast2Months;
+                userData.tier1 = tier1;
+                userData.tier2 = tier2;
+                userData.withdrawable = withdrawable;
+                userData.locked = locked;
+                localStorage.setItem(loggedInUser, JSON.stringify(userData));
+
+            } else {
+                // Show guest sections
+                guestHeader.classList.remove('hidden');
+                userHeader.classList.add('hidden');
+                wallet.classList.add('hidden');
+                ambassador.classList.add('hidden');
+                logoutBtn.classList.add('hidden');
+            }
+        }
+
+        function copyReferralLink() {
+            const linkInput = document.getElementById('referral-link');
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999); // For mobile devices
+            
+            try {
+                navigator.clipboard.writeText(linkInput.value);
+                alert('Referral link copied to clipboard!');
+            } catch (err) {
+                document.execCommand('copy');
+                alert('Referral link copied to clipboard!');
             }
         }
 
@@ -1221,13 +1433,12 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // --- NEW/REFACTORED Match Filter Logic ---
+        // --- Match Filter Logic ---
 
-        // This is the new primary filter function
         function filterAndShowMatches() {
             const search = document.getElementById('match-search').value.toLowerCase();
             const league = document.getElementById('league-filter').value;
-            const status = currentMatchStatus; // Get from global var
+            const status = currentMatchStatus; 
 
             document.querySelectorAll('#matches-list .match-card').forEach(card => {
                 const isStatusMatch = card.dataset.status === status;
@@ -1242,9 +1453,7 @@
             });
         }
         
-        // This function is called by the new TABS
         function filterMatchesByStatus(status) {
-            // Set global status
             currentMatchStatus = status;
             
             // Update tab UI
@@ -1253,11 +1462,9 @@
             });
             document.getElementById(`tab-${status}`).classList.add('active-tab');
             
-            // Run the main filter function
             filterAndShowMatches();
         }
 
-        // This function is now just for sorting
         function sortMatches() {
             const sortBy = document.getElementById('sort-select').value;
             const matchesList = document.getElementById('matches-list');
@@ -1269,19 +1476,14 @@
                 } else if (sortBy === 'pool') {
                     return parseInt(b.dataset.pool) - parseInt(a.dataset.pool);
                 }
-                return 0; // Default (no sort)
+                return 0; 
             });
 
-            // Re-append all cards in sorted order
             matchesList.innerHTML = '';
             cards.forEach(card => matchesList.appendChild(card));
             
-            // IMPORTANT: Re-apply filters after sorting
             filterAndShowMatches();
         }
-
-        // --- END of Match Filter Logic ---
-
 
         // --- Match Detail Modal Logic ---
         function showPoolTab(tabName) {
@@ -1300,7 +1502,6 @@
                 }
             });
 
-            // After switching, re-check login state for the visible form
             checkLoginForForms();
         }
 
@@ -1324,12 +1525,10 @@
                     formCS.classList.add('hidden');
                     form1x2.classList.add('hidden');
                 } else {
-                    // Show the forms
                     joinedMsg.classList.add('hidden');
-                    formCS.classList.remove('hidden'); // We still need both "active" in the DOM
-                    form1x2.classList.remove('hidden'); // The tab function will hide the correct one
+                    formCS.classList.remove('hidden'); 
+                    form1x2.classList.remove('hidden'); 
                     
-                    // Re-apply which tab is active
                     if (document.getElementById('tab-correct-score').classList.contains('active-tab')) {
                         document.getElementById('pool-content-1x2').classList.add('hidden');
                     } else {
@@ -1337,7 +1536,6 @@
                     }
                 }
             } else {
-                // Show login gate
                 gate.classList.remove('hidden');
                 formCS.classList.add('hidden');
                 form1x2.classList.add('hidden');
@@ -1348,7 +1546,6 @@
         function showMatchDetail(matchData) {
             currentMatchData = matchData; 
             
-            // Populate modal header
             document.getElementById('match-league').textContent = matchData.league;
             document.getElementById('match-title').textContent = matchData.title;
             document.getElementById('match-timer').textContent = matchData.timer.includes(':') ? `CLOSES IN: ${matchData.timer}` : matchData.timer;
@@ -1357,7 +1554,7 @@
             document.getElementById('match-team-a').textContent = matchData.teamA;
             document.getElementById('match-team-b').textContent = matchData.teamB;
 
-            // --- CORRECT SCORE POOL ---
+            // Correct Score Pool
             document.getElementById('match-pool-correct-score').textContent = `₦${matchData.pool.toLocaleString()}`;
             document.getElementById('home-score-label').textContent = matchData.teamA;
             document.getElementById('away-score-label').textContent = matchData.teamB;
@@ -1366,12 +1563,11 @@
             document.getElementById('away-score').value = '';
             document.getElementById('potential-win-display').textContent = '₦0';
 
-
-            // --- 1X2 POOL (Your Idea) ---
-            const pool1x2 = Math.floor(matchData.pool * 0.4); // e.g., 40% of the main pool
-            const stakeHome = Math.floor(pool1x2 * 0.45); // Simulate 45% on home
-            const stakeDraw = Math.floor(pool1x2 * 0.25); // Simulate 25% on draw
-            const stakeAway = Math.floor(pool1x2 * 0.30); // Simulate 30% on away
+            // 1X2 Pool Simulation
+            const pool1x2 = Math.floor(matchData.pool * 0.4); 
+            const stakeHome = Math.floor(pool1x2 * 0.45); 
+            const stakeDraw = Math.floor(pool1x2 * 0.25); 
+            const stakeAway = Math.floor(pool1x2 * 0.30); 
             
             const oddsHome = (pool1x2 / stakeHome).toFixed(2);
             const oddsDraw = (pool1x2 / stakeDraw).toFixed(2);
@@ -1396,15 +1592,8 @@
             const radios = document.getElementsByName('1x2-prediction');
             for (let i=0; i<radios.length; i++) radios[i].checked = false;
 
-
-            // --- Final Steps ---
-            // Set default tab
             showPoolTab('correct-score');
-            
-            // Check login status (this will show/hide forms)
             checkLoginForForms();
-
-            // Open the modal
             openModal('match-detail-modal');
         }
 
@@ -1448,15 +1637,24 @@
                 prediction: prediction,
                 type: poolType
             };
+            
+            // Update ambassador stats for simulation (Bet count increases)
+            if (userData.betsThisMonth !== undefined) {
+                userData.betsThisMonth += 1;
+            }
 
             localStorage.setItem(loggedInUser, JSON.stringify(userData));
 
             alert(`Prediction Submitted!\nMatch: ${matchTitle}\nPool: ${poolType}\nStake: ₦${stake}\n${predictionText}\nGood luck!`);
             closeModal('match-detail-modal');
+            
+            // If on profile page, refresh it to show new bet count
+            if(document.getElementById('profile-page').classList.contains('active')) {
+                showProfilePage();
+            }
         }
         
         function calculatePotentialWin() {
-            // This is for the Correct Score pool
             const stake = parseFloat(document.getElementById('stake-amount-cs').value);
             if (!stake || stake < 100) {
                 document.getElementById('potential-win-display').textContent = '₦0';
@@ -1464,13 +1662,11 @@
             }
             
             const pool = currentMatchData.pool;
-            // This is a SIMPLIFIED formula for demo.
+            // Simplified formula
             const estimatedWin = (pool * 0.9) * (stake / 5000); 
             
             document.getElementById('potential-win-display').textContent = `₦${Math.round(estimatedWin).toLocaleString()}`;
         }
-        
-        // --- End of Match Detail Logic ---
 
         // Live Chat
         function toggleChat() {
@@ -1489,21 +1685,19 @@
 
             body.innerHTML += `<p class="text-white text-right mb-2">${input.value}</p>`;
             input.value = '';
-            body.scrollTop = body.scrollHeight; // Scroll to bottom
+            body.scrollTop = body.scrollHeight; 
 
-            // Fake reply
             setTimeout(() => {
                 body.innerHTML += `<p class="text-gray-300 mb-2">Support: We have received your message and will get back to you shortly.</p>`;
                 body.scrollTop = body.scrollHeight;
             }, 1500);
         }
 
-        // Live Stat Animation
         function animateStat(id, finalValue, isCurrency) {
             const element = document.getElementById(id);
             let start = 0;
-            const duration = 1500; // 1.5 seconds
-            const increment = finalValue / (duration / 15); // Update every 15ms
+            const duration = 1500; 
+            const increment = finalValue / (duration / 15); 
 
             function update() {
                 start += increment;
@@ -1517,7 +1711,6 @@
             update();
         }
 
-        // Live Win Popup
         function showRandomLiveWin() {
             const names = ['Emeka O.', 'Aisha B.', 'Tunde K.', 'Femi L.', 'Chioma E.', 'Ola M.'];
             const amounts = [55200, 120500, 22000, 80100, 45000, 15000];
@@ -1534,15 +1727,14 @@
 
             setTimeout(() => {
                 popup.style.display = 'none';
-            }, 5000); // Show for 5 seconds
+            }, 5000); 
         }
 
-        // Countdown Timer for Hot Pool
         function startHotPoolTimer() {
             const timerElement = document.getElementById('hot-pool-timer');
-            if (!timerElement) return; // In case we're not on home page
+            if (!timerElement) return;
             
-            let timeInSeconds = 2 * 3600 + 44 * 60 + 59; // 2h 44m 59s
+            let timeInSeconds = 2 * 3600 + 44 * 60 + 59; 
 
             setInterval(() => {
                 if (timeInSeconds <= 0) {
@@ -1559,27 +1751,19 @@
             }, 1000);
         }
 
-        // Run on load
         window.onload = () => {
             updateAuthUI();
-            
-            // Animate stats
             animateStat('stat-players', 12458, false);
             animateStat('stat-payout', 42109500, true);
             animateStat('stat-active', 45, false);
-
-            // Start live win popup loop
-            setInterval(showRandomLiveWin, 8000); // New win every 8 seconds
-
-            // Start hot pool timer
+            setInterval(showRandomLiveWin, 8000); 
             startHotPoolTimer();
-            
-            // NEW: Apply default match filters on load
             filterMatchesByStatus('current');
         };
 
     </script>
 
+    <!-- Manifest.json content -->
     <script type="application/json" id="manifest">
         {
             "name": "BetPool",
@@ -1604,25 +1788,19 @@
         }
     </script>
 
+    <!-- Service Worker -->
     <script id="sw">
-        // Basic service worker for caching
-        const CACHE_NAME = 'betpool-v4'; // Incremented cache version
-        const urlsToCache = [
-            '/',
-            // We can't cache the single file itself by name,
-            // but the '/' request will cache the root document.
-        ];
+        const CACHE_NAME = 'betpool-v5'; 
+        const urlsToCache = ['/'];
 
         self.addEventListener('install', (e) => {
             e.waitUntil(
                 caches.open(CACHE_NAME).then((cache) => {
-                    console.log('Opened cache');
                     return cache.addAll(urlsToCache);
                 })
             );
         });
 
-        // Clean up old caches
         self.addEventListener('activate', event => {
             event.waitUntil(
                 caches.keys().then(cacheNames => {
@@ -1638,35 +1816,28 @@
         });
 
         self.addEventListener('fetch', (e) => {
-            // We only want to cache-first for our own assets
             if (e.request.url.startsWith(self.location.origin)) {
                 e.respondWith(
-                    caches.match(e.post).then((response) => {
-                        // Cache hit - return response
+                    caches.match(e.request).then((response) => {
                         if (response) {
                             return response;
                         }
-                        // Not in cache - fetch and cache
                         return fetch(e.request).then(
                             (response) => {
-                                // Check if we received a valid response
                                 if(!response || response.status !== 200 || response.type !== 'basic') {
                                     return response;
                                 }
-                                
                                 var responseToCache = response.clone();
                                 caches.open(CACHE_NAME)
                                     .then((cache) => {
                                         cache.put(e.request, responseToCache);
                                     });
-                                
                                 return response;
                             }
                         );
                     })
                 );
             } else {
-                // For external assets (Tailwind, fonts, images), just fetch
                 e.respondWith(fetch(e.request));
             }
         });
@@ -1674,3 +1845,4 @@
 
 </body>
 </html>
+

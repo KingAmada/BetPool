@@ -5,28 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BetPool - Win Bigger Together</title>
     
-    <!-- SEO Meta Tags -->
     <meta name="description" content="Join BetPool, Nigeria's #1 pool betting platform. Bet against fans, not the house, and win your share of massive cash pools. Instant payouts guaranteed.">
     <meta name="keywords" content="betting, pool betting, Nigeria, football, predictions, cash win, instant payout, NPFL, Premier League">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Additional Fonts for Variety -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@900&display=swap" rel="stylesheet">
     
-    <!-- Favicon (Emoji for placeholder) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤑</text></svg>">
     
-    <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
     
-    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="https://placehold.co/180x180/008753/FFFFFF?text=BP">
     
     <script>
@@ -372,25 +365,21 @@
 </head>
 <body class="antialiased">
 
-    <!-- Header -->
     <header class="bg-brand-dark/80 backdrop-blur-md shadow-lg fixed top-0 left-0 w-full z-50 py-4 px-4 flex justify-between items-center">
         <a href="#" class="text-2xl font-extrabold text-gradient-money font-display" onclick="showPage('home-page')">
             BetPool
         </a>
         <div class="flex items-center space-x-4">
-            <!-- Auth buttons for desktop -->
             <div id="auth-buttons" class="hidden md:flex items-center space-x-4">
                 <a href="#" onclick="openModal('login-modal')" class="text-gray-300 hover:text-white font-medium text-sm">Login</a>
                 <a href="#" onclick="openModal('signup-modal')" class="bg-brand-gold text-brand-dark font-bold text-sm px-3 py-1 rounded-lg shadow-lg hover:scale-105 transform transition-all duration-300">
                     Sign Up
                 </a>
             </div>
-            <!-- User info for desktop -->
             <div id="user-info" class="hidden md:flex items-center space-x-4">
                 <span id="user-name" class="text-white font-medium"></span>
                 <button onclick="logout()" class="text-gray-300 hover:text-white font-medium text-sm">Logout</button>
             </div>
-            <!-- Hamburger for mobile -->
             <div class="hamburger" onclick="toggleMobileMenu()">
                 <div></div>
                 <div></div>
@@ -399,7 +388,6 @@
         </div>
     </header>
 
-    <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobile-menu">
         <div id="mobile-auth-buttons" class="block">
              <a href="#" onclick="openModal('login-modal'); toggleMobileMenu();" class="text-gray-300 hover:text-white font-medium text-sm mb-2">Login</a>
@@ -419,9 +407,7 @@
         <a href="#" onclick="showPage('faq-page'); toggleMobileMenu();">FAQ</a>
     </div>
 
-    <!-- Live Stats Ticker -->
-    <div class="bg-black text-gray-300 py-3 overflow-hidden mt-16"> <!-- Adjusted for header height -->
-        <div class="container mx-auto px-4">
+    <div class="bg-black text-gray-300 py-3 overflow-hidden mt-16"> <div class="container mx-auto px-4">
             <div class="flex flex-wrap justify-center text-center text-xs gap-4">
                 <div>
                     <span class="font-bold text-green-400">PLAYERS ONLINE:</span>
@@ -439,12 +425,7 @@
         </div>
     </div>
 
-    <!-- Main Content Pages -->
-    <main class="pt-4 pb-20"> <!-- Padding bottom for bottom nav -->
-
-        <!-- Home Page -->
-        <section id="home-page" class="page-section active">
-            <!-- Hero Section -->
+    <main class="pt-4 pb-20"> <section id="home-page" class="page-section active">
             <div class="relative overflow-hidden py-12" style="background: radial-gradient(circle, rgba(0,135,83,0.15) 0%, rgba(17,24,39,0) 60%), url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') no-repeat center center / cover;">
                 <div class="absolute inset-0 bg-brand-dark/70"></div>
                 
@@ -470,13 +451,10 @@
                 </div>
             </div>
 
-            <!-- Live Win Popup -->
-            <div id="live-win-popup" class="glass-panel hidden fixed bottom-24 left-4 z-50 p-4 rounded-xl shadow-2xl border-green-400 border-2 max-w-xs animate-bounce-in"> <!-- Adjusted for bottom nav -->
-                <p class="text-sm text-gray-200">Just Now...</p>
+            <div id="live-win-popup" class="glass-panel hidden fixed bottom-24 left-4 z-50 p-4 rounded-xl shadow-2xl border-green-400 border-2 max-w-xs animate-bounce-in"> <p class="text-sm text-gray-200">Just Now...</p>
                 <p id="live-win-text" class="font-bold text-white text-lg"></p>
             </div>
             
-            <!-- HOT POOL (FOMO/Urgency) -->
             <div class="container mx-auto px-4 py-8">
                 <h2 class="text-2xl font-extrabold text-center text-white mb-4 font-display">
                     🔥 Hot Pool - Closing Soon!
@@ -510,7 +488,6 @@
                 </div>
             </div>
 
-            <!-- Why BetPool (Marketing/SEO) -->
             <div class="py-12 bg-gray-900">
                 <div class="container mx-auto px-4">
                     <h2 class="text-2xl font-extrabold text-center text-white mb-8 font-display">
@@ -544,7 +521,6 @@
                 </div>
             </div>
 
-            <!-- Final CTA Section -->
             <section class="bg-gradient-to-r from-brand-green to-green-700 text-white py-12 relative" id="cta-section">
                 <img src="https://www.vecteezy.com/free-vector/abstract-curves" alt="Curvy abstract" class="absolute inset-0 w-full h-full object-cover opacity-20">
                 <div class="container mx-auto px-4 text-center relative z-10">
@@ -561,7 +537,6 @@
             </section>
         </section>
 
-        <!-- Matches Page -->
         <section id="matches-page" class="page-section">
             <div class="py-12 bg-brand-dark relative">
                 <img src="https://media.istockphoto.com/id/1344354060/vector/luxury-gold-and-nature-green-background-vector-leaf-pattern-golden-split-leaf-lotus-leaf-plant.jpg?s=612x612&w=0&k=20&c=7j5n9I0b5Z6Xh8gE5k8rKX3M6r2aZ3Z3Z3Z3Z3Z3Z3w=" alt="Green gold money pattern" class="absolute inset-0 w-full h-full object-cover opacity-10">
@@ -571,7 +546,6 @@
                         Find a Pool
                     </h2>
                     
-                    <!-- Match Status Tabs -->
                     <div class="flex justify-around mb-4 border-b border-gray-700">
                         <button id="tab-current" class="match-tab active-tab flex-1 py-3 font-bold" onclick="filterMatchesByStatus('current')">
                             Current
@@ -584,7 +558,6 @@
                         </button>
                     </div>
 
-                    <!-- Search, Filter, Sort -->
                     <div class="mb-6">
                         <input type="text" id="match-search" placeholder="Search matches..." class="w-full bg-gray-800 text-white p-2 rounded-lg mb-2" oninput="filterAndShowMatches()">
                         <div class="flex justify-between mb-2">
@@ -606,7 +579,14 @@
                     </div>
                     
                     <div id="matches-list" class="space-y-6">
-                        <!-- Match Card 1 (Current) -->
+                        <div id="matches-loading" class="hidden text-center text-gray-400 py-8">
+                            <svg class="animate-spin h-8 w-8 text-brand-gold mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <p class="mt-2">Loading live match data...</p>
+                        </div>
+
                         <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl urgency-border" data-league="Premier League" data-time="2" data-pool="8450200" data-status="current">
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
@@ -635,7 +615,6 @@
                             </button>
                         </div>
 
-                        <!-- Match Card 2 (Future) -->
                         <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border" data-league="La Liga" data-time="24" data-pool="5120600" data-status="future">
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
@@ -664,7 +643,6 @@
                             </button>
                         </div>
 
-                        <!-- Match Card 3 (Future) -->
                         <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border" data-league="NPFL" data-time="48" data-pool="2950000" data-status="future">
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
@@ -693,7 +671,6 @@
                             </button>
                         </div>
                         
-                        <!-- Match Card 4 (Past) -->
                         <div class="match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border" data-league="Premier League" data-time="100" data-pool="7200500" data-status="past">
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
@@ -721,13 +698,12 @@
                                 View Results
                             </button>
                         </div>
-
-                    </div>
+                        
+                        </div>
                 </div>
             </div>
         </section>
 
-        <!-- How It Works Page -->
         <section id="how-page" class="page-section">
             <div class="py-12 bg-gray-900">
                 <div class="container mx-auto px-4">
@@ -735,7 +711,6 @@
                         Your Simple Path to Winning Big
                     </h2>
                     <div class="space-y-6">
-                        <!-- Step 1 -->
                         <div class="text-center p-4 glass-panel rounded-lg">
                             <div class="text-brand-green mb-2 animate-fade-in">
                                 <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
@@ -743,7 +718,6 @@
                             <h3 class="text-xl font-bold text-white mb-1">1. Sign Up (10s)</h3>
                             <p class="text-gray-400 text-sm">Enter your details. That's it. No long forms, instant access to wins.</p>
                         </div>
-                        <!-- Step 2 -->
                         <div class="text-center p-4 glass-panel rounded-lg">
                             <div class="text-brand-green mb-2 animate-fade-in" style="animation-delay: 0.2s;">
                                 <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -751,7 +725,6 @@
                             <h3 class="text-xl font-bold text-white mb-1">2. Fund Wallet</h3>
                             <p class="text-gray-400 text-sm">Simple, instant bank transfer to your personal BetPool account. Secure and fast.</p>
                         </div>
-                        <!-- Step 3 -->
                         <div class="text-center p-4 glass-panel rounded-lg">
                             <div class="text-brand-green mb-2 animate-fade-in" style="animation-delay: 0.4s;">
                                 <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
@@ -759,7 +732,6 @@
                             <h3 class="text-xl font-bold text-white mb-1">3. Predict & Win</h3>
                             <p class="text-gray-400 text-sm">Join any match pool and make your call. Closest predictions share the massive pot!</p>
                         </div>
-                        <!-- Step 4 -->
                         <div class="text-center p-4 glass-panel rounded-lg">
                             <div class="text-brand-green mb-2 animate-fade-in" style="animation-delay: 0.6s;">
                                 <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -772,7 +744,6 @@
             </div>
         </section>
 
-        <!-- Winners Page -->
         <section id="winners-page" class="page-section">
             <div class="py-12 bg-gray-900">
                 <div class="container mx-auto px-4">
@@ -807,12 +778,10 @@
             </div>
         </section>
 
-        <!-- NEW: Profile Page -->
         <section id="profile-page" class="page-section">
             <div class="py-12 bg-gray-900">
                 <div class="container mx-auto px-4">
                     
-                    <!-- Profile Header -->
                     <div id="profile-header-guest" class="text-center glass-panel p-6 rounded-lg">
                         <p class="text-lg text-white mb-4">See your wallet, referrals, and more.</p>
                         <button onclick="openModal('login-modal')" class="bg-brand-gold text-brand-dark font-bold text-lg p-3 rounded-lg w-full">
@@ -825,7 +794,6 @@
                         <p id="profile-phone" class="text-md text-gray-400"></p>
                     </div>
                     
-                    <!-- Wallet Balance -->
                     <div id="profile-wallet" class="hidden mt-6 text-center glass-panel p-6 rounded-lg">
                         <p class="text-gray-300 text-sm">MAIN WALLET BALANCE</p>
                         <p id="profile-balance" class="text-4xl font-extrabold text-gradient-money animate-pulse-fast">₦0</p>
@@ -835,11 +803,9 @@
                         </div>
                     </div>
 
-                    <!-- Ambassador Program Section (FINALIZED MODEL) -->
                     <div id="ambassador-section" class="hidden mt-6 bg-brand-dark p-6 rounded-lg border-2 border-brand-gold">
                         <h3 class="text-2xl font-bold text-gradient-gold text-center mb-4">Ambassador Dashboard</h3>
                         
-                        <!-- Active Status -->
                         <div id="ambassador-status-active" class="hidden text-center bg-green-500/10 border border-green-400 p-3 rounded-lg mb-4">
                             <p class="text-lg font-bold text-green-400">STATUS: ACTIVE</p>
                             <p class="text-sm text-gray-300">All new earnings are being unlocked!</p>
@@ -849,15 +815,12 @@
                             <p class="text-sm text-gray-300">Your new earnings are LOCKED. Meet a quota below to unlock them.</p>
                         </div>
 
-                        <!-- Balances -->
                         <div class="grid grid-cols-2 gap-4 text-center">
-                            <!-- Withdrawable -->
                             <div class="glass-panel p-4 rounded-lg">
                                 <p class="text-gray-300 text-sm">Withdrawable</p>
                                 <p id="ambassador-withdrawable" class="text-3xl font-extrabold text-white">₦0</p>
                                 <button class="mt-2 w-full bg-brand-trust text-white font-bold p-2 rounded-lg text-sm">Withdraw</button>
                             </div>
-                            <!-- Locked -->
                             <div class="glass-panel p-4 rounded-lg">
                                 <p class="text-gray-300 text-sm">Locked Earnings</p>
                                 <p id="ambassador-locked" class="text-3xl font-extrabold text-gray-500 animate-pulse-fast">₦0</p>
@@ -865,11 +828,9 @@
                             </div>
                         </div>
 
-                        <!-- Quota Tracking -->
                         <div class="mt-6">
                             <h4 class="text-md font-bold text-white mb-2">My Monthly Quota (Meet 1 to be Active)</h4>
                             <div class="space-y-3">
-                                <!-- Quota 1: Bets -->
                                 <div class="glass-panel p-3 rounded-lg">
                                     <div class="flex justify-between items-center mb-1">
                                         <p class="text-sm font-medium text-gray-300">Place 4 Bets This Month</p>
@@ -879,7 +840,6 @@
                                         <div id="quota-bets-bar" class="bg-brand-gold h-2 rounded-full" style="width: 0%"></div>
                                     </div>
                                 </div>
-                                <!-- Quota 2: Referrals -->
                                 <div class="glass-panel p-3 rounded-lg">
                                     <div class="flex justify-between items-center mb-1">
                                         <p class="text-sm font-medium text-gray-300">Refer 1 Player (Last 2 Months)</p>
@@ -892,7 +852,6 @@
                             </div>
                         </div>
 
-                        <!-- Stats & Link -->
                         <div class="grid grid-cols-2 gap-4 text-center mt-6">
                             <div class="glass-panel p-3 rounded-lg">
                                 <p class="text-gray-300 text-sm">Tier 1 Network</p>
@@ -913,7 +872,6 @@
                         </div>
                     </div>
 
-                    <!-- Other Links -->
                     <div class="mt-6 space-y-2">
                         <a href="#" class="block bg-gray-800 p-3 rounded-lg text-white font-medium">My Bet History</a>
                         <a href="#" class="block bg-gray-800 p-3 rounded-lg text-white font-medium" onclick="showPage('faq-page')">Help & FAQ</a>
@@ -926,7 +884,6 @@
             </div>
         </section>
 
-        <!-- FAQ Page -->
         <section id="faq-page" class="page-section">
             <div class="py-12 bg-brand-dark">
                 <div class="container mx-auto px-4">
@@ -957,7 +914,6 @@
 
     </main>
 
-    <!-- Footer (SEO & Trust) -->
     <footer class="bg-black py-8">
         <div class="container mx-auto px-4 text-center text-gray-400">
             <p class="text-lg font-bold text-gradient-money font-display mb-2">BetPool</p>
@@ -973,7 +929,6 @@
     </footer>
 
 
-    <!-- Bottom Navigation -->
     <div class="bottom-nav">
         <a onclick="showPage('home-page')">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
@@ -997,7 +952,6 @@
         </a>
     </div>
 
-    <!-- Login Modal -->
     <div id="login-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('login-modal')">&times;</span>
@@ -1013,7 +967,6 @@
         </div>
     </div>
 
-    <!-- Signup Modal -->
     <div id="signup-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('signup-modal')">&times;</span>
@@ -1032,19 +985,16 @@
         </div>
     </div>
 
-    <!-- Match Detail Modal -->
     <div id="match-detail-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('match-detail-modal')">&times;</span>
             
-            <!-- Match Header -->
             <div class="text-center mb-4">
                 <p id="match-league" class="text-xs font-semibold text-green-400"></p>
                 <h2 id="match-title" class="text-2xl font-bold text-white"></h2>
                 <p id="match-timer" class="text-brand-urgent font-bold"></p>
             </div>
 
-            <!-- Teams -->
             <div class="flex items-center justify-around mb-4">
                 <div class="text-center w-1/3">
                     <img id="match-logo-a" src="" alt="Team A" class="rounded-full w-16 h-16 mx-auto mb-1 border border-gray-500 curvy-image">
@@ -1057,7 +1007,6 @@
                 </div>
             </div>
 
-            <!-- Pool Tabs -->
             <div class="flex mb-4 border-b border-gray-700">
                 <button id="tab-correct-score" class="flex-1 py-2 text-center font-bold text-white border-b-2 border-brand-gold" onclick="showPoolTab('correct-score')">
                     Correct Score
@@ -1067,7 +1016,6 @@
                 </button>
             </div>
 
-            <!-- Login Gate -->
             <div id="match-login-gate" class="hidden text-center">
                 <p class="text-lg text-white mb-4">You must be logged in to predict.</p>
                 <button onclick="closeModal('match-detail-modal'); openModal('login-modal');" class="bg-brand-gold text-brand-dark font-bold text-lg p-3 rounded-lg w-full">
@@ -1075,7 +1023,6 @@
                 </button>
             </div>
             
-            <!-- Already Joined Message -->
             <div id="match-joined-message" class="hidden text-center glass-panel p-4 rounded-lg">
                 <p class="text-lg text-white mb-2">✅ You've Joined This Pool!</p>
                 <p class="text-gray-300">Your Prediction: <span id="user-prediction" class="font-bold"></span></p>
@@ -1083,7 +1030,6 @@
                 <p class="text-gray-300 mt-2">Good luck!</p>
             </div>
 
-            <!-- POOL 1: Correct Score Content -->
             <div id="pool-content-correct-score" class="pool-content">
                 <div class="text-center mb-4 glass-panel p-3 rounded-lg">
                     <p class="text-gray-300 text-sm">CURRENT JACKPOT POOL</p>
@@ -1114,17 +1060,14 @@
                 </form>
             </div>
 
-            <!-- POOL 2: 1X2 Content -->
             <div id="pool-content-1x2" class="pool-content hidden">
                 <div class="text-center mb-4 glass-panel p-3 rounded-lg">
                     <p class="text-gray-300 text-sm">CURRENT 1X2 POOL</p>
                     <p id="match-pool-1x2" class="text-3xl font-extrabold text-gradient-money animate-pulse-fast"></p>
                 </div>
 
-                <!-- Live Odds Table -->
                 <div class="space-y-2 mb-4">
                     <h3 class="text-lg font-bold text-white text-center">Live Odds (Based on Pool)</h3>
-                    <!-- Home Win -->
                     <div class="glass-panel p-3 rounded-lg flex justify-between items-center">
                         <div>
                             <p class="text-lg font-bold text-white" id="odds-team-a-name"></p>
@@ -1132,7 +1075,6 @@
                         </div>
                         <div class="text-3xl font-bold text-brand-gold" id="odds-team-a-value"></div>
                     </div>
-                    <!-- Draw -->
                     <div class="glass-panel p-3 rounded-lg flex justify-between items-center">
                         <div>
                             <p class="text-lg font-bold text-white">Draw</p>
@@ -1140,7 +1082,6 @@
                         </div>
                         <div class="text-3xl font-bold text-brand-gold" id="odds-draw-value"></div>
                     </div>
-                    <!-- Away Win -->
                     <div class="glass-panel p-3 rounded-lg flex justify-between items-center">
                         <div>
                             <p class="text-lg font-bold text-white" id="odds-team-b-name"></p>
@@ -1157,7 +1098,6 @@
                         <label for="stake-amount-1x2" class="text-xs text-gray-400">Stake Amount (₦)</label>
                         <input type="number" id="stake-amount-1x2" placeholder="Min ₦100" class="bg-gray-800 text-white p-3 rounded-lg w-full" min="100" required>
                     </div>
-                    <!-- 1X2 Selection -->
                     <div class="grid grid-cols-3 gap-2">
                         <input type="radio" name="1x2-prediction" id="pred-1" value="1" class="hidden peer/1">
                         <label for="pred-1" class="block p-3 text-center bg-gray-800 rounded-lg cursor-pointer peer-checked/1:bg-brand-gold peer-checked/1:text-brand-dark font-bold" id="pred-1-label">1 (Home)</label>
@@ -1176,12 +1116,10 @@
     </div>
 
 
-    <!-- Live Chat Bubble -->
     <div class="chat-bubble" onclick="toggleChat()">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
     </div>
 
-    <!-- Live Chat Window -->
     <div class="chat-window" id="chat-window">
         <div class="chat-header">Live Support – We're Here to Help!</div>
         <div class="chat-body" id="chat-body">
@@ -1199,6 +1137,178 @@
         
         // Global var for match status filter
         let currentMatchStatus = 'current';
+
+        // --- NEW: API-FOOTBALL INTEGRATION ---
+        const apiKey = '0324b629847195253f0d59397c5b3df4'; // Your API Key
+        const apiBaseUrl = 'https://v3.football.api-sports.io';
+        const apiHeaders = {
+            'x-apisports-key': apiKey,
+            'Content-Type': 'application/json'
+        };
+        const PREMIER_LEAGUE_ID = 39; // Premier League
+        const CURRENT_SEASON = 2025; // Using 2025 based on our context
+
+        /**
+         * Fetches matches from the API based on status and dynamically builds cards
+         */
+        async function loadAllApiMatches() {
+            const matchesList = document.getElementById('matches-list');
+            const loadingEl = document.getElementById('matches-loading');
+            loadingEl.classList.remove('hidden');
+
+            // 1. Clear any old API cards
+            document.querySelectorAll('.api-match-card').forEach(card => card.remove());
+
+            const endpoints = {
+                current: `/fixtures?league=${PREMIER_LEAGUE_ID}&season=${CURRENT_SEASON}&live=all`,
+                future: `/fixtures?league=${PREMIER_LEAGUE_ID}&season=${CURRENT_SEASON}&status=NS&next=10`,
+                past: `/fixtures?league=${PREMIER_LEAGUE_ID}&season=${CURRENT_SEASON}&status=FT-AET-PEN&last=10`
+            };
+
+            const requests = Object.keys(endpoints).map(status =>
+                fetch(`${apiBaseUrl}${endpoints[status]}`, { headers: apiHeaders })
+                    .then(response => response.json())
+                    .then(data => ({ status, data: data.response }))
+            );
+
+            try {
+                const results = await Promise.allSettled(requests);
+                
+                results.forEach(result => {
+                    if (result.status === 'fulfilled' && result.value.data) {
+                        const statusKey = result.value.status;
+                        result.value.data.forEach(fixture => {
+                            const cardHTML = createMatchCardFromApi(fixture, statusKey);
+                            matchesList.appendChild(cardHTML);
+                        });
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error fetching API matches:', error);
+                loadingEl.textContent = 'Failed to load live matches.';
+            } finally {
+                loadingEl.classList.add('hidden');
+                // Apply the default filter once all data is loaded
+                filterAndShowMatches();
+            }
+        }
+
+        /**
+         * Creates an HTML element for a match card from API data
+         */
+        function createMatchCardFromApi(fixture, statusKey) {
+            const fixtureData = fixture.fixture;
+            const league = fixture.league;
+            const teams = fixture.teams;
+            const goals = fixture.goals;
+            
+            // Simulate a BetPool pool amount
+            const simulatedPool = Math.floor(Math.random() * 7000000) + 1000000;
+            
+            const div = document.createElement('div');
+            div.className = 'match-card api-match-card glass-panel rounded-2xl overflow-hidden shadow-2xl border-gray-700 border';
+            div.dataset.league = league.name;
+            div.dataset.time = fixtureData.timestamp;
+            div.dataset.pool = simulatedPool;
+            div.dataset.status = statusKey;
+
+            let timerHtml, teamsHtml, buttonHtml, poolHtml;
+            const matchDate = new Date(fixtureData.date);
+            const timeString = matchDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            const dateString = matchDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
+
+            switch (statusKey) {
+                case 'current':
+                    timerHtml = `<span class="bg-brand-urgent text-white text-xs font-bold px-2 py-1 rounded-full timer">LIVE: ${fixtureData.status.elapsed}'</span>`;
+                    teamsHtml = `
+                        <div class="text-center">
+                            <img src="${teams.home.logo}" alt="${teams.home.name}" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image">
+                            <span class="font-bold text-sm">${teams.home.name}</span>
+                        </div>
+                        <span class="text-2xl font-bold text-white">${goals.home} - ${goals.away}</span>
+                        <div class="text-center">
+                            <img src="${teams.away.logo}" alt="${teams.away.name}" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image">
+                            <span class="font-bold text-sm">${teams.away.name}</span>
+                        </div>`;
+                    buttonHtml = `<button onclick="showMatchDetail(getMatchData(this))" class="block w-full bg-brand-urgent text-white text-center font-bold text-md p-3 hover:bg-red-700 transition-colors duration-300">Join Live Pool</button>`;
+                    poolHtml = `<p class="text-2xl font-extrabold text-gradient-money animate-pulse-fast">₦${simulatedPool.toLocaleString()}</p>`;
+                    break;
+                case 'future':
+                    timerHtml = `<span class="bg-gray-700 text-white text-xs font-bold px-2 py-1 rounded-full timer">${dateString} ${timeString}</span>`;
+                    teamsHtml = `
+                        <div class="text-center">
+                            <img src="${teams.home.logo}" alt="${teams.home.name}" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image">
+                            <span class="font-bold text-sm">${teams.home.name}</span>
+                        </div>
+                        <span class="text-xl font-bold text-gray-400">vs</span>
+                        <div class="text-center">
+                            <img src="${teams.away.logo}" alt="${teams.away.name}" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image">
+                            <span class="font-bold text-sm">${teams.away.name}</span>
+                        </div>`;
+                    buttonHtml = `<button onclick="showMatchDetail(getMatchData(this))" class="block w-full bg-brand-gold text-brand-dark text-center font-bold text-md p-3 hover:bg-yellow-500 transition-colors duration-300">Predict & Win</button>`;
+                    poolHtml = `<p class="text-2xl font-extrabold text-gradient-money">₦${simulatedPool.toLocaleString()}</p>`;
+                    break;
+                case 'past':
+                    timerHtml = `<span class="bg-gray-700 text-white text-xs font-bold px-2 py-1 rounded-full">FINISHED</span>`;
+                    teamsHtml = `
+                        <div class="text-center">
+                            <img src="${teams.home.logo}" alt="${teams.home.name}" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image">
+                            <span class="font-bold text-sm">${teams.home.name}</span>
+                        </div>
+                        <span class="text-2xl font-bold text-white">${goals.home} - ${goals.away}</span>
+                        <div class="text-center">
+                            <img src="${teams.away.logo}" alt="${teams.away.name}" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image">
+                            <span class="font-bold text-sm">${teams.away.name}</span>
+                        </div>`;
+                    buttonHtml = `<button onclick="alert('Match finished. Results: ${teams.home.name} ${goals.home} - ${goals.away} ${teams.away.name}')" class="block w-full bg-brand-trust text-white text-center font-bold text-md p-3 hover:bg-blue-700 transition-colors duration-300">View Results</button>`;
+                    poolHtml = `<p class="text-2xl font-extrabold text-gradient-money">₦${simulatedPool.toLocaleString()}</p>`;
+                    break;
+            }
+
+            div.innerHTML = `
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-semibold text-green-400">${league.name}</span>
+                        ${timerHtml}
+                    </div>
+                    <div class="flex items-center justify-around mb-2">
+                        ${teamsHtml}
+                    </div>
+                    <div class="text-center mb-2">
+                        <p class="text-gray-300 text-xs">JACKPOT POOL</p>
+                        ${poolHtml}
+                        <p class="text-xs text-gray-400 mt-1">${Math.floor(simulatedPool / 7000)} Players Joined</p>
+                    </div>
+                </div>
+                ${buttonHtml}
+            `;
+            
+            // Store data on the button for the modal
+            const button = div.querySelector('button');
+            button.dataset.matchData = JSON.stringify({
+                title: `${teams.home.name} vs ${teams.away.name}`,
+                teamA: teams.home.name,
+                teamB: teams.away.name,
+                logoA: teams.home.logo,
+                logoB: teams.away.logo,
+                pool: simulatedPool,
+                timer: fixtureData.status.long,
+                league: league.name
+            });
+
+            return div;
+        }
+        
+        /**
+         * Helper function to pass API data to the modal
+         */
+        function getMatchData(buttonElement) {
+            return JSON.parse(buttonElement.dataset.matchData);
+        }
+
+        // --- END OF API INTEGRATION ---
+
 
         // User authentication simulation using localStorage
         function signup(event) {
@@ -1299,7 +1409,7 @@
             
             // When showing matches page, apply default filters
             if (pageId === 'matches-page') {
-                filterMatchesByStatus(currentMatchStatus); // Re-apply active filters
+                filterAndShowMatches(); // Re-apply active filters
             }
             
             // When showing profile page, run its setup function
@@ -1462,6 +1572,7 @@
             });
             document.getElementById(`tab-${status}`).classList.add('active-tab');
             
+            // This function will now just filter the visible cards
             filterAndShowMatches();
         }
 
@@ -1482,6 +1593,7 @@
             matchesList.innerHTML = '';
             cards.forEach(card => matchesList.appendChild(card));
             
+            // Re-apply filters after sorting
             filterAndShowMatches();
         }
 
@@ -1758,12 +1870,16 @@
             animateStat('stat-active', 45, false);
             setInterval(showRandomLiveWin, 8000); 
             startHotPoolTimer();
+            
+            // Load all API matches on page load
+            loadAllApiMatches();
+            
+            // Set default filter tab
             filterMatchesByStatus('current');
         };
 
     </script>
 
-    <!-- Manifest.json content -->
     <script type="application/json" id="manifest">
         {
             "name": "BetPool",
@@ -1788,7 +1904,6 @@
         }
     </script>
 
-    <!-- Service Worker -->
     <script id="sw">
         const CACHE_NAME = 'betpool-v5'; 
         const urlsToCache = ['/'];
@@ -1845,4 +1960,3 @@
 
 </body>
 </html>
-

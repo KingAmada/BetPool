@@ -384,6 +384,29 @@
             margin-bottom: 10px;
         }
 
+        /* Enhanced form input styles */
+        input:focus {
+            outline: none;
+            ring: 2px solid #F59E0B;
+            border-color: #F59E0B;
+        }
+
+        .invalid-input {
+            border: 2px solid #E11D48 !important;
+        }
+
+        .form-error {
+            color: #E11D48;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Image loading placeholder */
+        img.logo-placeholder {
+            background: rgba(255, 255, 255, 0.1);
+            animation: pulse 1.5s infinite;
+        }
+
     </style>
 </head>
 <body class="antialiased">
@@ -510,12 +533,12 @@
                         </div>
                         <div class="flex items-center justify-around mb-2">
                             <div class="text-center">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Manchester_United_FC_crest.svg" alt="Man Utd" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image">
+                                <img src="https://media.api-sports.io/football/teams/33.png" alt="Man Utd" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image logo-placeholder" onerror="this.src='https://media.api-sports.io/football/teams/default.png';">
                                 <span class="font-bold text-sm">Man United</span>
                             </div>
                             <span class="text-xl font-bold text-gray-400">vs</span>
                             <div class="text-center">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Liverpool_FC.svg" alt="Liverpool" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image">
+                                <img src="https://media.api-sports.io/football/teams/40.png" alt="Liverpool" class="rounded-full w-12 h-12 mx-auto mb-1 border border-gray-500 curvy-image logo-placeholder" onerror="this.src='https://media.api-sports.io/football/teams/default.png';">
                                 <span class="font-bold text-sm">Liverpool</span>
                             </div>
                         </div>
@@ -525,7 +548,7 @@
                             <p class="text-xs text-gray-400 mt-1">1,234 Players Joined</p>
                         </div>
                     </div>
-                    <button onclick="showMatchDetail({ title: 'Man United vs Liverpool', teamA: 'Man United', teamB: 'Liverpool', logoA: 'https://upload.wikimedia.org/wikipedia/commons/7/7a/Manchester_United_FC_crest.svg', logoB: 'https://upload.wikimedia.org/wikipedia/commons/1/1e/Liverpool_FC.svg', pool: 8450200, timer: '02:44:59', league: 'Premier League' })" class="block w-full bg-brand-green text-white text-center font-bold text-md p-3 hover:bg-green-700 transition-colors duration-300">
+                    <button onclick="showMatchDetail({ title: 'Man United vs Liverpool', teamA: 'Man United', teamB: 'Liverpool', logoA: 'https://media.api-sports.io/football/teams/33.png', logoB: 'https://media.api-sports.io/football/teams/40.png', pool: 8450200, timer: '02:44:59', league: 'Premier League' })" class="block w-full bg-brand-green text-white text-center font-bold text-md p-3 hover:bg-green-700 transition-colors duration-300">
                         Join This Pool NOW
                     </button>
                 </div>
@@ -730,8 +753,8 @@
                         <p class="text-gray-300 text-sm">MAIN WALLET BALANCE</p>
                         <p id="profile-balance" class="text-4xl font-extrabold text-gradient-money animate-pulse-fast">₦0</p>
                         <div class="flex gap-4 mt-4">
-                            <button class="flex-1 bg-brand-green text-white font-bold p-3 rounded-lg">Deposit</button>
-                            <button class="flex-1 bg-gray-700 text-white font-bold p-3 rounded-lg">Withdraw</button>
+                            <button onclick="openModal('deposit-modal')" class="flex-1 bg-brand-green text-white font-bold p-3 rounded-lg">Deposit</button>
+                            <button onclick="openModal('withdraw-modal')" class="flex-1 bg-gray-700 text-white font-bold p-3 rounded-lg">Withdraw</button>
                         </div>
                     </div>
 
@@ -896,7 +919,7 @@
         </a>
     </div>
 
-    <!-- Login Modal -->
+    <!-- Login Modal (Enhanced UI) -->
     <div id="login-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('login-modal')">&times;</span>
@@ -904,29 +927,62 @@
             <form class="flex flex-col gap-4" onsubmit="login(event)">
                 <div class="bg-gray-800 rounded-lg p-3 flex items-center">
                     <span class="text-gray-400 mr-2">🇳🇬 +234</span>
-                    <input type="tel" id="login-phone" placeholder="Enter your phone number" class="bg-transparent text-white font-medium text-lg w-full outline-none" required>
+                    <input type="tel" id="login-phone" placeholder="Enter your phone number" class="bg-transparent text-white font-medium text-lg w-full outline-none" pattern="[0-9]{10}" required>
+                    <span id="login-phone-error" class="form-error hidden">Please enter a valid 10-digit phone number.</span>
                 </div>
-                <input type="password" id="login-password" placeholder="Enter password" class="bg-gray-800 text-white p-3 rounded-lg" required>
+                <input type="password" id="login-password" placeholder="Enter password" class="bg-gray-800 text-white p-3 rounded-lg" minlength="6" required>
+                <span id="login-password-error" class="form-error hidden">Password must be at least 6 characters.</span>
                 <button type="submit" class="btn-shimmer text-white font-bold text-lg p-3 rounded-lg">Login</button>
             </form>
         </div>
     </div>
 
-    <!-- Signup Modal -->
+    <!-- Signup Modal (Enhanced UI) -->
     <div id="signup-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('signup-modal')">&times;</span>
             <h2 class="text-xl font-bold text-white mb-4">Sign Up</h2>
             <form class="flex flex-col gap-4" onsubmit="signup(event)">
                 <input type="text" id="signup-name" placeholder="Enter your full name" class="bg-gray-800 text-white p-3 rounded-lg" required>
+                <span id="signup-name-error" class="form-error hidden">Name is required.</span>
                 <div class="bg-gray-800 rounded-lg p-3 flex items-center">
                     <span class="text-gray-400 mr-2">🇳🇬 +234</span>
-                    <input type="tel" id="signup-phone" placeholder="Enter your phone number" class="bg-transparent text-white font-medium text-lg w-full outline-none" required>
+                    <input type="tel" id="signup-phone" placeholder="Enter your phone number" class="bg-transparent text-white font-medium text-lg w-full outline-none" pattern="[0-9]{10}" required>
+                    <span id="signup-phone-error" class="form-error hidden">Please enter a valid 10-digit phone number.</span>
                 </div>
-                <input type="password" id="signup-password" placeholder="Enter password" class="bg-gray-800 text-white p-3 rounded-lg" required>
-                <input type="text" id="signup-account" placeholder="Enter your account number" class="bg-gray-800 text-white p-3 rounded-lg" required>
+                <input type="password" id="signup-password" placeholder="Enter password" class="bg-gray-800 text-white p-3 rounded-lg" minlength="6" required>
+                <span id="signup-password-error" class="form-error hidden">Password must be at least 6 characters.</span>
+                <input type="text" id="signup-account" placeholder="Enter your account number" class="bg-gray-800 text-white p-3 rounded-lg" pattern="[0-9]{10}" required>
+                <span id="signup-account-error" class="form-error hidden">Account number must be 10 digits.</span>
                 <input type="text" id="signup-bank" placeholder="Enter your bank name" class="bg-gray-800 text-white p-3 rounded-lg" required>
+                <span id="signup-bank-error" class="form-error hidden">Bank name is required.</span>
                 <button type="submit" class="btn-shimmer text-white font-bold text-lg p-3 rounded-lg">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div id="deposit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('deposit-modal')">&times;</span>
+            <h2 class="text-xl font-bold text-white mb-4">Deposit</h2>
+            <form class="flex flex-col gap-4" onsubmit="deposit(event)">
+                <input type="number" id="deposit-amount" placeholder="Enter amount (min ₦100)" class="bg-gray-800 text-white p-3 rounded-lg" min="100" required>
+                <span id="deposit-amount-error" class="form-error hidden">Minimum deposit is ₦100.</span>
+                <button type="submit" class="btn-shimmer text-white font-bold text-lg p-3 rounded-lg">Deposit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div id="withdraw-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('withdraw-modal')">&times;</span>
+            <h2 class="text-xl font-bold text-white mb-4">Withdraw</h2>
+            <form class="flex flex-col gap-4" onsubmit="withdraw(event)">
+                <input type="number" id="withdraw-amount" placeholder="Enter amount" class="bg-gray-800 text-white p-3 rounded-lg" min="100" required>
+                <span id="withdraw-amount-error" class="form-error hidden">Invalid amount.</span>
+                <button type="submit" class="btn-shimmer text-white font-bold text-lg p-3 rounded-lg">Withdraw</button>
             </form>
         </div>
     </div>
@@ -1109,7 +1165,7 @@
         let currentTab = 'current';
         let allMatches = { current: [], future: [], past: [] };
 
-        // Store match data globally when modal is opened
+        // Store match data globally when modal is modal
         let currentMatchData = {};
         
         // Global var for match status filter
@@ -1124,10 +1180,52 @@
             const account = document.getElementById('signup-account').value.trim();
             const bank = document.getElementById('signup-bank').value.trim();
 
-            if (!name || !phone || !password || !account || !bank) {
-                alert('Please fill in all fields.');
-                return;
+            let valid = true;
+
+            // Clear errors
+            document.querySelectorAll('.form-error').forEach(el => el.classList.add('hidden'));
+
+            if (!name) {
+                document.getElementById('signup-name-error').classList.remove('hidden');
+                document.getElementById('signup-name').classList.add('invalid-input');
+                valid = false;
+            } else {
+                document.getElementById('signup-name').classList.remove('invalid-input');
             }
+
+            if (!phone || phone.length !== 10 || !/^\d{10}$/.test(phone)) {
+                document.getElementById('signup-phone-error').classList.remove('hidden');
+                document.getElementById('signup-phone').classList.add('invalid-input');
+                valid = false;
+            } else {
+                document.getElementById('signup-phone').classList.remove('invalid-input');
+            }
+
+            if (!password || password.length < 6) {
+                document.getElementById('signup-password-error').classList.remove('hidden');
+                document.getElementById('signup-password').classList.add('invalid-input');
+                valid = false;
+            } else {
+                document.getElementById('signup-password').classList.remove('invalid-input');
+            }
+
+            if (!account || account.length !== 10 || !/^\d{10}$/.test(account)) {
+                document.getElementById('signup-account-error').classList.remove('hidden');
+                document.getElementById('signup-account').classList.add('invalid-input');
+                valid = false;
+            } else {
+                document.getElementById('signup-account').classList.remove('invalid-input');
+            }
+
+            if (!bank) {
+                document.getElementById('signup-bank-error').classList.remove('hidden');
+                document.getElementById('signup-bank').classList.add('invalid-input');
+                valid = false;
+            } else {
+                document.getElementById('signup-bank').classList.remove('invalid-input');
+            }
+
+            if (!valid) return;
 
             if (localStorage.getItem(phone)) {
                 alert('User with this phone already exists!');
@@ -1166,10 +1264,27 @@
             const phone = document.getElementById('login-phone').value.trim();
             const password = document.getElementById('login-password').value;
 
-            if (!phone || !password) {
-                alert('Please fill in all fields.');
-                return;
+            let valid = true;
+
+            document.querySelectorAll('.form-error').forEach(el => el.classList.add('hidden'));
+
+            if (!phone || phone.length !== 10 || !/^\d{10}$/.test(phone)) {
+                document.getElementById('login-phone-error').classList.remove('hidden');
+                document.getElementById('login-phone').classList.add('invalid-input');
+                valid = false;
+            } else {
+                document.getElementById('login-phone').classList.remove('invalid-input');
             }
+
+            if (!password || password.length < 6) {
+                document.getElementById('login-password-error').classList.remove('hidden');
+                document.getElementById('login-password').classList.add('invalid-input');
+                valid = false;
+            } else {
+                document.getElementById('login-password').classList.remove('invalid-input');
+            }
+
+            if (!valid) return;
 
             const user = localStorage.getItem(phone);
             if (!user) {
@@ -1195,6 +1310,74 @@
                 console.error('Login error:', err);
                 alert('An error occurred during login. Please try again.');
             }
+        }
+
+        function deposit(event) {
+            event.preventDefault();
+            const amount = parseInt(document.getElementById('deposit-amount').value);
+
+            document.querySelectorAll('.form-error').forEach(el => el.classList.add('hidden'));
+
+            if (!amount || amount < 100) {
+                document.getElementById('deposit-amount-error').classList.remove('hidden');
+                document.getElementById('deposit-amount').classList.add('invalid-input');
+                return;
+            } else {
+                document.getElementById('deposit-amount').classList.remove('invalid-input');
+            }
+
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                alert('You must be logged in to deposit.');
+                closeModal('deposit-modal');
+                openModal('login-modal');
+                return;
+            }
+
+            let userData = JSON.parse(localStorage.getItem(loggedInUser));
+            userData.balance = (userData.balance || 0) + amount;
+            localStorage.setItem(loggedInUser, JSON.stringify(userData));
+
+            alert(`Deposited ₦${amount.toLocaleString()} successfully!`);
+            closeModal('deposit-modal');
+            showProfilePage();
+        }
+
+        function withdraw(event) {
+            event.preventDefault();
+            const amount = parseInt(document.getElementById('withdraw-amount').value);
+
+            document.querySelectorAll('.form-error').forEach(el => el.classList.add('hidden'));
+
+            if (!amount || amount < 100) {
+                document.getElementById('withdraw-amount-error').classList.remove('hidden');
+                document.getElementById('withdraw-amount').classList.add('invalid-input');
+                return;
+            } else {
+                document.getElementById('withdraw-amount').classList.remove('invalid-input');
+            }
+
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                alert('You must be logged in to withdraw.');
+                closeModal('withdraw-modal');
+                openModal('login-modal');
+                return;
+            }
+
+            let userData = JSON.parse(localStorage.getItem(loggedInUser));
+            const balance = userData.balance || 0;
+            if (amount > balance) {
+                alert('Insufficient balance.');
+                return;
+            }
+
+            userData.balance = balance - amount;
+            localStorage.setItem(loggedInUser, JSON.stringify(userData));
+
+            alert(`Withdrew ₦${amount.toLocaleString()} successfully!`);
+            closeModal('withdraw-modal');
+            showProfilePage();
         }
 
         function logout() {
@@ -1607,7 +1790,7 @@
                         <!-- Home -->
                         <div class="flex flex-col items-center w-1/3 gap-2">
                             <div class="w-10 h-10 bg-white/5 rounded-full p-1 flex items-center justify-center">
-                                <img src="${h.logo}" class="w-8 h-8 object-contain" onerror="this.src='https://media.api-sports.io/football/teams/default.png'">
+                                <img src="${h.logo}" class="w-8 h-8 object-contain logo-placeholder" onerror="this.src='https://media.api-sports.io/football/teams/default.png'">
                             </div>
                             <span class="text-xs font-bold text-gray-200 text-center leading-tight line-clamp-2 h-8 flex items-center justify-center">${h.name}</span>
                         </div>
@@ -1622,7 +1805,7 @@
                         <!-- Away -->
                         <div class="flex flex-col items-center w-1/3 gap-2">
                             <div class="w-10 h-10 bg-white/5 rounded-full p-1 flex items-center justify-center">
-                                <img src="${a.logo}" class="w-8 h-8 object-contain" onerror="this.src='https://media.api-sports.io/football/teams/default.png'">
+                                <img src="${a.logo}" class="w-8 h-8 object-contain logo-placeholder" onerror="this.src='https://media.api-sports.io/football/teams/default.png'">
                             </div>
                             <span class="text-xs font-bold text-gray-200 text-center leading-tight line-clamp-2 h-8 flex items-center justify-center">${a.name}</span>
                         </div>
@@ -1687,12 +1870,11 @@
         function generateMockData() {
             allMatches = {
                 current: [
-                    mockMatch("Sim City", "Demo Utd", "LIVE", "78", 2, 1, "Sim League"),
-                    mockMatch("Real Test", "Virtual FC", "LIVE", "32", 0, 0, "Sim League")
+                    mockMatch("Yemen", "Bhutan", "LIVE", "42", 2, 0, "ASIAN CUP - QUALIFICATION"),
+                    mockMatch("Torreense U23", "União Leiria U23", "LIVE", "10", 0, 0, "LIGA REVELAÇÃO U23"),
                 ],
                 future: [
-                    mockMatch("Future FC", "Next Gen", "NS", null, null, null, "Sim Cup"),
-                    mockMatch("Tomorrowland", "Yesterday Utd", "NS", null, null, null, "Sim Cup")
+                    mockMatch("Poza Rica", "Deportivo Ayense", "NS", null, null, null, "LIGA PREMIER SERIE B")
                 ],
                 past: [
                     mockMatch("History FC", "Old Boys", "FT", "FT", 3, 0, "Classic League")
@@ -1703,7 +1885,7 @@
         function mockMatch(h, a, status, elapsed, gh, ga, leagueName) {
             return {
                 fixture: { id: Math.random(), status: { short: status, elapsed: elapsed }, date: new Date().toISOString() },
-                teams: { home: { name: h, logo: '' }, away: { name: a, logo: '' } },
+                teams: { home: { name: h, logo: 'https://media.api-sports.io/football/teams/default.png' }, away: { name: a, logo: 'https://media.api-sports.io/football/teams/default.png' } },
                 goals: { home: gh, away: ga },
                 league: { name: leagueName, logo: '', flag: '' }
             };
@@ -2081,4 +2263,4 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 </body>
-                                                                                                              </html>
+    </html>

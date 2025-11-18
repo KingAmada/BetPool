@@ -36,7 +36,7 @@
                 const swCode = document.getElementById('sw').text;
                 const blob = new Blob([swCode], {type: 'application/javascript'});
                 const url = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(url);
+                navigator.serviceWorker.register(url).catch(err => console.error('Service Worker registration failed:', err));
             });
         }
         
@@ -382,6 +382,16 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .pulse-dot { animation: pulse-green 2s infinite; }
         @keyframes pulse-green { 0% { opacity: 1; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); } 70% { opacity: 1; box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); } 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
+
+        /* Error message style */
+        .error-message {
+            color: #E11D48;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #E11D48;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
 
     </style>
 </head>
@@ -1014,7 +1024,6 @@
 
             <!-- POOL 2: 1X2 Content -->
             <div id="pool-content-1x2" class="pool-content hidden">
-                <div class="pool-content hidden">
                 <div class="text-center mb-4 glass-panel p-3 rounded-lg">
                     <p class="text-gray-300 text-sm">CURRENT 1X2 POOL</p>
                     <p id="match-pool-1x2" class="text-3xl font-extrabold text-gradient-money animate-pulse-fast"></p>
@@ -1118,11 +1127,16 @@
         // User authentication simulation using localStorage
         function signup(event) {
             event.preventDefault();
-            const name = document.getElementById('signup-name').value;
-            const phone = document.getElementById('signup-phone').value;
+            const name = document.getElementById('signup-name').value.trim();
+            const phone = document.getElementById('signup-phone').value.trim();
             const password = document.getElementById('signup-password').value;
-            const account = document.getElementById('signup-account').value;
-            const bank = document.getElementById('signup-bank').value;
+            const account = document.getElementById('signup-account').value.trim();
+            const bank = document.getElementById('signup-bank').value.trim();
+
+            if (!name || !phone || !password || !account || !bank) {
+                alert('Please fill in all fields.');
+                return;
+            }
 
             if (localStorage.getItem(phone)) {
                 alert('User with this phone already exists!');
@@ -1131,30 +1145,40 @@
 
             // Storing predictions as an object { matchTitle: {stake, prediction} }
             // Also storing ambassador data
-            localStorage.setItem(phone, JSON.stringify({
-                name, 
-                password, 
-                account, 
-                bank, 
-                predictions: {},
-                // Default Ambassador Data
-                betsThisMonth: 0,
-                referralsLast2Months: 0,
-                tier1: 0,
-                tier2: 0,
-                withdrawable: 0,
-                locked: 0,
-                balance: 0 // Add balance
-            }));
-            alert('Signup successful! Please login.');
-            closeModal('signup-modal');
-            openModal('login-modal'); // Auto-open login after signup
+            try {
+                localStorage.setItem(phone, JSON.stringify({
+                    name, 
+                    password, 
+                    account, 
+                    bank, 
+                    predictions: {},
+                    // Default Ambassador Data
+                    betsThisMonth: 0,
+                    referralsLast2Months: 0,
+                    tier1: 0,
+                    tier2: 0,
+                    withdrawable: 0,
+                    locked: 0,
+                    balance: 0 // Add balance
+                }));
+                alert('Signup successful! Please login.');
+                closeModal('signup-modal');
+                openModal('login-modal'); // Auto-open login after signup
+            } catch (err) {
+                console.error('Signup error:', err);
+                alert('An error occurred during signup. Please try again.');
+            }
         }
 
         function login(event) {
             event.preventDefault();
-            const phone = document.getElementById('login-phone').value;
+            const phone = document.getElementById('login-phone').value.trim();
             const password = document.getElementById('login-password').value;
+
+            if (!phone || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
 
             const user = localStorage.getItem(phone);
             if (!user) {
@@ -1162,29 +1186,49 @@
                 return;
             }
 
-            const userData = JSON.parse(user);
-            if (userData.password !== password) {
-                alert('Incorrect password!');
-                return;
-            }
+            try {
+                const userData = JSON.parse(user);
+                if (userData.password !== password) {
+                    alert('Incorrect password!');
+                    return;
+                }
 
-            localStorage.setItem('loggedInUser', phone);
-            alert('Login successful!');
-            closeModal('login-modal');
-            updateAuthUI();
+                localStorage.setItem('loggedInUser', phone);
+                alert('Login successful!');
+                closeModal('login-modal');
+                updateAuthUI();
+                if (document.getElementById('matches-page').classList.contains('active')) {
+                    fetchAllData();
+                }
+            } catch (err) {
+                console.error('Login error:', err);
+                alert('An error occurred during login. Please try again.');
+            }
         }
 
         function logout() {
-            localStorage.removeItem('loggedInUser');
-            alert('Logged out!');
-            updateAuthUI();
-            showPage('home-page');
+            try {
+                localStorage.removeItem('loggedInUser');
+                alert('Logged out!');
+                updateAuthUI();
+                showPage('home-page');
+            } catch (err) {
+                console.error('Logout error:', err);
+                alert('An error occurred during logout. Please try again.');
+            }
         }
 
         function updateAuthUI() {
             const loggedInUser = localStorage.getItem('loggedInUser');
             if (loggedInUser) {
-                const userData = JSON.parse(localStorage.getItem(loggedInUser));
+                let userData;
+                try {
+                    userData = JSON.parse(localStorage.getItem(loggedInUser));
+                } catch (err) {
+                    console.error('Error parsing user data:', err);
+                    logout();
+                    return;
+                }
                 const userName = `Hi, ${userData.name.split(' ')[0]}`; // Get first name
 
                 // Desktop
@@ -1238,7 +1282,14 @@
             const logoutBtn = document.getElementById('logout-button');
 
             if (loggedInUser) {
-                const userData = JSON.parse(localStorage.getItem(loggedInUser));
+                let userData;
+                try {
+                    userData = JSON.parse(localStorage.getItem(loggedInUser));
+                } catch (err) {
+                    console.error('Error parsing user data:', err);
+                    logout();
+                    return;
+                }
 
                 // Show user-specific sections
                 guestHeader.classList.add('hidden');
@@ -1248,13 +1299,12 @@
                 logoutBtn.classList.remove('hidden');
 
                 // --- Populate User Info ---
-                document.getElementById('profile-name').textContent = userData.name;
+                document.getElementById('profile-name').textContent = userData.name || 'User';
                 document.getElementById('profile-phone').textContent = `+234 ${loggedInUser}`;
 
                 // --- Populate Wallet (Simulated) ---
-                const balance = userData.balance || 5000; 
+                const balance = userData.balance || 0; 
                 document.getElementById('profile-balance').textContent = `₦${balance.toLocaleString()}`;
-                userData.balance = balance; 
 
                 // --- Populate Ambassador Hub (Simulated Data for Demo) ---
                 
@@ -1307,7 +1357,11 @@
                 userData.tier2 = tier2;
                 userData.withdrawable = withdrawable;
                 userData.locked = locked;
-                localStorage.setItem(loggedInUser, JSON.stringify(userData));
+                try {
+                    localStorage.setItem(loggedInUser, JSON.stringify(userData));
+                } catch (err) {
+                    console.error('Error saving user data:', err);
+                }
 
             } else {
                 // Show guest sections
@@ -1345,26 +1399,41 @@
 
         // Modal Functions
         function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'block';
+            }
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+            }
         }
 
         // --- Live Feed Functions (Integrated) ---
 
         function logDebug(msg) {
             const el = document.getElementById('debug-log');
-            el.classList.remove('hidden');
-            el.innerText = `> ${msg}`;
+            if (el) {
+                el.classList.remove('hidden');
+                el.innerText = `> ${msg}`;
+            }
             console.log(msg);
         }
 
         async function fetchAllData() {
             const statusEl = document.getElementById('connection-status');
             const dotEl = document.getElementById('status-dot');
+            const matchesList = document.getElementById('matches-list');
             
+            if (!statusEl || !dotEl || !matchesList) return;
+
+            statusEl.innerText = "CONNECTING";
+            statusEl.className = "text-[10px] font-bold text-gray-400 uppercase";
+            dotEl.className = "w-2 h-2 rounded-full bg-gray-500";
+
             const headers = { "x-apisports-key": API_KEY };
             
             try {
@@ -1381,6 +1450,10 @@
 
                 const [liveRes, futureRes, pastRes] = await Promise.all([liveReq, futureReq, pastReq]);
                 
+                if (!liveRes.ok || !futureRes.ok || !pastRes.ok) {
+                    throw new Error('API response not OK');
+                }
+
                 let liveData = await liveRes.json();
                 let futureData = await futureRes.json();
                 let pastData = await pastRes.json();
@@ -1392,6 +1465,9 @@
                     tomorrow.setDate(tomorrow.getDate() + 1);
                     const dateStr = tomorrow.toISOString().split('T')[0];
                     const fallbackReq = await fetch(`${API_BASE}/fixtures?date=${dateStr}&timezone=${TIMEZONE}`, { headers });
+                    if (!fallbackReq.ok) {
+                        throw new Error('Fallback API response not OK');
+                    }
                     futureData = await fallbackReq.json();
                 }
 
@@ -1429,19 +1505,26 @@
                 // My Balance
                 const loggedInUser = localStorage.getItem('loggedInUser');
                 if (loggedInUser) {
-                    const userData = JSON.parse(localStorage.getItem(loggedInUser));
+                    let userData;
+                    try {
+                        userData = JSON.parse(localStorage.getItem(loggedInUser));
+                    } catch (err) {
+                        console.error('Error parsing user data:', err);
+                        document.getElementById('my-balance').textContent = '0.00';
+                        return;
+                    }
                     document.getElementById('my-balance').textContent = (userData.balance || 0).toLocaleString();
                 } else {
                     document.getElementById('my-balance').textContent = '0.00';
                 }
 
             } catch (error) {
-                console.error(error);
+                console.error('Fetch error:', error);
                 logDebug("Connection Failed. Using Simulator.");
                 
-                statusEl.innerText = "SIMULATION";
-                statusEl.className = "text-[10px] font-bold text-yellow-500 uppercase";
-                dotEl.className = "w-2 h-2 rounded-full bg-yellow-500";
+                statusEl.innerText = "OFFLINE";
+                statusEl.className = "text-[10px] font-bold text-red-500 uppercase";
+                dotEl.className = "w-2 h-2 rounded-full bg-red-500";
 
                 generateMockData();
                 renderMatches();
@@ -1449,6 +1532,12 @@
                 // Active Pool for mock
                 document.getElementById('active-pool').textContent = '45.2M';
                 document.getElementById('my-balance').textContent = '0.00';
+
+                // Show error message to user
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = 'Failed to load live data. Using simulated data. Please check your internet connection.';
+                matchesList.prepend(errorDiv);
             }
         }
 
@@ -1456,17 +1545,21 @@
         function switchTab(tab) {
             currentTab = tab;
             document.querySelectorAll('.match-tab').forEach(el => el.classList.remove('active-tab'));
-            document.getElementById(`tab-${tab}`).classList.add('active-tab');
+            const tabEl = document.getElementById(`tab-${tab}`);
+            if (tabEl) {
+                tabEl.classList.add('active-tab');
+            }
             renderMatches();
         }
 
         function renderMatches() {
             const container = document.getElementById('matches-list');
+            if (!container) return;
             container.innerHTML = '';
             
-            const list = allMatches[currentTab];
+            const list = allMatches[currentTab] || [];
 
-            if (!list || list.length === 0) {
+            if (list.length === 0) {
                 let msg = "No matches found.";
                 if(currentTab === 'future') msg = "No upcoming matches scheduled.";
                 if(currentTab === 'past') msg = "No results found recently.";
@@ -1562,6 +1655,7 @@
         function openBetModal(h, a, pool) {
             const modal = document.getElementById('bet-modal');
             const content = document.getElementById('modal-content');
+            if (!modal || !content) return;
             
             content.innerHTML = `
                 <div class="text-center mb-6">
@@ -1627,17 +1721,19 @@
         // Live Chat
         function toggleChat() {
             const chatWindow = document.getElementById('chat-window');
-            if (chatWindow.style.display === 'flex') {
-                chatWindow.style.display = 'none';
-            } else {
-                chatWindow.style.display = 'flex';
+            if (chatWindow) {
+                if (chatWindow.style.display === 'flex') {
+                    chatWindow.style.display = 'none';
+                } else {
+                    chatWindow.style.display = 'flex';
+                }
             }
         }
 
         function sendMessage() {
             const input = document.getElementById('chat-message');
             const body = document.getElementById('chat-body');
-            if (input.value.trim() === '') return;
+            if (!input || !body || input.value.trim() === '') return;
 
             body.innerHTML += `<p class="text-white text-right mb-2">${input.value}</p>`;
             input.value = '';
@@ -1651,6 +1747,7 @@
 
         function animateStat(id, finalValue, isCurrency) {
             const element = document.getElementById(id);
+            if (!element) return;
             let start = 0;
             const duration = 1500; 
             const increment = finalValue / (duration / 15); 
@@ -1676,13 +1773,20 @@
             const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
             const randomMatch = matches[Math.floor(Math.random() * matches.length)];
 
-            document.getElementById('live-win-text').textContent = `${randomName} just won ₦${randomAmount.toLocaleString()} on the ${randomMatch}!`;
+            const liveWinText = document.getElementById('live-win-text');
+            if (liveWinText) {
+                liveWinText.textContent = `${randomName} just won ₦${randomAmount.toLocaleString()} on the ${randomMatch}!`;
+            }
             
             const popup = document.getElementById('live-win-popup');
-            popup.style.display = 'block';
+            if (popup) {
+                popup.style.display = 'block';
+            }
 
             setTimeout(() => {
-                popup.style.display = 'none';
+                if (popup) {
+                    popup.style.display = 'none';
+                }
             }, 5000); 
         }
 
@@ -1692,9 +1796,10 @@
             
             let timeInSeconds = 2 * 3600 + 44 * 60 + 59; 
 
-            setInterval(() => {
+            const interval = setInterval(() => {
                 if (timeInSeconds <= 0) {
                     timerElement.textContent = "CLOSED";
+                    clearInterval(interval);
                     return;
                 }
                 timeInSeconds--;
@@ -1710,17 +1815,22 @@
         // --- Match Detail Modal Logic (kept from main app) ---
         function showPoolTab(tabName) {
             document.querySelectorAll('.pool-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`pool-content-${tabName}`).classList.remove('hidden');
+            const contentEl = document.getElementById(`pool-content-${tabName}`);
+            if (contentEl) {
+                contentEl.classList.remove('hidden');
+            }
 
             const tabs = ['correct-score', '1x2'];
             tabs.forEach(tab => {
                 const tabEl = document.getElementById(`tab-${tab}`);
-                if (tab === tabName) {
-                    tabEl.classList.add('text-white', 'border-brand-gold');
-                    tabEl.classList.remove('text-gray-500');
-                } else {
-                    tabEl.classList.add('text-gray-500');
-                    tabEl.classList.remove('text-white', 'border-brand-gold');
+                if (tabEl) {
+                    if (tab === tabName) {
+                        tabEl.classList.add('text-white', 'border-brand-gold');
+                        tabEl.classList.remove('text-gray-500');
+                    } else {
+                        tabEl.classList.add('text-gray-500');
+                        tabEl.classList.remove('text-white', 'border-brand-gold');
+                    }
                 }
             });
 
@@ -1734,56 +1844,82 @@
             const form1x2 = document.getElementById('predict-form-1x2');
             const joinedMsg = document.getElementById('match-joined-message');
 
-            if (loggedInUser) {
-                gate.classList.add('hidden');
-                const userData = JSON.parse(localStorage.getItem(loggedInUser));
-                
-                if (userData.predictions[currentMatchData.title]) {
-                    const prediction = userData.predictions[currentMatchData.title];
-                    document.getElementById('user-prediction').textContent = prediction.prediction;
-                    document.getElementById('user-stake').textContent = `₦${parseInt(prediction.stake).toLocaleString()}`;
+            if (gate && formCS && form1x2 && joinedMsg) {
+                if (loggedInUser) {
+                    gate.classList.add('hidden');
+                    let userData;
+                    try {
+                        userData = JSON.parse(localStorage.getItem(loggedInUser));
+                    } catch (err) {
+                        console.error('Error parsing user data:', err);
+                        gate.classList.remove('hidden');
+                        formCS.classList.add('hidden');
+                        form1x2.classList.add('hidden');
+                        joinedMsg.classList.add('hidden');
+                        return;
+                    }
                     
-                    joinedMsg.classList.remove('hidden');
+                    if (userData.predictions[currentMatchData.title]) {
+                        const prediction = userData.predictions[currentMatchData.title];
+                        document.getElementById('user-prediction').textContent = prediction.prediction;
+                        document.getElementById('user-stake').textContent = `₦${parseInt(prediction.stake).toLocaleString()}`;
+                        
+                        joinedMsg.classList.remove('hidden');
+                        formCS.classList.add('hidden');
+                        form1x2.classList.add('hidden');
+                    } else {
+                        joinedMsg.classList.add('hidden');
+                        formCS.classList.remove('hidden'); 
+                        form1x2.classList.remove('hidden'); 
+                        
+                        if (document.getElementById('tab-correct-score').classList.contains('active-tab')) {
+                            document.getElementById('pool-content-1x2').classList.add('hidden');
+                        } else {
+                            document.getElementById('pool-content-correct-score').classList.add('hidden');
+                        }
+                    }
+                } else {
+                    gate.classList.remove('hidden');
                     formCS.classList.add('hidden');
                     form1x2.classList.add('hidden');
-                } else {
                     joinedMsg.classList.add('hidden');
-                    formCS.classList.remove('hidden'); 
-                    form1x2.classList.remove('hidden'); 
-                    
-                    if (document.getElementById('tab-correct-score').classList.contains('active-tab')) {
-                        document.getElementById('pool-content-1x2').classList.add('hidden');
-                    } else {
-                        document.getElementById('pool-content-correct-score').classList.add('hidden');
-                    }
                 }
-            } else {
-                gate.classList.remove('hidden');
-                formCS.classList.add('hidden');
-                form1x2.classList.add('hidden');
-                joinedMsg.classList.add('hidden');
             }
         }
 
         function showMatchDetail(matchData) {
             currentMatchData = matchData; 
             
-            document.getElementById('match-league').textContent = matchData.league;
-            document.getElementById('match-title').textContent = matchData.title;
-            document.getElementById('match-timer').textContent = matchData.timer.includes(':') ? `CLOSES IN: ${matchData.timer}` : matchData.timer;
-            document.getElementById('match-logo-a').src = matchData.logoA;
-            document.getElementById('match-logo-b').src = matchData.logoB;
-            document.getElementById('match-team-a').textContent = matchData.teamA;
-            document.getElementById('match-team-b').textContent = matchData.teamB;
+            const leagueEl = document.getElementById('match-league');
+            if (leagueEl) leagueEl.textContent = matchData.league;
+            const titleEl = document.getElementById('match-title');
+            if (titleEl) titleEl.textContent = matchData.title;
+            const timerEl = document.getElementById('match-timer');
+            if (timerEl) timerEl.textContent = matchData.timer.includes(':') ? `CLOSES IN: ${matchData.timer}` : matchData.timer;
+            const logoAEl = document.getElementById('match-logo-a');
+            if (logoAEl) logoAEl.src = matchData.logoA;
+            const logoBEl = document.getElementById('match-logo-b');
+            if (logoBEl) logoBEl.src = matchData.logoB;
+            const teamAEl = document.getElementById('match-team-a');
+            if (teamAEl) teamAEl.textContent = matchData.teamA;
+            const teamBEl = document.getElementById('match-team-b');
+            if (teamBEl) teamBEl.textContent = matchData.teamB;
 
             // Correct Score Pool
-            document.getElementById('match-pool-correct-score').textContent = `₦${matchData.pool.toLocaleString()}`;
-            document.getElementById('home-score-label').textContent = matchData.teamA;
-            document.getElementById('away-score-label').textContent = matchData.teamB;
-            document.getElementById('stake-amount-cs').value = '';
-            document.getElementById('home-score').value = '';
-            document.getElementById('away-score').value = '';
-            document.getElementById('potential-win-display').textContent = '₦0';
+            const poolCSEl = document.getElementById('match-pool-correct-score');
+            if (poolCSEl) poolCSEl.textContent = `₦${matchData.pool.toLocaleString()}`;
+            const homeLabelEl = document.getElementById('home-score-label');
+            if (homeLabelEl) homeLabelEl.textContent = matchData.teamA;
+            const awayLabelEl = document.getElementById('away-score-label');
+            if (awayLabelEl) awayLabelEl.textContent = matchData.teamB;
+            const stakeCSEl = document.getElementById('stake-amount-cs');
+            if (stakeCSEl) stakeCSEl.value = '';
+            const homeScoreEl = document.getElementById('home-score');
+            if (homeScoreEl) homeScoreEl.value = '';
+            const awayScoreEl = document.getElementById('away-score');
+            if (awayScoreEl) awayScoreEl.value = '';
+            const winDisplayEl = document.getElementById('potential-win-display');
+            if (winDisplayEl) winDisplayEl.textContent = '₦0';
 
             // 1X2 Pool Simulation
             const pool1x2 = Math.floor(matchData.pool * 0.4); 
@@ -1795,22 +1931,34 @@
             const oddsDraw = (pool1x2 / stakeDraw).toFixed(2);
             const oddsAway = (pool1x2 / stakeAway).toFixed(2);
 
-            document.getElementById('match-pool-1x2').textContent = `₦${pool1x2.toLocaleString()}`;
+            const pool1x2El = document.getElementById('match-pool-1x2');
+            if (pool1x2El) pool1x2El.textContent = `₦${pool1x2.toLocaleString()}`;
             
-            document.getElementById('odds-team-a-name').textContent = matchData.teamA;
-            document.getElementById('odds-team-a-calc').textContent = `₦${(pool1x2/1000000).toFixed(1)}M ÷ ₦${(stakeHome/1000000).toFixed(1)}M`;
-            document.getElementById('odds-team-a-value').textContent = `${oddsHome}×`;
+            const teamANameEl = document.getElementById('odds-team-a-name');
+            if (teamANameEl) teamANameEl.textContent = matchData.teamA;
+            const teamACalcEl = document.getElementById('odds-team-a-calc');
+            if (teamACalcEl) teamACalcEl.textContent = `₦${(pool1x2/1000000).toFixed(1)}M ÷ ₦${(stakeHome/1000000).toFixed(1)}M`;
+            const teamAValueEl = document.getElementById('odds-team-a-value');
+            if (teamAValueEl) teamAValueEl.textContent = `${oddsHome}×`;
             
-            document.getElementById('odds-draw-calc').textContent = `₦${(pool1x2/1000000).toFixed(1)}M ÷ ₦${(stakeDraw/1000000).toFixed(1)}M`;
-            document.getElementById('odds-draw-value').textContent = `${oddsDraw}×`;
+            const drawCalcEl = document.getElementById('odds-draw-calc');
+            if (drawCalcEl) drawCalcEl.textContent = `₦${(pool1x2/1000000).toFixed(1)}M ÷ ₦${(stakeDraw/1000000).toFixed(1)}M`;
+            const drawValueEl = document.getElementById('odds-draw-value');
+            if (drawValueEl) drawValueEl.textContent = `${oddsDraw}×`;
 
-            document.getElementById('odds-team-b-name').textContent = matchData.teamB;
-            document.getElementById('odds-team-b-calc').textContent = `₦${(pool1x2/1000000).toFixed(1)}M ÷ ₦${(stakeAway/1000000).toFixed(1)}M`;
-            document.getElementById('odds-team-b-value').textContent = `${oddsAway}×`;
+            const teamBNameEl = document.getElementById('odds-team-b-name');
+            if (teamBNameEl) teamBNameEl.textContent = matchData.teamB;
+            const teamBCalcEl = document.getElementById('odds-team-b-calc');
+            if (teamBCalcEl) teamBCalcEl.textContent = `₦${(pool1x2/1000000).toFixed(1)}M ÷ ₦${(stakeAway/1000000).toFixed(1)}M`;
+            const teamBValueEl = document.getElementById('odds-team-b-value');
+            if (teamBValueEl) teamBValueEl.textContent = `${oddsAway}×`;
 
-            document.getElementById('pred-1-label').textContent = `1 (${matchData.teamA})`;
-            document.getElementById('pred-2-label').textContent = `2 (${matchData.teamB})`;
-            document.getElementById('stake-amount-1x2').value = '';
+            const pred1LabelEl = document.getElementById('pred-1-label');
+            if (pred1LabelEl) pred1LabelEl.textContent = `1 (${matchData.teamA})`;
+            const pred2LabelEl = document.getElementById('pred-2-label');
+            if (pred2LabelEl) pred2LabelEl.textContent = `2 (${matchData.teamB})`;
+            const stake1x2El = document.getElementById('stake-amount-1x2');
+            if (stake1x2El) stake1x2El.value = '';
             const radios = document.getElementsByName('1x2-prediction');
             for (let i=0; i<radios.length; i++) radios[i].checked = false;
 
@@ -1834,11 +1982,20 @@
                 stake = document.getElementById('stake-amount-cs').value;
                 const home = document.getElementById('home-score').value;
                 const away = document.getElementById('away-score').value;
+                if (!stake || stake < 100 || !home || !away) {
+                    alert('Please fill in all fields correctly.');
+                    return;
+                }
                 prediction = `${home}-${away}`;
                 predictionText = `Score: ${prediction}`;
             } else {
                 stake = document.getElementById('stake-amount-1x2').value;
+                if (!stake || stake < 100) {
+                    alert('Please fill in stake amount correctly.');
+                    return;
+                }
                 const radios = document.getElementsByName('1x2-prediction');
+                prediction = null;
                 for (let i = 0; i < radios.length; i++) {
                     if (radios[i].checked) {
                         prediction = radios[i].value;
@@ -1852,7 +2009,14 @@
                 predictionText = `Outcome: ${prediction}`;
             }
             
-            const userData = JSON.parse(localStorage.getItem(loggedInUser));
+            let userData;
+            try {
+                userData = JSON.parse(localStorage.getItem(loggedInUser));
+            } catch (err) {
+                console.error('Error parsing user data:', err);
+                alert('An error occurred. Please try again.');
+                return;
+            }
             
             userData.predictions[matchTitle] = {
                 stake: stake,
@@ -1866,9 +2030,20 @@
             }
 
             // Update balance (deduct stake - simulated)
-            userData.balance = (userData.balance || 0) - parseInt(stake);
+            const currentBalance = userData.balance || 0;
+            if (currentBalance < parseInt(stake)) {
+                alert('Insufficient balance.');
+                return;
+            }
+            userData.balance = currentBalance - parseInt(stake);
 
-            localStorage.setItem(loggedInUser, JSON.stringify(userData));
+            try {
+                localStorage.setItem(loggedInUser, JSON.stringify(userData));
+            } catch (err) {
+                console.error('Error saving prediction:', err);
+                alert('An error occurred saving your prediction. Please try again.');
+                return;
+            }
 
             alert(`Prediction Submitted!\nMatch: ${matchTitle}\nPool: ${poolType}\nStake: ₦${stake}\n${predictionText}\nGood luck!`);
             closeModal('match-detail-modal');
@@ -1880,9 +2055,13 @@
         }
         
         function calculatePotentialWin() {
-            const stake = parseFloat(document.getElementById('stake-amount-cs').value);
+            const stakeEl = document.getElementById('stake-amount-cs');
+            const winDisplayEl = document.getElementById('potential-win-display');
+            if (!stakeEl || !winDisplayEl) return;
+
+            const stake = parseFloat(stakeEl.value);
             if (!stake || stake < 100) {
-                document.getElementById('potential-win-display').textContent = '₦0';
+                winDisplayEl.textContent = '₦0';
                 return;
             }
             
@@ -1890,7 +2069,7 @@
             // Simplified formula
             const estimatedWin = (pool * 0.9) * (stake / 5000); 
             
-            document.getElementById('potential-win-display').textContent = `₦${Math.round(estimatedWin).toLocaleString()}`;
+            winDisplayEl.textContent = `₦${Math.round(estimatedWin).toLocaleString()}`;
         }
 
         window.onload = () => {
@@ -1985,4 +2164,4 @@
     </script>
 
 </body>
-    </html>
+                                                                                                              </html>

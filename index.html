@@ -25,6 +25,7 @@
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1a1a1a">
     
     <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="https://placehold.co/180x180/008753/FFFFFF?text=BP">
@@ -2162,6 +2163,11 @@
             }
         });
     </script>
-
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .catch(err => console.log('SW registration failed:', err));
+}
+</script>
 </body>
                                                                                                               </html>

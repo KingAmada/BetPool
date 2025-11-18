@@ -31,16 +31,6 @@
     <link rel="apple-touch-icon" href="https://placehold.co/180x180/008753/FFFFFF?text=BP">
     
     <script>
-        // Register service worker for PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                const swCode = document.getElementById('sw').text;
-                const blob = new Blob([swCode], {type: 'application/javascript'});
-                const url = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(url).catch(err => console.error('Service Worker registration failed:', err));
-            });
-        }
-        
         // Custom Tailwind configuration
         tailwind.config = {
             theme: {
